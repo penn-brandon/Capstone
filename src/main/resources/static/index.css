@@ -1,0 +1,150 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    font-family: "Anta", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+
+body {
+    background-color: #80ED99;
+}
+
+header {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    height: 100px;
+    background-color: #57CC99;
+    font-size: 20px;
+}
+
+.header-img {
+    width: 20%;
+    float: left;
+}
+
+.header-img>img {
+    height: 100px;
+    width: 100px;
+}
+
+.header-links>p {
+    float: left;
+    width: 10%;
+    margin-top: 35px;
+
+}
+
+.header-links>p>a {
+    text-decoration: none;
+    color: black;
+}
+
+
+.header-login {
+    float: right;
+    margin-right: 100px;
+    margin-top: 20px;
+}
+
+.header-login>button {
+    height: 50px;
+    width: 100px;
+    border-radius: 5px;
+    border: none;
+
+}
+
+.header-login-login {
+    background-color: #38A3A5;
+}
+
+.header-login-register {
+    background-color: #38a3a57f;
+}
+
+/* WOW THIS IS THE SIGN UP FORM */
+.signup-form {
+    color: black;
+    position: absolute;
+    text-align: center;
+    top: 225px;
+    left: 35%;
+}
+
+.signup-form-box {
+    background-color: #38A3A5;
+    padding: 75px;
+    margin-top: 15px;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.signup-form-box>p {
+    font-size: 25px;
+}
+
+.signup-form-box-content {
+    margin-top: 10px;
+}
+
+.submit-input {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 60px;
+    padding-right: 60px;
+    border-radius: 5px;
+    margin: 5px;
+    border: none;
+    text-align: center;
+}
+
+.submit-form {
+    margin-top: 5px;
+    height: 50px;
+    width: 100px;
+    border-radius: 5px;
+    border: none;
+    background-color: #57CC99;
+}
+
+
+
+.signup-form-box-content>input::placeholder {
+    text-align: center;
+}
+
+.signup-form-no-account {
+    margin-top: 10px;
+}
+
+.footer-image {
+    float: left;
+}
+
+.footer-image>img {
+    height: 100px;
+    width: 100px;
+}
+
+.footer-copyright {
+    float: right;
+    padding-top: 45px;
+    padding-right: 100px;
+}
+
+footer {
+    height: 100px;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    height: 100px;
+    background-color: #57CC99;
+}
+
+.random {
+    top: 35%;
+    position: absolute;
+}
