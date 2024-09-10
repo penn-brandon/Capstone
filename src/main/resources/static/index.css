@@ -49,7 +49,7 @@ header {
     margin-top: 20px;
 }
 
-.header-login>button {
+.header-login>a>button {
     height: 50px;
     width: 100px;
     border-radius: 5px;
