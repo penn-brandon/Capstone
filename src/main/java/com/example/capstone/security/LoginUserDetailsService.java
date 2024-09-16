@@ -1,6 +1,6 @@
 package com.example.capstone.security;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.example.capstone.login.model.User;
+import com.example.capstone.login.service.ILoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -12,14 +12,15 @@ public class LoginUserDetailsService implements UserDetailsService {
 
 
     @Autowired
-    private LoginService loginService;
+    private ILoginService loginService;
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    //@Override
+    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
 
-        LoginModel loginModel = loginService.getLoginModelByEmpNo(username);
-        if (loginModel == null) {
-            throw new UsernameNotFoundException("User details not found for the user : " + username);
+        User user = loginService.getUser(userName);
+
+        if (user == null) {
+            throw new UsernameNotFoundException("User details not found for the user : " + userName);
         }
         return new SecurityLogin(loginModel);
     }
