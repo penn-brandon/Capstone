@@ -1,6 +1,6 @@
 package com.example.capstone.login.service;
 
-import com.example.capstone.login.model.User;
+import com.example.capstone.login.model.UserModel;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,8 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class SpringSecurityILoginService implements ILoginService {
 
     @Override
-    public User getUser(String userName){
+    public UserModel getUser(String userName){
 
-        return new User();
+        return new UserModel();
     }
 }

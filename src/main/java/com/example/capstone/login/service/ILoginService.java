@@ -1,9 +1,9 @@
 package com.example.capstone.login.service;
 
-import com.example.capstone.login.model.User;
+import com.example.capstone.login.model.UserModel;
 
 
 public interface ILoginService {
-    User getUser(String userName);
+    UserModel getUser(String userName);
 
 }
