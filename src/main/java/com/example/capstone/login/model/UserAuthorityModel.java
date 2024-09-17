@@ -3,19 +3,19 @@ package com.example.capstone.login.model;
 import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
 
-@Entity(name = "permission")
+//@Entity(name = "permission")
 //@Table(name = "permission")
-@Component("permission")
-public class UserAuthenticationModel {
+@Component("autorities")
+public class UserAuthorityModel {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@Id
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String authorityName;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
+    //@ManyToOne
+    //@JoinColumn(name = "user_id")
     private UserModel userModel;
 
     public Integer getId() {

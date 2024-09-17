@@ -8,34 +8,42 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 
-@Entity(name = "user")
+//@Entity(name = "user")
 //@Table(name = "user")
 @Component("user")
 public class UserModel implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    //@Id
+    //@GeneratedValue(strategy= GenerationType.AUTO)
     int user_id;
 
     String username;
 
-    @JsonIgnore
+    //@JsonIgnore
     String password;
 
     Date date_of_creation;
 
-    @JsonIgnore
-    @OneToMany(mappedBy="user",fetch=FetchType.EAGER, cascade=CascadeType.ALL)
-    Set<UserAuthenticationModel> authenticationModelSet;
+    //@JsonIgnore
+    //@OneToMany(mappedBy="user",fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+    Set<UserAuthorityModel> authorities;
+
+    //@JsonIgnore
+    Boolean isEnable;
+
+    //@JsonIgnore
+    String role;
 
     //List<ChatRoom> charRooms;
 
-    public UserModel(Integer id, String username, String password) {
+    public UserModel(Integer id, String username, String password, String role, Boolean isEnable) {
 
         user_id = id;
         this.username = username;
         this.password = password;
         this.date_of_creation = new Date();
+        this.role = role;
+        this.isEnable = isEnable;
     }
 
     public UserModel() {}
@@ -72,12 +80,28 @@ public class UserModel implements Serializable {
         this.date_of_creation = date_of_creation;
     }
 
-    public Set<UserAuthenticationModel> getAuthenticationModelSetpermission() {
-        return authenticationModelSet;
+    public Set<UserAuthorityModel> getAuthorities() {
+        return authorities;
     }
 
-    public void setAuthenticationModelSetpermission(Set<UserAuthenticationModel> authenticationModelSetpermission) {
-        this.authenticationModelSet = authenticationModelSetpermission;
+    public void setAuthorities(Set<UserAuthorityModel> authorities) {
+        this.authorities = authorities;
+    }
+
+    public Boolean getEnable() {
+        return isEnable;
+    }
+
+    public void setEnable(Boolean enable) {
+        isEnable = enable;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }
 

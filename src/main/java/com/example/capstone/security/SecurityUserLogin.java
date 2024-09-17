@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import com.example.capstone.login.model.UserModel;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,27 +14,27 @@ public class SecurityUserLogin implements UserDetails {
 
     private static final long serialVersionUID = -6690946490872875352L;
 
-    private final LoginModel loginModel;
+    private UserModel user;
 
-    public SecurityLogin(LoginModel loginModel) {
-        this.loginModel = loginModel;
+    public SecurityUserLogin(UserModel user) {
+        this.user = user;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(loginModel.getRole()));
+        authorities.add(new SimpleGrantedAuthority(user.getRole()));
         return authorities;
     }
 
     @Override
     public String getPassword() {
-        return loginModel.getEmployeePassword();
+        return user.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return loginModel.getEmpNo();
+        return user.getUsername();
     }
 
     @Override
@@ -68,7 +69,7 @@ public class SecurityUserLogin implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return loginModel.getIsEnable();
+        return user.getEnable();
         //return true;
     }
 

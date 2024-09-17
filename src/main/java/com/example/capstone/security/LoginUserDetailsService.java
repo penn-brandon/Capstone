@@ -22,7 +22,7 @@ public class LoginUserDetailsService implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException("User details not found for the user : " + userName);
         }
-        return new SecurityLogin(user);
+        return new SecurityUserLogin(user);
     }
 
 }

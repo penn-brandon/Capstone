@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import com.example.capstone.login.model.UserAuthorityModel;
+import com.example.capstone.login.model.UserModel;
+import com.example.capstone.login.service.ILoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -21,20 +24,20 @@ import org.springframework.stereotype.Component;
 public class LoginAuthenticationProvider implements AuthenticationProvider {
 
     @Autowired
-    private LoginService loginService;
+    private ILoginService loginService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        String empNo = authentication.getName();
+        String username = authentication.getName();
         String pwd = authentication.getCredentials().toString();
 
-        LoginModel loginModel = loginService.getLoginModelByEmpNo(empNo);
-        if (loginModel != null) {
-            if (passwordEncoder.matches(pwd, loginModel.getEmployeePassword())) {
-                return new UsernamePasswordAuthenticationToken(empNo, pwd, getGrantedAuthorities(loginModel.getAuthorities()));
+        UserModel user = loginService.getUser(username);
+        if (user != null) {
+            if (passwordEncoder.matches(pwd, user.getPassword())) {
+                return new UsernamePasswordAuthenticationToken(username, pwd, getGrantedAuthorities(user.getAuthorities()));
             }
             else {
                 System.out.println("Invalid username or password!");
@@ -46,9 +49,9 @@ public class LoginAuthenticationProvider implements AuthenticationProvider {
         }
     }
 
-    private List<GrantedAuthority> getGrantedAuthorities(Set<Authorities> authorities) {
+    private List<GrantedAuthority> getGrantedAuthorities(Set<UserAuthorityModel> authorities) {
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-        for (Authorities authority : authorities) {
+        for (UserAuthorityModel authority : authorities) {
             grantedAuthorities.add(new SimpleGrantedAuthority(authority.getAuthorityName()));
         }
         return grantedAuthorities;
@@ -59,10 +62,4 @@ public class LoginAuthenticationProvider implements AuthenticationProvider {
         //System.out.println(authenticationType.equals(UsernamePasswordAuthenticationToken.class));
         return authenticationType.equals(UsernamePasswordAuthenticationToken.class);
     }
-
-//	@Override
-//	public boolean supports(Class<?> authentication) {
-//	    return (UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication));
-//	}
-
 }
