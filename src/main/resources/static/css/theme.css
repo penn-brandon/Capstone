@@ -6,63 +6,59 @@
     font-style: normal;
 }
 
-
 body {
-    background-color: #80ED99;
+    background-color: #F2F4F7;
 }
 
-header {
+nav {
     position: fixed;
     width: 100%;
     top: 0;
     height: 100px;
-    background-color: #57CC99;
+    background-color: #FFFFFF;
     font-size: 20px;
 }
 
-.header-img {
+.nav-img {
     width: 20%;
     float: left;
 }
 
-.header-img>img {
+.nav-img>img {
     height: 100px;
     width: 100px;
 }
 
-.header-links>p {
+.nav-links>p {
     float: left;
     width: 10%;
     margin-top: 35px;
-
 }
 
-.header-links>p>a {
+.nav-links>p>a {
     text-decoration: none;
     color: black;
 }
 
-
-.header-login {
+.nav-login {
     float: right;
     margin-right: 100px;
     margin-top: 20px;
 }
 
-.header-login>a>button {
+.nav-login>a>button {
     height: 50px;
     width: 100px;
     border-radius: 5px;
     border: none;
-
 }
 
-.header-login-login {
-    background-color: #38A3A5;
+.nav-login-login {
+    background-color: #3975EA;
 }
 
-.header-login-register {
-    background-color: #38a3a57f;
+.nav-login-register {
+    background-color: #3975EA;
 }
 
 /* WOW THIS IS THE SIGN UP FORM */
@@ -75,7 +71,7 @@ header {
 }
 
 .signup-form-box {
-    background-color: #38A3A5;
+    background-color: #3975EA;
     padding: 75px;
     margin-top: 15px;
     border-radius: 10px;
@@ -107,10 +103,8 @@ header {
     width: 100px;
     border-radius: 5px;
     border: none;
-    background-color: #57CC99;
+    background-color: #42b72a;
 }
-
-
 
 .signup-form-box-content>input::placeholder {
     text-align: center;
@@ -141,7 +135,7 @@ footer {
     width: 100%;
     bottom: 0;
     height: 100px;
-    background-color: #57CC99;
+    background-color: #FFFFFF;
 }
 
 .random {
