@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.example</groupId>
-    <artifactId>capstone</artifactId>
+    <artifactId>Capstone</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>capstone</name>
     <description>capstone</description>
@@ -27,7 +27,7 @@
         <url/>
     </scm>
     <properties>
-        <java.version>22</java.version>
+        <java.version>11</java.version>
     </properties>
     <dependencies>
         <dependency>
@@ -103,9 +103,9 @@
             <artifactId>spring-boot-starter-jdbc</artifactId>
         </dependency>
 		<dependency>
-		    <groupId>javax.servlet</groupId>
-		    <artifactId>servlet-api</artifactId>
-		    <version>2.5</version>
+		    <groupId>jakarta.servlet</groupId>
+		    <artifactId>jakarta.servlet-api</artifactId>
+		    <version>6.0.0</version>
 		    <scope>provided</scope>
 		</dependency>
     </dependencies>
@@ -115,8 +115,10 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
+                
+            </plugin>  
         </plugins>
+        <defaultGoal>install</defaultGoal>
     </build>
 
 </project>

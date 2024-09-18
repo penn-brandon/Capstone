@@ -1,3 +1,6 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -25,8 +28,8 @@
                 <span class="random">BLURB</span>
             </div>
             <div class="nav-login">
-                <a href="signin.html"><button class="nav-login-login">Login</button></a>
-                <a href="signup.html"><button class="nav-login-register">Register</button></a>
+                <a href="login.jsp"><button class="nav-login-login">Login</button></a>
+                <a href="signup.jsp"><button class="nav-login-register">Register</button></a>
             </div>
         </div>
     </nav>

@@ -13,7 +13,7 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.password.HaveIBeenPwnedRestApiPasswordChecker;
-
+/*
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
@@ -29,6 +29,7 @@ public class WebSecurityConfig {
         http.formLogin(flc -> new FormLoginConfigurer<HttpSecurity>().disable());
         http.httpBasic(Customizer.withDefaults());
 
+        System.out.print("++++++++++++++" + http.build() == null + "++++++++++++++++");
         return http.build();
     }
 
@@ -43,5 +44,5 @@ public class WebSecurityConfig {
 
         return new HaveIBeenPwnedRestApiPasswordChecker();
     }
-    */
-}
+    
+}*/

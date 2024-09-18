@@ -1,7 +1,7 @@
 package com.example.capstone.login.controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import com.example.capstone.login.model.UserModel;
 import com.example.capstone.login.service.ILoginService;
