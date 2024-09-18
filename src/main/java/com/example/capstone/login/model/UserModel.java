@@ -1,7 +1,5 @@
 package com.example.capstone.login.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;

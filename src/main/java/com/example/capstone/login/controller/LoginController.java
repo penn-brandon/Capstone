@@ -1,7 +1,7 @@
 package com.example.capstone.login.controller;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import com.example.capstone.login.model.UserModel;
 import com.example.capstone.login.service.ILoginService;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 
 @Controller
-@SessionAttributes({"uesrModel"})
+@SessionAttributes({"userModel"})
 public class LoginController {
 
     @Autowired
@@ -33,12 +33,17 @@ public class LoginController {
     }
 
     @GetMapping(path="/index")
-    public String redirectToMainPage(Model model) {
+    public String toIndexPage() {
+        return "/index";
+    }
+
+    @GetMapping(path="/chat")
+    public String toChatPage(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-        UserModel loginModel = loginService.getUser(username);
+        UserModel userModel = loginService.getUser(username);
 
-        model.addAttribute("loginModel", loginModel);
+        model.addAttribute("userModel", userModel);
         return "/index";
     }
 
@@ -46,14 +51,15 @@ public class LoginController {
     public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null){
-            new SecurityContextLogoutHandler().logout(request, response, auth);
-        }
-        return "/login";
-    }
 
+        	new SecurityContextLogoutHandler().logout(request, response, auth);
+        }
+        return "/signin";
+    }
+/*
     @GetMapping(path="/pages")
     public String loginPage() {
         return "pages";
-
     }
+ */
 }
