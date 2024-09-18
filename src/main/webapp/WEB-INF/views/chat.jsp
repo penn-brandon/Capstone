@@ -1,3 +1,6 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+pageEncoding="UTF-8" import = "com.example.capstone.login.model.UserModel"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,8 +8,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat | BLURB</title>
-    <link rel="stylesheet" href="../css/theme.css">
-    <link rel="stylesheet" href="../css/chat.css">
+    <link rel="stylesheet" href="../../../resources/static/css/theme.css">
+    <link rel="stylesheet" href="../../../resources/static/css/chat.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Anta&display=swap" rel="stylesheet">
@@ -16,7 +19,7 @@
     <nav>
         <div class="nav-content">
             <div class="nav-img">
-                <img src="../images/logo.svg" />
+                <img src="../../../resources/static/images/logo.svg" />
                 <span class="random">BLURB</span>
             </div>
             <div class="nav-login">
@@ -50,14 +53,14 @@
         </div>
 
         <textarea class="chat-send"></textarea>
-        <img src="../images/send.svg" class="chat-send-icon">
+        <img src="../../../resources/static/images/send.svg" class="chat-send-icon">
     </main>
 
 
     <footer>
         <div class="footer-content">
             <div class="footer-image">
-                <img src="../images/logo.svg" alt="Logo">
+                <img src="../../../resources/static/images/logo.svg" alt="Logo">
                 <span class="random">BLURB</span>
             </div>
             <p class="footer-copyright">Copyright of Cool Dudes &copy;2024. All Rights Reserved.</p>

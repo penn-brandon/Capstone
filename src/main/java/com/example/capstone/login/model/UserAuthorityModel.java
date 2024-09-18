@@ -1,11 +1,11 @@
 package com.example.capstone.login.model;
 
-import jakarta.persistence.*;
+
 import org.springframework.stereotype.Component;
 
 //@Entity(name = "permission")
 //@Table(name = "permission")
-@Component("autorities")
+@Component("authorities")
 public class UserAuthorityModel {
 
     //@Id

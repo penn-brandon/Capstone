@@ -9,10 +9,11 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.FormLoginConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.password.HaveIBeenPwnedRestApiPasswordChecker;
-
+/*
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
@@ -22,16 +23,20 @@ public class WebSecurityConfig {
         http.authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/css/**", "/vendor/**", "/img/**", "/js/**", "/scss/**","/build/**").permitAll()
                         .requestMatchers("/error").permitAll()
+                        .requestMatchers("/index", "/signin", "/signup").permitAll()
+                        .requestMatchers("/chat").authenticated()
                         .anyRequest().authenticated());
         http.formLogin(flc -> new FormLoginConfigurer<HttpSecurity>().disable());
         http.httpBasic(Customizer.withDefaults());
 
+        System.out.print("++++++++++++++" + http.build() == null + "++++++++++++++++");
         return http.build();
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        //return new BCryptPasswordEncoder();
+        return NoOpPasswordEncoder.getInstance();
     }
     /*
     @Bean
@@ -39,5 +44,5 @@ public class WebSecurityConfig {
 
         return new HaveIBeenPwnedRestApiPasswordChecker();
     }
-    */
-}
+    
+}*/

@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
+/*
 @Service
 public class LoginUserDetailsService implements UserDetailsService {
 
@@ -25,4 +25,4 @@ public class LoginUserDetailsService implements UserDetailsService {
         return new SecurityUserLogin(user);
     }
 
-}
+}*/

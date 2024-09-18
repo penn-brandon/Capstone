@@ -8,7 +8,7 @@ import com.example.capstone.login.model.UserModel;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
+/*
 public class SecurityUserLogin implements UserDetails {
 
 
@@ -73,4 +73,4 @@ public class SecurityUserLogin implements UserDetails {
         //return true;
     }
 
-}
+}*/
