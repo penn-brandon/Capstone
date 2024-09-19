@@ -1,6 +1,6 @@
 
 package com.example.capstone.security;
-
+/*
 import java.util.ArrayList;
 
 import java.util.List;
@@ -19,7 +19,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-/*
+
 @Component
 public class LoginAuthenticationProvider implements AuthenticationProvider {
 

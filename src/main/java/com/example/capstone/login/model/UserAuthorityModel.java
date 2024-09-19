@@ -2,7 +2,7 @@ package com.example.capstone.login.model;
 
 
 import org.springframework.stereotype.Component;
-
+/*
 //@Entity(name = "permission")
 //@Table(name = "permission")
 @Component("authorities")
@@ -41,4 +41,4 @@ public class UserAuthorityModel {
     public void setLoginModel(UserModel userModel) {
         this.userModel = userModel;
     }
-}
+}*/

@@ -8,9 +8,9 @@ pageEncoding="UTF-8"%>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sign Up</title>
-    <link rel="stylesheet" href="../../../resources/static/css/theme.css" />
-    <link rel="stylesheet" href="../../../resources/static/css/index.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="stylesheet" href="../../../resources/static/css/index.css">
+    <link rel="stylesheet" href="../../../resources/static/css/theme.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Anta&display=swap" rel="stylesheet" />
     <script src="../../../resources/static/js/jquery-3.6.0.min.js"></script>

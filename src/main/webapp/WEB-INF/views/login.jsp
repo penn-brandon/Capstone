@@ -29,7 +29,7 @@ pageEncoding="UTF-8"%>
                 <span class="random">BLURB</span>
             </div>
             <div class="nav-login">
-                <a href="login.html"><button class="nav-login-login">Login</button></a>
+                <a href="login.jsp"><button class="nav-login-login">Login</button></a>
                 <a href="signup.jsp"><button class="nav-login-register">Register</button></a>
             </div>
         </div>
