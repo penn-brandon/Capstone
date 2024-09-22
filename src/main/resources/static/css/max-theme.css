@@ -1,3 +1,4 @@
+/* For greater than 750 px */
 * {
     margin: 0px;
     padding: 0px;
@@ -59,6 +60,10 @@ nav {
 
 .nav-login-register {
     background-color: #3975EA;
+}
+
+.hamburger {
+    display: none;
 }
 
 /* WOW THIS IS THE SIGN UP FORM */
