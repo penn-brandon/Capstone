@@ -8,13 +8,13 @@ pageEncoding="UTF-8"%>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign In</title>
-    <link rel="stylesheet" href="../../../resources/static/css/theme.css">
+    <link rel="stylesheet" href="<c:url value='css/theme.css' />">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Anta&display=swap" rel="stylesheet">
 
 
-    <script src="../../../resources/static/js/jquery-3.6.0.min.js"></script>
+    <script src="<c:url value='js/jquery-3.6.0.min.js' />"></script>
 
     <script>
         //This uis the java code!!
@@ -25,12 +25,12 @@ pageEncoding="UTF-8"%>
     <nav>
         <div class="nav-content">
             <div class="nav-img">
-                <img src="../../../resources/static/images/logo.svg" />
+                <img src="<c:url value='/images/logo.svg' />" />
                 <span class="random">BLURB</span>
             </div>
             <div class="nav-login">
-                <a href="login.jsp"><button class="nav-login-login">Login</button></a>
-                <a href="signup.jsp"><button class="nav-login-register">Register</button></a>
+                <button class="nav-login-login">Login</button>
+                <a href="<c:url value='/signup' />"><button class="nav-login-register">Register</button></a>
             </div>
         </div>
     </nav>
@@ -60,7 +60,7 @@ pageEncoding="UTF-8"%>
     <footer>
         <div class="footer-content">
             <div class="footer-image">
-                <img src="../../../resources/static/images/logo.svg" alt="Logo">
+                <img src="<c:url value='/images/logo.svg' />" alt="Logo">
                 <span class="random">BLURB</span>
             </div>
             <p class="footer-copyright">Copyright of Cool Dudes &copy;2024. All Rights Reserved.</p>
