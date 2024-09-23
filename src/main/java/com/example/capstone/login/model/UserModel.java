@@ -2,16 +2,18 @@ package com.example.capstone.login.model;
 
 import org.springframework.stereotype.Component;
 
+import jakarta.persistence.Id;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
-
+/*
 //@Entity(name = "user")
 //@Table(name = "user")
 @Component("user")
 public class UserModel implements Serializable {
 
-    //@Id
+    @Id
     //@GeneratedValue(strategy= GenerationType.AUTO)
     int user_id;
 
@@ -102,4 +104,4 @@ public class UserModel implements Serializable {
         this.role = role;
     }
 }
-
+*/

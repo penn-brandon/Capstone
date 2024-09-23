@@ -8,26 +8,32 @@ pageEncoding="UTF-8"%>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign In</title>
-    <link rel="stylesheet" href="../../../resources/static/css/max-theme.css" media="(width >= 750px)" />
-    <link rel="stylesheet" href="../../../resources/static/css/min-theme.css" media="(width < 750px)" />
+
+    <link rel="stylesheet" href="<c:url value='css/theme.css' />" media="(width >= 750px)" />
+    <link rel="stylesheet" href="<c:url value='css/index.css' />" media="(width < 750px)" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Anta&display=swap" rel="stylesheet">
 
-    <script defer src="../../../resources/static/javascript/min-theme.js"></script>
+    <script src="<c:url value='js/jquery-3.6.0.min.js' />"></script>
+          
+    <script>
+        //This uis the java code!!
+    </script>
 </head>
 
 <body>
 <nav>
     <div class="nav-content">
         <div class="nav-img">
-            <img src="../../../resources/static/images/logo.svg"  alt="Logo"/>
+            <img src="<c:url value='/images/logo.svg' />"  alt="Logo"/>
             <span class="random">BLURB</span>
+
         </div>
         <div class="nav-login">
-            <a href="./html/signin.html"><button class="nav-login-login">Login</button></a>
-            <a href="./html/signup.html"><button class="nav-login-register">Register</button></a>
+            <a href="<c:url value='/login' />"><button class="nav-login-login">Login</button></a>
+            <a href="<c:url value='/signup' />"><button class="nav-login-register">Register</button></a>
         </div>
         <div id="nav-dropdown" class="nav-dropdown">
             <img id="hamburger" class="hamburger" src="../../../resources/static/images/hamburger.svg" onclick="hamburgers()">
@@ -58,8 +64,9 @@ pageEncoding="UTF-8"%>
 <footer>
     <div class="footer-content">
         <div class="footer-image">
-            <img src="../../../resources/static/images/logo.svg" alt="Logo">
+            <img src="<c:url value='/images/logo.svg' />" alt="Logo">
             <span class="random">BLURB</span>
+
         </div>
         <p class="footer-copyright">Copyright of Cool Dudes &copy;2024. All Rights Reserved.</p>
     </div>
