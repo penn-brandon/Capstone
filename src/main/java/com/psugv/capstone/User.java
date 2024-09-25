@@ -1,4 +1,4 @@
-package com.example.capstone;
+package com.psugv.capstone;
 
 import java.util.ArrayList;
 import java.util.Date;

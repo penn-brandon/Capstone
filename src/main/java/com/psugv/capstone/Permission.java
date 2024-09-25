@@ -1,4 +1,4 @@
-package com.example.capstone;
+package com.psugv.capstone;
 
 public class Permission {
     private String permission_id;

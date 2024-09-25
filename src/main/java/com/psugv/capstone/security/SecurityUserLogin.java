@@ -1,10 +1,10 @@
-package com.example.capstone.security;
-/*
+package com.psugv.capstone.security;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import com.example.capstone.login.model.UserModel;
+import com.psugv.capstone.login.model.UserModel;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -73,4 +73,4 @@ public class SecurityUserLogin implements UserDetails {
         //return true;
     }
 
-}*/
+}

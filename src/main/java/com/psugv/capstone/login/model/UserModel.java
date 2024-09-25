@@ -1,39 +1,40 @@
-package com.example.capstone.login.model;
+package com.psugv.capstone.login.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
-
-import jakarta.persistence.Id;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
-/*
-//@Entity(name = "user")
-//@Table(name = "user")
+
+@Entity(name = "user")
+@Table(name = "user")
 @Component("user")
 public class UserModel implements Serializable {
 
     @Id
-    //@GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.AUTO)
     int user_id;
 
     String username;
 
-    //@JsonIgnore
+    @JsonIgnore
     String password;
 
     Date date_of_creation;
 
-    //@JsonIgnore
-    //@OneToMany(mappedBy="user",fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+    @JsonIgnore
+    @OneToMany(mappedBy="user",fetch= FetchType.EAGER, cascade=CascadeType.ALL)
     Set<UserAuthorityModel> authorities;
 
-    //@JsonIgnore
+    @JsonIgnore
     Boolean isEnable;
 
-    //@JsonIgnore
+    @JsonIgnore
     String role;
 
+    //@OneToMany(mappedBy="user",fetch= FetchType.EAGER, cascade=CascadeType.ALL)
     //List<ChatRoom> charRooms;
 
     public UserModel(Integer id, String username, String password, String role, Boolean isEnable) {
@@ -104,4 +105,4 @@ public class UserModel implements Serializable {
         this.role = role;
     }
 }
-*/
+

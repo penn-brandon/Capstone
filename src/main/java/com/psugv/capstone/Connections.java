@@ -1,4 +1,4 @@
-package com.example.capstone;
+package com.psugv.capstone;
 
 public class Connections {
     private final User user;
