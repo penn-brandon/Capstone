@@ -9,34 +9,36 @@ pageEncoding="UTF-8"%>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign In</title>
 
-    <link rel="stylesheet" href="<c:url value='css/theme.css' />" media="(width >= 750px)" />
-    <link rel="stylesheet" href="<c:url value='css/index.css' />" media="(width < 750px)" />
+    <link rel="stylesheet" href="<c:url value='/css/min-theme.css' />" media="(width >= 750px)"/>
+    <link rel="stylesheet" href="<c:url value='/css/max-theme.css' />" media="(width < 750px)"/>
+    <link rel="stylesheet" href="<c:url value='/css/index.css' />"/>
+
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Anta&display=swap" rel="stylesheet">
 
-    <script src="<c:url value='js/jquery-3.6.0.min.js' />"></script>
-          
-    <script>
-        //This uis the java code!!
-    </script>
+    <script src="<c:url value='/javascript/jquery-3.6.0.min.js' />"></script>
+    <script src="<c:url value='/javascript/min-theme.js' />"></script>
 </head>
 
 <body>
 <nav>
     <div class="nav-content">
         <div class="nav-img">
-            <img src="<c:url value='/images/logo.svg' />"  alt="Logo"/>
+            <img src="<c:url value='/images/logo.svg' />"/>
             <span class="random">BLURB</span>
-
         </div>
         <div class="nav-login">
-            <a href="<c:url value='/login' />"><button class="nav-login-login">Login</button></a>
-            <a href="<c:url value='/signup' />"><button class="nav-login-register">Register</button></a>
+            <a href="<c:url value='/login' />">
+                <button class="nav-login-login" id="toLogin">Login</button>
+            </a>
+            <a href="<c:url value='/signup' />">
+                <button class="nav-login-register" id="toSignup">Register</button>
+            </a>
         </div>
         <div id="nav-dropdown" class="nav-dropdown">
-            <img id="hamburger" class="hamburger" src="../../../resources/static/images/hamburger.svg" onclick="hamburgers()">
+            <img id="hamburger" class="hamburger" src="<c:url value='/images/hamburger-down.svg' />" onclick="hamburgers()">
         </div>
     </div>
 </nav>
@@ -48,19 +50,16 @@ pageEncoding="UTF-8"%>
         <form>
             <div class="signup-form-box-content"></div>
             <input type="username" name="username" placeholder="Username here" class="submit-input" id="user"
-                   autocomplete="username" required />
+                   autocomplete="username" required/>
             <br>
             <input type="password" name="password" placeholder="Password here" class="submit-input" id="pass"
-                   autocomplete="current-password" required />
+                   autocomplete="current-password" required/>
             <br>
-            <input type="submit" value="Submit" class="submit-form" />
+            <input type="submit" value="Submit" class="submit-form"/>
         </form>
     </div>
 </div>
 <p class="signup-form-no-account">No account? <a href="signup.html">Sign up</a></p>
-</div>
-
-
 <footer>
     <div class="footer-content">
         <div class="footer-image">
