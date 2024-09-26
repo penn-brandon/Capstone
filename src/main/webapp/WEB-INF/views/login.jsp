@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8"%>
+         pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -26,7 +26,7 @@ pageEncoding="UTF-8"%>
 <nav>
     <div class="nav-content">
         <div class="nav-img">
-            <img src="<c:url value='/images/logo.svg' />"/>
+            <img src="<c:url value='/images/logo.svg' />" alt="Logo"/>
             <span class="random">BLURB</span>
         </div>
         <div class="nav-login">
@@ -38,7 +38,8 @@ pageEncoding="UTF-8"%>
             </a>
         </div>
         <div id="nav-dropdown" class="nav-dropdown">
-            <img id="hamburger" class="hamburger" src="<c:url value='/images/hamburger-down.svg' />" onclick="hamburgers()">
+            <img id="hamburger" class="hamburger" src="<c:url value='/images/hamburger.svg' />"
+                 onclick="hamburgers()" alt="Dropdown">
         </div>
     </div>
 </nav>
@@ -58,8 +59,8 @@ pageEncoding="UTF-8"%>
             <input type="submit" value="Submit" class="submit-form"/>
         </form>
     </div>
+    <p>Don't have a account <a href="${pageContext.request.contextPath}/signup">Sign up</a> Now!</p>
 </div>
-<p class="signup-form-no-account">No account? <a href="signup.html">Sign up</a></p>
 <footer>
     <div class="footer-content">
         <div class="footer-image">

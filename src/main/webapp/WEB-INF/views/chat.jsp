@@ -31,7 +31,8 @@ pageEncoding="UTF-8" import = "com.example.capstone.login.model.UserModel"%>
             <a href="<c:url value='/signup' />"><button class="nav-login-register" id="toSignup">Register</button></a>
         </div>
         <div id="nav-dropdown" class="nav-dropdown">
-            <img id="hamburger" class="hamburger" src="<c:url value='/images/hamburger-down.svg' />" onclick="hamburgers()">
+            <img id="hamburger" class="hamburger" src="<c:url value='/images/hamburger.svg' />"
+                 onclick="hamburgers()" alt="Dropdown">
         </div>
     </div>
 </nav>

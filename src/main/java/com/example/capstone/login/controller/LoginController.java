@@ -36,6 +36,15 @@ public class LoginController {
         return "/index";
     }
 
+    @GetMapping(path="/signup")
+    public String toSignupPage() {
+        return "/signup";
+    }
+
+    public String toErrorPage() {
+        return "/error";
+    }
+
     @GetMapping(path="/chat")
     public String toChatPage(Model model) {
         //Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

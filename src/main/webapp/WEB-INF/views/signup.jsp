@@ -35,7 +35,8 @@ pageEncoding="UTF-8"%>
             <a href="<c:url value='/signup' />"><button class="nav-login-register" id="toSignup">Register</button></a>
         </div>
         <div id="nav-dropdown" class="nav-dropdown">
-            <img id="hamburger" class="hamburger" src="<c:url value='/images/logo.svg' />" onclick="hamburgers()">
+            <img id="hamburger" class="hamburger" src="<c:url value='/images/hamburger.svg' />"
+                 onclick="hamburgers()" alt="Dropdown">
         </div>
     </div>
 </nav>
@@ -57,7 +58,7 @@ pageEncoding="UTF-8"%>
             </button>
         </form>
     </div>
-    <p>Don't have a account <a href="signup.html">Sign up</a> Now!</p>
+
 </div>
 
     <footer>
