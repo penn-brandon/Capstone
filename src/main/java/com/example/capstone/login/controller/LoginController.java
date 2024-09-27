@@ -1,25 +1,11 @@
 package com.example.capstone.login.controller;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
-
-import com.example.capstone.login.service.ILoginService;
-
 
 @Controller
-//@SessionAttributes({"userModel"})
 public class LoginController {
-/*
-    @Autowired
-    private ILoginService loginService;
-*/
     @GetMapping(path="/")
     public String mainPagePath() {
     	System.out.println("In controller");
@@ -41,6 +27,7 @@ public class LoginController {
         return "/signup";
     }
 
+    @GetMapping(path="/error")
     public String toErrorPage() {
         return "/error";
     }
