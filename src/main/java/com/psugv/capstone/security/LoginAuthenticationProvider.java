@@ -9,6 +9,7 @@ import java.util.Set;
 import com.psugv.capstone.login.model.UserAuthorityModel;
 import com.psugv.capstone.login.model.UserModel;
 import com.psugv.capstone.login.service.ILoginService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -35,12 +36,15 @@ public class LoginAuthenticationProvider implements AuthenticationProvider {
         String pwd = authentication.getCredentials().toString();
 
         UserModel user = loginService.getUserByUsername(username);
+
         if (user != null) {
             if (passwordEncoder.matches(pwd, user.getPassword())) {
                 return new UsernamePasswordAuthenticationToken(username, pwd, getGrantedAuthorities(user.getAuthorities()));
             }
             else {
+
                 //System.out.println("Invalid username or password!");
+
                 throw new BadCredentialsException("Invalid username or password!");
             }
         }

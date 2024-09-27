@@ -1,7 +1,8 @@
 package com.psugv.capstone.security;
 
-import com.psugv.capstone.login.model.UserModel;
-import com.psugv.capstone.login.service.ILoginService;
+import com.example.capstone.login.model.UserModel;
+import com.example.capstone.login.service.ILoginService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -25,5 +26,4 @@ public class LoginUserDetailsService implements UserDetailsService {
         }
         return new SecurityUserLogin(user);
     }
-
 }

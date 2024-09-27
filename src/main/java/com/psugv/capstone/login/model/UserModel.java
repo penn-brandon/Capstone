@@ -9,8 +9,14 @@ import java.util.Date;
 import java.util.Objects;
 import java.util.Set;
 
-@Entity(name = "user")
-@Table(name = "user")
+import org.springframework.stereotype.Component;
+
+import jakarta.persistence.Id;
+
+import java.io.Serializable;
+
+//@Entity(name = "user")
+//@Table(name = "user")
 @Component("user")
 public class UserModel implements Serializable {
 
@@ -20,7 +26,7 @@ public class UserModel implements Serializable {
 
     String username;
 
-    //@JsonIgnore
+    @JsonIgnore
     String password;
 
     Date date_of_creation;
@@ -99,6 +105,7 @@ public class UserModel implements Serializable {
         isEnable = enable;
     }
 
+
     public String getGender() {
         return gender;
     }
@@ -117,4 +124,3 @@ public class UserModel implements Serializable {
         return false;
     }
 }
-

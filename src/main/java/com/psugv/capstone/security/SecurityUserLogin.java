@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 import com.psugv.capstone.login.model.UserModel;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -39,31 +40,16 @@ public class SecurityUserLogin implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-//		return loginModel.getIsAccountNonExpired();
         return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-//		return loginModel.getIsAccountNonLocked();
         return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-//		Date today = new Date();
-//
-//		String date = loginModel.getLastChangeCredentialsDate();
-//		String year = date.substring(0, 4);
-//		String month = date.substring(5, 7);
-//		String day = date.substring(8);
-//
-//		Date lastChangeDate = new Date(Integer.parseInt(year), Integer.parseInt(month), Integer.parseInt(day));
-//		Period difference = Period.between(lastChangeDate, today);
-//		int dayDifference = difference.getDays();
-//
-//
-//		return loginModel.getIsCredentialsNonExpired();
         return true;
     }
 
@@ -72,5 +58,4 @@ public class SecurityUserLogin implements UserDetails {
         return user.getEnable();
         //return true;
     }
-
 }
