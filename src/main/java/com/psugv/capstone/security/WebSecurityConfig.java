@@ -1,5 +1,5 @@
 package com.psugv.capstone.security;
-/*
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.password.CompromisedPasswordChecker;
@@ -29,7 +29,15 @@ public class WebSecurityConfig {
         http.formLogin(flc -> new FormLoginConfigurer<HttpSecurity>().disable());
         http.httpBasic(Customizer.withDefaults());
 
-        System.out.print("++++++++++++++" + http.build() == null + "++++++++++++++++");
+        http.logout(logout -> logout
+                        .logoutSuccessUrl("/index"));
+
+        http.formLogin(form -> form
+                        .loginPage("/login")
+                        .permitAll()
+                        .defaultSuccessUrl("/chat", true)
+                        .failureUrl("/login"));
+
         return http.build();
     }
 
@@ -43,6 +51,7 @@ public class WebSecurityConfig {
     public CompromisedPasswordChecker compromisedPasswordChecker() {
 
         return new HaveIBeenPwnedRestApiPasswordChecker();
-    }
+    }*/
     
-}*/
+}
+

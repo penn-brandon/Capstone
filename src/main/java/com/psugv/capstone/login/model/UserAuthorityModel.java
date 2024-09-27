@@ -1,8 +1,11 @@
 package com.psugv.capstone.login.model;
 
 
+
+import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
-/*
+
+
 //@Entity(name = "permission")
 //@Table(name = "permission")
 @Component("authorities")
@@ -14,8 +17,10 @@ public class UserAuthorityModel {
 
     private String authorityName;
 
-    //@ManyToOne
-    //@JoinColumn(name = "user_id")
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+
     private UserModel userModel;
 
     public Integer getId() {
@@ -41,4 +46,4 @@ public class UserAuthorityModel {
     public void setLoginModel(UserModel userModel) {
         this.userModel = userModel;
     }
-}*/
+}

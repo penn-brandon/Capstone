@@ -1,14 +1,15 @@
 
 package com.psugv.capstone.security;
-/*
+
 import java.util.ArrayList;
 
 import java.util.List;
 import java.util.Set;
 
-import com.example.capstone.login.model.UserAuthorityModel;
-import com.example.capstone.login.model.UserModel;
-import com.example.capstone.login.service.ILoginService;
+import com.psugv.capstone.login.model.UserAuthorityModel;
+import com.psugv.capstone.login.model.UserModel;
+import com.psugv.capstone.login.service.ILoginService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -34,13 +35,16 @@ public class LoginAuthenticationProvider implements AuthenticationProvider {
         String username = authentication.getName();
         String pwd = authentication.getCredentials().toString();
 
-        UserModel user = loginService.getUser(username);
+        UserModel user = loginService.getUserByUsername(username);
+
         if (user != null) {
             if (passwordEncoder.matches(pwd, user.getPassword())) {
                 return new UsernamePasswordAuthenticationToken(username, pwd, getGrantedAuthorities(user.getAuthorities()));
             }
             else {
-                System.out.println("Invalid username or password!");
+
+                //System.out.println("Invalid username or password!");
+
                 throw new BadCredentialsException("Invalid username or password!");
             }
         }
@@ -62,4 +66,4 @@ public class LoginAuthenticationProvider implements AuthenticationProvider {
         //System.out.println(authenticationType.equals(UsernamePasswordAuthenticationToken.class));
         return authenticationType.equals(UsernamePasswordAuthenticationToken.class);
     }
-}*/
+}

@@ -1,9 +1,12 @@
 package com.psugv.capstone.login.service;
 
-//import com.example.capstone.login.model.UserModel;
+import com.psugv.capstone.login.model.UserModel;
 
 
 public interface ILoginService {
-    
-	//public UserModel getUser(String userName);
+
+	public UserModel getUser(UserModel user);
+
+
+	public UserModel getUserByUsername(String userName);
 }

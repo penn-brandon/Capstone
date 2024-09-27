@@ -1,48 +1,57 @@
 package com.psugv.capstone.login.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import org.springframework.stereotype.Component;
+
+import java.io.Serializable;
+import java.util.Date;
+import java.util.Objects;
+import java.util.Set;
+
 import org.springframework.stereotype.Component;
 
 import jakarta.persistence.Id;
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.Set;
-/*
+
 //@Entity(name = "user")
 //@Table(name = "user")
 @Component("user")
 public class UserModel implements Serializable {
 
     @Id
-    //@GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.AUTO)
     int user_id;
 
     String username;
 
-    //@JsonIgnore
+    @JsonIgnore
     String password;
 
     Date date_of_creation;
 
-    //@JsonIgnore
-    //@OneToMany(mappedBy="user",fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+    String gender;
+
+    @JsonIgnore
+    @OneToMany(mappedBy="user",fetch= FetchType.EAGER, cascade=CascadeType.ALL)
     Set<UserAuthorityModel> authorities;
 
-    //@JsonIgnore
+    @JsonIgnore
     Boolean isEnable;
 
-    //@JsonIgnore
-    String role;
 
+
+    //@OneToMany(mappedBy="user",fetch= FetchType.EAGER, cascade=CascadeType.ALL)
     //List<ChatRoom> charRooms;
 
-    public UserModel(Integer id, String username, String password, String role, Boolean isEnable) {
+    public UserModel(Integer id, String username, String password, String gender, Boolean isEnable) {
 
         user_id = id;
         this.username = username;
         this.password = password;
         this.date_of_creation = new Date();
-        this.role = role;
+        this.gender = gender;
         this.isEnable = isEnable;
     }
 
@@ -96,12 +105,22 @@ public class UserModel implements Serializable {
         isEnable = enable;
     }
 
-    public String getRole() {
-        return role;
+
+    public String getGender() {
+        return gender;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+
+        UserModel user = (UserModel) object;
+        if(this.user_id == user.user_id && this.username.equals(user.username)){
+            return true;
+        }
+        return false;
     }
 }
-*/

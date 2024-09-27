@@ -1,19 +1,24 @@
 package com.psugv.capstone.login.service;
 
+import com.psugv.capstone.login.repository.IUserDAO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 
-//import com.example.capstone.login.model.UserModel;
-/*
+import com.psugv.capstone.login.model.UserModel;
+
 @Service
-//@Transactional
-//@EnableTransactionManagement
+@Transactional
+@EnableTransactionManagement
 public class UserLoginService implements ILoginService {
 
-    @Override
-    public UserModel getUser(String userName){
+    @Autowired
+    IUserDAO loginDAO;
 
-        return new UserModel(1, "test1", "0841027", "tester", true);
+    @Override
+    public UserModel getUserByUsername(String username){
+
+        return loginDAO.getUserByUsername(username);
     }
-}*/
+}
