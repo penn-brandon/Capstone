@@ -34,13 +34,13 @@ public class LoginAuthenticationProvider implements AuthenticationProvider {
         String username = authentication.getName();
         String pwd = authentication.getCredentials().toString();
 
-        UserModel user = loginService.getUser(username);
+        UserModel user = loginService.getUserByUsername(username);
         if (user != null) {
             if (passwordEncoder.matches(pwd, user.getPassword())) {
                 return new UsernamePasswordAuthenticationToken(username, pwd, getGrantedAuthorities(user.getAuthorities()));
             }
             else {
-                System.out.println("Invalid username or password!");
+                //System.out.println("Invalid username or password!");
                 throw new BadCredentialsException("Invalid username or password!");
             }
         }

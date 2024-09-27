@@ -17,8 +17,8 @@ public class UserLoginService implements ILoginService {
     IUserDAO loginDAO;
 
     @Override
-    public UserModel getPasswordByUsername(String userName){
+    public UserModel getUserByUsername(String username){
 
-        return loginDAO.getUser();
+        return loginDAO.getUserByUsername(username);
     }
 }

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity(name = "user")
@@ -104,6 +105,16 @@ public class UserModel implements Serializable {
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+
+        UserModel user = (UserModel) object;
+        if(this.user_id == user.user_id && this.username.equals(user.username)){
+            return true;
+        }
+        return false;
     }
 }
 

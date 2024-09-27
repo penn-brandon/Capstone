@@ -29,8 +29,8 @@ insert into user(
 values(
           'Chuan Wei',
           'male',
-          '12345',
-          '543215',
+          'weichuan',
+          '19951027',
           '2024-09-25',
           '1',
           1

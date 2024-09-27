@@ -19,16 +19,40 @@ public class CreateDBEnvironment {
     @Value("${initialize.db.tables}")
     private String initializeTablesFilePath;
 
-    public void setupDB(){
-        establishTables();
+    private ScriptRunner scriptRunner = null;
+
+    private static CreateDBEnvironment createDBEnvironment = null;
+
+    private CreateDBEnvironment(){
+
+        if(scriptRunner == null){
+
+            Connection connection = entityManager.unwrap(Connection.class);
+            scriptRunner = new ScriptRunner(connection);
+        }
+
+        if(createDBEnvironment == null){
+
+            createDBEnvironment = new CreateDBEnvironment();
+        }
     }
 
-    private void establishTables(){
+    public static CreateDBEnvironment getInstance(){
 
-        Connection connection = entityManager.unwrap(Connection.class);
-        ScriptRunner scriptRunner = new ScriptRunner(connection);
+        if(createDBEnvironment == null){
+            createDBEnvironment = new CreateDBEnvironment();
+        }
+        return createDBEnvironment;
+    }
 
-        try(BufferedReader br = new BufferedReader(new FileReader(initializeTablesFilePath))){
+    public void setupDB(){
+
+        establishTables(initializeTablesFilePath);
+    }
+
+    private void establishTables(String filePath){
+
+        try(BufferedReader br = new BufferedReader(new FileReader(filePath))){
 
             scriptRunner.runScript(br);
 

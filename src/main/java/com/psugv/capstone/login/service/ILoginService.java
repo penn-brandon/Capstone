@@ -8,5 +8,5 @@ public interface ILoginService {
 	public UserModel getUser(UserModel user);
 
 
-	public UserModel getPasswordByUsername(String userName);
+	public UserModel getUserByUsername(String userName);
 }
