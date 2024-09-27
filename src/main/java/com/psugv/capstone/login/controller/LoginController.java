@@ -1,4 +1,4 @@
-package com.example.capstone.login.controller;
+package com.psugv.capstone.login.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

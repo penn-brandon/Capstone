@@ -1,4 +1,4 @@
-package com.example.capstone.login.service;
+package com.psugv.capstone.login.service;
 
 //import com.example.capstone.login.model.UserModel;
 

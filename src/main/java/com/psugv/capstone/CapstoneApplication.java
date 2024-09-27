@@ -1,4 +1,4 @@
-package com.example.capstone;
+package com.psugv.capstone;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

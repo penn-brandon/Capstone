@@ -1,4 +1,4 @@
-package com.example.capstone.login.service;
+package com.psugv.capstone.login.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;

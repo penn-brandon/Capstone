@@ -1,4 +1,4 @@
-package com.example.capstone;
+package com.psugv.capstone;
 
 public class ChatRoomName {
     private final User user;

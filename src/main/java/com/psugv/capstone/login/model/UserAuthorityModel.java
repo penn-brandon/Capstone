@@ -1,4 +1,4 @@
-package com.example.capstone.login.model;
+package com.psugv.capstone.login.model;
 
 
 import org.springframework.stereotype.Component;
