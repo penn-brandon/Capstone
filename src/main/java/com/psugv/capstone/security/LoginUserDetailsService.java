@@ -1,7 +1,7 @@
 package com.psugv.capstone.security;
 
-import com.example.capstone.login.model.UserModel;
-import com.example.capstone.login.service.ILoginService;
+import com.psugv.capstone.login.model.UserModel;
+import com.psugv.capstone.login.service.ILoginService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,7 +19,7 @@ public class LoginUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
 
-        UserModel user = loginService.getUser(userName);
+        UserModel user = loginService.getUserByUsername(userName);
 
         if (user == null) {
             throw new UsernameNotFoundException("User details not found for the user : " + userName);
