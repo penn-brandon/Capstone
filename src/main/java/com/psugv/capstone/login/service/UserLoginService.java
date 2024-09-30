@@ -18,7 +18,6 @@ public class UserLoginService implements ILoginService {
 
     @Override
     public UserModel getUserByUsername(String username){
-
         return loginDAO.getUserByUsername(username);
     }
 }

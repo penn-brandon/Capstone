@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.sql.Connection;
-
+/*
 @Component
 public class CreateDBEnvironment {
 
@@ -62,3 +62,4 @@ public class CreateDBEnvironment {
         }
     }
 }
+*/
