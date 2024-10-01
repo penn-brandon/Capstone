@@ -1,44 +1,60 @@
+-- creates a new database --
+drop database if exists capstone;
+create database capstone;
 use capstone;
 
-drop table IF EXISTS [dbo].[permission];
-drop table IF EXISTS [dbo].[user];
 
-create table user(
-    user_id int not null identity primary key,
-    name nvarchar(max) not null,
-    gender nvarchar(10) not null,
-    username nvarchar(max) not null,
-    password nvarchar(max) not null,
-    date_of_creation date not null,
-    is_Enable bit not null
+create table permission
+(
+    permission_id   serial primary key,
+    permission_name VARCHAR(255)
 );
 
-create table permission(
-    id int not null identity primary key,
-    user_id int not null foreign key references user(user_id),
-    authorityName nvarchar(max) not null
+create table chat_room
+(
+    chat_room_id serial primary key,
+    can_join     bool,
+    members      LONGBLOB,
+    message_list LONGBLOB
 );
 
-insert into user(
-    name,
-    gender,
-    username,
-    password,
-    date_of_creation,
-    is_Enable)
-values(
-          'Chuan Wei',
-          'male',
-          'weichuan',
-          '19951027',
-          '2024-09-25',
-          '1',
-          1
-      );
+create table user
+(
+    user_id          serial primary key,
+    username         VARCHAR(255) not null,
+    password         VARCHAR(255) not null,
+    date_of_creation datetime default NOW(),
+    permission       int,
+    chatRoomList     LONGBLOB,
+    FOREIGN KEY (permission) REFERENCES permission (permission_id)
+);
 
-insert into authorities (
-    user_id,
-    authorityName)
-values(
-       1,
-       'NORMAL');
+create table chat_room_name
+(
+    user           int,
+    chat_room      integer,
+    ownership      bool,
+    chat_room_name varchar(255),
+    FOREIGN KEY (user) REFERENCES user (user_id),
+    FOREIGN KEY (chat_room) REFERENCES chat_room (chat_room_id)
+);
+
+create table connections
+(
+    user       int,
+    connection int,
+    block      bool,
+    FOREIGN KEY (user) REFERENCES user (user_id),
+    FOREIGN KEY (connection) REFERENCES user (user_id)
+);
+
+create table message
+(
+    message_id serial primary key,
+    content    blob,
+    date       datetime,
+    chatroom   int,
+    sender     int,
+    FOREIGN KEY (chatroom) REFERENCES chat_room (chat_room_id),
+    FOREIGN KEY (sender) REFERENCES user (user_id)
+);
