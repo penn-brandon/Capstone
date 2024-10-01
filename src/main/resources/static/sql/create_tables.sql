@@ -1,4 +1,4 @@
--- creates a new database --
+-- script for creating backend mysql database -- 
 drop database if exists capstone;
 create database capstone;
 use capstone;
@@ -6,13 +6,13 @@ use capstone;
 
 create table permission
 (
-    permission_id   serial primary key,
+    permission_id   int AUTO_INCREMENT primary key,
     permission_name VARCHAR(255)
 );
 
 create table chat_room
 (
-    chat_room_id serial primary key,
+    chat_room_id int AUTO_INCREMENT primary key,
     can_join     bool,
     members      LONGBLOB,
     message_list LONGBLOB
@@ -20,7 +20,7 @@ create table chat_room
 
 create table user
 (
-    user_id          serial primary key,
+    user_id          int AUTO_INCREMENT primary key,
     username         VARCHAR(255) not null,
     password         VARCHAR(255) not null,
     date_of_creation datetime default NOW(),
