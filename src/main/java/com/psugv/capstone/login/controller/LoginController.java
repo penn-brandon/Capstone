@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.psugv.capstone.login.service.ILoginService;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 @Controller
@@ -35,12 +36,6 @@ public class LoginController {
     @GetMapping(path="/index")
     public String toIndexPage() {
         return "/index";
-    }
-
-
-    @GetMapping(path="/signup")
-    public String toSignupPage() {
-        return "/signup";
     }
 
     @GetMapping(path="/error")

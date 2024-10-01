@@ -14,19 +14,18 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.password.HaveIBeenPwnedRestApiPasswordChecker;
 
-@Configuration
 @EnableWebSecurity
+@Configuration
 public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/css/**", "/vendor/**", "/img/**", "/js/**", "/scss/**","/build/**").permitAll()
+                        .requestMatchers("/css/**", "/images/**", "/javascript/**", "/sql/**").permitAll()
                         .requestMatchers("/error").permitAll()
-                        .requestMatchers("/index", "/signin", "/signup").permitAll()
-                        .requestMatchers("/chat").authenticated()
-                        .anyRequest().authenticated());
-        http.formLogin(flc -> new FormLoginConfigurer<HttpSecurity>().disable());
+                        .requestMatchers("/index", "/login", "/signup").permitAll()
+                        .requestMatchers("/chat").authenticated());
+
         http.httpBasic(Customizer.withDefaults());
 
         http.logout(logout -> logout
