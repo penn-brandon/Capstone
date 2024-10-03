@@ -1,5 +1,6 @@
 package com.psugv.capstone.repository.login;
 
+import com.psugv.capstone.login.model.UserModel;
 import com.psugv.capstone.login.repository.IUserDAO;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,8 +30,7 @@ public class LoginDAOTest {
      */
     public void analyzeLogin() {
 
-        //assertEquals(1 * 39.3701, UnitsConvertor.toMil(1, "mm"));
-
+        assertEquals(new UserModel(1, "weichuan", "19951027", "male", true), useDAO.getUserByUsername("weuchuan"));
 
     }
 }

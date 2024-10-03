@@ -9,7 +9,7 @@ public class SignupController {
 
     @GetMapping(path="/signup")
     public String loginPagePath() {
-        return "/signup";
+        return "/open/signup";
     }
 
 

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -122,5 +123,13 @@ public class UserModel implements Serializable {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public String toString() {
+        return "UserModel{" +
+                "username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 }

@@ -24,6 +24,7 @@
 
 <body>
 <nav>
+
     <div class="nav-content">
         <div class="nav-img">
             <img src="<c:url value='/images/logo.svg' />" alt="Logo"/>
@@ -42,18 +43,19 @@
                  onclick="hamburgers()" alt="Dropdown">
         </div>
     </div>
+
 </nav>
 <div class="signup-form">
     <h1>Coming back so soon!</h1>
     <p>Thanks for choosing BLURB.</p>
     <div class="signup-form-box">
         <p>Login Here</p>
-        <form>
+        <form method="post" action="<c:url value='/login'/>">
             <div class="signup-form-box-content"></div>
-            <input type="username" name="username" placeholder="Username here" class="submit-input" id="user"
+            <input type="text" name="username" placeholder="Username here" class="submit-input" id="username"
                    autocomplete="username" required/>
             <br>
-            <input type="password" name="password" placeholder="Password here" class="submit-input" id="pass"
+            <input type="password" name="password" placeholder="Password here" class="submit-input" id="password"
                    autocomplete="current-password" required/>
             <br>
             <input type="submit" value="Submit" class="submit-form"/>

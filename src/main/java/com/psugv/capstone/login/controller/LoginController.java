@@ -1,5 +1,6 @@
 package com.psugv.capstone.login.controller;
 
+import com.psugv.capstone.login.model.UserModel;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,16 +8,16 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.*;
 
 import com.psugv.capstone.login.service.ILoginService;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.SessionAttributes;
 
 @Controller
 @SessionAttributes({"userModel"})
+@Component
 public class LoginController {
 
     @Autowired
@@ -28,29 +29,39 @@ public class LoginController {
     	return "redirect:/index";
     }
 
-    @GetMapping(path="/login")
+    @GetMapping (path="/login")
     public String loginPagePath() {
-        return "/login";
+        return "/open/login";
+    }
+
+    @GetMapping (path="/tosql")
+    public String tosql() {
+        return "/error";
     }
 
     @GetMapping(path="/index")
     public String toIndexPage() {
-        return "/index";
+        return "/open/index";
     }
 
     @GetMapping(path="/error")
     public String toErrorPage() {
-        return "/error";
+        return "/open/error";
     }
 
     @GetMapping(path="/chat")
     public String toChatPage(Model model) {
-        //Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        //String username = authentication.getName();
-       //UserModel userModel = loginService.getUser(username);
+        /*
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
 
-        //model.addAttribute("userModel", userModel);
-        return "/chat";
+        System.out.println("Storing user to seesion: " + username);
+        System.out.println("Storing user to seesion: " + authentication.getCredentials());
+        UserModel userModel = loginService.getUserByUsername(username);
+        model.addAttribute("userModel", userModel);
+
+         */
+        return "/main/chat";
     }
 
 /*
@@ -61,13 +72,7 @@ public class LoginController {
 
         	new SecurityContextLogoutHandler().logout(request, response, auth);
         }
-        return "/login";
-    }*/
-
-/*
-    @GetMapping(path="/pages")
-    public String loginPage() {
-        return "pages";
+        return "redirect:/index";
     }
- */
+*/
 }

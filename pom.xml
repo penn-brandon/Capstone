@@ -108,7 +108,6 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.11.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -125,11 +124,11 @@
 			<artifactId>commons-io</artifactId>
 			<version>2.16.1</version>
 		</dependency>
-				<dependency>
-			<groupId>com.microsoft.sqlserver</groupId>
-			<artifactId>mssql-jdbc</artifactId>
-			<scope>runtime</scope>
-		</dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.33</version>
+        </dependency>
         
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -178,6 +177,14 @@
             </plugin>  
         </plugins>
         <defaultGoal>verify</defaultGoal>
+        <resources>
+            <resource>
+                <directory>src/main/webapp</directory>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
     </build>
     <repositories>
         <repository>
