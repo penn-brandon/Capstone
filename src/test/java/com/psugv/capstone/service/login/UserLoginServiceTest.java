@@ -31,8 +31,6 @@ public class UserLoginServiceTest {
          * This method is designed to test toMil method in the UnitsConvertor class.
          */
         public void analyzeLogin() {
-
             assertEquals(new UserModel(1, "weichuan", "19951027", "male", true), loginService.getUserByUsername("weuchuan"));
-
         }
 }

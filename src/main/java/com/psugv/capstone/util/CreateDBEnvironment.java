@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.sql.Connection;
-/*
+
 @Component
 public class CreateDBEnvironment {
 
@@ -21,25 +21,6 @@ public class CreateDBEnvironment {
 
     private ScriptRunner scriptRunner = null;
 
-    private static CreateDBEnvironment createDBEnvironment = null;
-
-    public CreateDBEnvironment(){
-    }
-
-    private CreateDBEnvironment(EntityManager entityManager){
-
-        Connection connection = entityManager.unwrap(Connection.class);
-        scriptRunner = new ScriptRunner(connection);
-    }
-
-    public static CreateDBEnvironment getInstance(){
-
-        if(createDBEnvironment == null){
-            createDBEnvironment = new CreateDBEnvironment(new CreateDBEnvironment().entityManager);
-        }
-        return createDBEnvironment;
-    }
-
     public void setupDB(){
 
         establishTables(initializeTablesFilePath);
@@ -49,6 +30,7 @@ public class CreateDBEnvironment {
 
         try(BufferedReader br = new BufferedReader(new FileReader(filePath))){
 
+            scriptRunner = new ScriptRunner(entityManager.unwrap(Connection.class));
             scriptRunner.runScript(br);
 
         } catch(Exception e){
@@ -57,4 +39,3 @@ public class CreateDBEnvironment {
         }
     }
 }
-*/

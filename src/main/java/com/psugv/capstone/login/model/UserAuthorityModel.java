@@ -6,13 +6,14 @@ import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
 
 
-//@Entity(name = "authorities")
-//@Table(name = "authorities")
+@Entity(name = "authorities")
+@Table(name = "authorities")
 @Component("authorities")
 public class UserAuthorityModel {
 
-    //@Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="authority_id")
     private Integer id;
 
     private String authorityName;

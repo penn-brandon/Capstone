@@ -16,13 +16,14 @@ import jakarta.persistence.Id;
 
 import java.io.Serializable;
 
-//@Entity(name = "user")
-//@Table(name = "user")
+@Entity(name = "user")
+@Table(name = "user")
 @Component("user")
 public class UserModel implements Serializable {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
+            @Column(name="user_id")
     int user_id;
 
     String username;

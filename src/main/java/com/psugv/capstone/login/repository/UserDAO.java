@@ -12,17 +12,17 @@ import java.util.Map;
 
 @Repository
 public class UserDAO implements IUserDAO {
-/*
+
     @Autowired
     EntityManager entityManager;
-*/
+
 
     public UserModel getUserByUsername(String userName){
 
-        /*
-        return entityManager.createQuery("from user where userName = :userName", UserModel.class).setParameter("userName", userName).getSingleResult();
-        */
 
+        return entityManager.createQuery("from user where userName = :userName", UserModel.class).setParameter("userName", userName).getSingleResult();
+
+/*
         System.out.println("Return user obj");
         UserModel um = new UserModel(1, "weichuan", "19951027", "male", true);
         UserAuthorityModel uam = new UserAuthorityModel();
@@ -32,6 +32,8 @@ public class UserDAO implements IUserDAO {
         HashSet<UserAuthorityModel> set =  new HashSet<>();
         set.add(uam);
         um.setAuthorities(set);
-        return um;
+
+ */
+        //return um;
     }
 }
