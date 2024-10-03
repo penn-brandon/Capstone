@@ -9,15 +9,16 @@ import org.springframework.transaction.annotation.Transactional;
 import com.psugv.capstone.login.model.UserModel;
 
 @Service
-@Transactional
-@EnableTransactionManagement
+//@Transactional
+//@EnableTransactionManagement
 public class UserLoginService implements ILoginService {
 
     @Autowired
-    IUserDAO loginDAO;
+    IUserDAO userDAO;
 
     @Override
     public UserModel getUserByUsername(String username){
-        return loginDAO.getUserByUsername(username);
+
+        return userDAO.getUserByUsername(username);
     }
 }

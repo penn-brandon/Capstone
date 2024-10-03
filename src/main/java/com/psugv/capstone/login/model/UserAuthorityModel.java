@@ -6,8 +6,8 @@ import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
 
 
-//@Entity(name = "permission")
-//@Table(name = "permission")
+//@Entity(name = "authorities")
+//@Table(name = "authorities")
 @Component("authorities")
 public class UserAuthorityModel {
 
@@ -17,11 +17,11 @@ public class UserAuthorityModel {
 
     private String authorityName;
 
-
     @ManyToOne
     @JoinColumn(name = "user_id")
-
     private UserModel userModel;
+
+    public UserAuthorityModel() {}
 
     public Integer getId() {
         return id;

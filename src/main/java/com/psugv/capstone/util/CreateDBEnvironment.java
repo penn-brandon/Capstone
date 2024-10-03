@@ -14,7 +14,7 @@ import java.sql.Connection;
 public class CreateDBEnvironment {
 
     @Autowired
-    EntityManager entityManager;
+    private EntityManager entityManager;
 
     @Value("${initialize.db.tables}")
     private String initializeTablesFilePath;
@@ -23,24 +23,19 @@ public class CreateDBEnvironment {
 
     private static CreateDBEnvironment createDBEnvironment = null;
 
-    private CreateDBEnvironment(){
+    public CreateDBEnvironment(){
+    }
 
-        if(scriptRunner == null){
+    private CreateDBEnvironment(EntityManager entityManager){
 
-            Connection connection = entityManager.unwrap(Connection.class);
-            scriptRunner = new ScriptRunner(connection);
-        }
-
-        if(createDBEnvironment == null){
-
-            createDBEnvironment = new CreateDBEnvironment();
-        }
+        Connection connection = entityManager.unwrap(Connection.class);
+        scriptRunner = new ScriptRunner(connection);
     }
 
     public static CreateDBEnvironment getInstance(){
 
         if(createDBEnvironment == null){
-            createDBEnvironment = new CreateDBEnvironment();
+            createDBEnvironment = new CreateDBEnvironment(new CreateDBEnvironment().entityManager);
         }
         return createDBEnvironment;
     }

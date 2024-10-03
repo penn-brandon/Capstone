@@ -1,15 +1,18 @@
 package com.psugv.capstone.security;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
+import com.psugv.capstone.login.model.UserAuthorityModel;
 import com.psugv.capstone.login.model.UserModel;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 
+@Component
+@Qualifier("SecurityUserLogin")
 public class SecurityUserLogin implements UserDetails {
 
 
@@ -19,12 +22,18 @@ public class SecurityUserLogin implements UserDetails {
 
     public SecurityUserLogin(UserModel user) {
         this.user = user;
+        this.user.toString();
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority("user.getRole()"));
+        Set<GrantedAuthority> authorities = new HashSet<>();
+        Set<UserAuthorityModel> auSet = user.getAuthorities();
+
+        for(UserAuthorityModel au : auSet) {
+            authorities.add(new SimpleGrantedAuthority(au.getAuthorityName()));
+        }
+
         return authorities;
     }
 
