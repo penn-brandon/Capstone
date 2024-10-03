@@ -1,7 +1,12 @@
 -- script for creating backend mysql database -- 
-drop database if exists capstone;
-create database capstone;
 use capstone;
+
+drop table if exists message;
+drop table if exists connections;
+drop table if exists chat_room_name;
+drop table if exists user;
+drop table if exists chat_room;
+drop table if exists permission;
 
 
 create table permission
