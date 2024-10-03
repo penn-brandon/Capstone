@@ -9,8 +9,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Error Page</title>
 
-  <link rel="stylesheet" href="<c:url value='/css/min-theme.css' />" media="(width >= 750px)" />
-  <link rel="stylesheet" href="<c:url value='/css/max-theme.css' />" media="(width < 750px)" />
+  <link rel="stylesheet" href="<c:url value='/css/min-theme.css' />" media="(width < 750px)" />
+  <link rel="stylesheet" href="<c:url value='/css/max-theme.css' />" media="(width >= 750px)" />
   <link rel="stylesheet" href="<c:url value='/css/index.css' />" />
 
 
