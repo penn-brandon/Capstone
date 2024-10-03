@@ -41,11 +41,7 @@ public class LoginController {
 
     @GetMapping(path="/index")
     public String toIndexPage() {
-<<<<<<< HEAD
-        return "/index";
-=======
         return "/open/index";
->>>>>>> W_4
     }
 
     @GetMapping(path="/error")
