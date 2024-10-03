@@ -40,8 +40,6 @@ public class UserModel implements Serializable {
     @JsonIgnore
     Boolean isEnable;
 
-
-
     //@OneToMany(mappedBy="user",fetch= FetchType.EAGER, cascade=CascadeType.ALL)
     //List<ChatRoom> charRooms;
 
