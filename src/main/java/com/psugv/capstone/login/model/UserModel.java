@@ -36,7 +36,7 @@ public class UserModel implements Serializable {
     String gender;
 
     @JsonIgnore
-    @OneToMany(mappedBy="user",fetch= FetchType.EAGER, cascade=CascadeType.ALL)
+    @OneToMany(mappedBy="userModel",fetch= FetchType.EAGER, cascade=CascadeType.ALL)
     Set<UserAuthorityModel> authorities;
 
     @JsonIgnore
