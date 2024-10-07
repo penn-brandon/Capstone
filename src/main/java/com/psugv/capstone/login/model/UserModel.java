@@ -40,6 +40,7 @@ public class UserModel implements Serializable {
     Set<UserAuthorityModel> authorities;
 
     @JsonIgnore
+    @Column(name="is_Enable")
     Boolean isEnable;
 
     //@OneToMany(mappedBy="user",fetch= FetchType.EAGER, cascade=CascadeType.ALL)
