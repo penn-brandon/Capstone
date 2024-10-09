@@ -1,10 +1,7 @@
-main {
+.current-chat {
     position: absolute;
     top: 200px;
     margin-left: 10%;
-}
-
-.current-chat {
     background-color: blue;
     border: 1px solid black;
     border-radius: 10px;
@@ -21,17 +18,19 @@ main {
     background-color: green;
     width: 45%;
     border-radius: 10px;
-    border:none;
+    border: none;
     padding: 10px;
 }
 
 .chat-timestamp {
-    float:left;
+    float: left;
 }
+
 .chat-sender {
     float: left;
     margin-left: 10px;
 }
+
 .chat-message-data {
     clear: both;
 }
@@ -41,36 +40,29 @@ main {
     background-color: orange;
     width: 45%;
     border-radius: 10px;
-    border:none;
+    border: none;
     padding: 10px;
 }
 
 .chat-timestamp-response {
-    float:right;
+    float: right;
 }
+
 .chat-sender-response {
     float: right;
     margin-right: 10px;
 }
+
 .chat-message-data-response {
-    float:right;
+    float: right;
 }
 
-
-
-
-
-
-
 .chat-send {
-    position:absolute;
+    position: absolute;
     bottom: 15px;
     left: 15px;
-    padding-left: 0;
-    padding-right: 600px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    resize:none;
+    padding: 10px 600px 10px 0;
+    resize: none;
 }
 
 .chat-send-icon {
