@@ -15,7 +15,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Anta&display=swap" rel="stylesheet">
 
-    <script src="<c:url value='/javascript/min-theme.js' />"></script>
+    <script defer src="<c:url value='/javascript/min-theme.js' />"></script>
     <script defer src="<c:url value='/javascript/chat.js' />"></script>
 
 </head>
@@ -24,17 +24,14 @@
 
 <nav>
     <div class="nav-content">
-        <a href="<c:url value='/index' />">
             <div class="nav-img">
                 <img src="<c:url value='/images/logo.svg' />"  alt="Logo"/>
                 <span class="nav-logo">BLURB</span>
             </div>
-            <div class="nav-login">
-                <a href="<c:url value='/logout' />">
-                    <button class="nav-login-login" id="toLogin">Logout</button>
-                </a>
-            </div>
-        </a>
+        <div class="profile-div">
+            <button class="profile" id="profile" onclick="profile_click("<c:url value='//images//logo.svg'/>")">Profile
+            </button>
+        </div>
     </div>
 </nav>
 

@@ -30,29 +30,31 @@
             </a>
         </div>
     </nav>
-<div class="signup-form">
-    <h1>Get Started Today</h1>
-    <p>This is a cool chat app</p>
-    <div class="signup-form-box">
-        <p>Create Your Account Here</p>
-        <form id="signup-form-form">
-            <div class="signup-form-box-content">
-                <label for="user"></label>
-                <input type="text" name="username" placeholder="Username here"
-                       class="submit-input" id="user"
-                       autocomplete="username" required/>
-                <br/>
-                <label for="pass"></label>
-                <input type="password" name="password" placeholder="Password here"
-                       class="submit-input" id="pass"
-                       autocomplete="new-password" required/>
-            </div>
-            <button class="submit-form" id="submit-button">
-                Submit
-            </button>
-        </form>
+<div class="main">
+    <div class="signup-form">
+        <h1>Get Started Today</h1>
+        <p>This is a cool chat app</p>
+        <div class="signup-form-box">
+            <p>Create Your Account Here</p>
+            <form id="signup-form-form">
+                <div class="signup-form-box-content">
+                    <label for="user"></label>
+                    <input type="text" name="username" placeholder="Username here"
+                           class="submit-input" id="user"
+                           autocomplete="username" required/>
+                    <br/>
+                    <label for="pass"></label>
+                    <input type="password" name="password" placeholder="Password here"
+                           class="submit-input" id="pass"
+                           autocomplete="new-password" required/>
+                </div>
+                <button class="submit-form" id="submit-button">
+                    Submit
+                </button>
+            </form>
+        </div>
+        <p>Have an account <a href="${pageContext.request.contextPath}/login">Login in</a> Now!</p>
     </div>
-    <p>Have an account <a href="${pageContext.request.contextPath}/login">Login in</a> Now!</p>
 </div>
 
 <footer>

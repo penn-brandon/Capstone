@@ -1,3 +1,12 @@
+/* CHAT NAVBAR */
+
+.profile {
+    float: right;
+    margin-top: 35px;
+    margin-right: 50px;
+}
+
+/* CHAT BOX */
 .current-chat {
     position: absolute;
     top: 200px;
