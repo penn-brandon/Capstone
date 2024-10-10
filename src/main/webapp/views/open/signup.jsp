@@ -36,7 +36,7 @@
         <p>This is a cool chat app</p>
         <div class="signup-form-box">
             <p>Create Your Account Here</p>
-            <form id="signup-form-form">
+            <form id="signup-form-form" method="POST" role="form" th:action="@{/register/save}" th:object="${user}">
                 <div class="signup-form-box-content">
                     <label for="user"></label>
                     <input type="text" name="username" placeholder="Username here"

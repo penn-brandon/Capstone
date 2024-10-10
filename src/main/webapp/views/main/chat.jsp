@@ -21,30 +21,46 @@
 </head>
 
 <body>
+    <nav>
+        <div class="nav-content">
+                <div class="nav-img">
+                    <img src="<c:url value='/images/logo.svg' />"  alt="Logo"/>
+                    <span class="nav-logo">BLURB</span>
+                </div>
+            <div class="profile-div">
+                <button class="profile" id="profile" onclick="profile_click()">Profile</button>
 
-<nav>
-    <div class="nav-content">
-            <div class="nav-img">
-                <img src="<c:url value='/images/logo.svg' />"  alt="Logo"/>
-                <span class="nav-logo">BLURB</span>
             </div>
-        <div class="profile-div">
-            <button class="profile" id="profile" onclick="profile_click("<c:url value='//images//logo.svg'/>")">Profile
-            </button>
+        </div>
+    </nav>
+
+    <div class="connections-nav">
+        <div class="connections">
+            <div class="friends">
+                <div class="friends-button" id="friends-button" onclick="friends_click('<c:url value='/images/' />')">
+                    <p>Friends</p>
+                    <img id="friends-drop" src="<c:url value='/images/chevron-down.svg' />"  alt="Logo"/>
+                </div>
+                <div class="friends-list" id="friends-list">
+                    <p>Default Friend 1</p>
+                    <p>Default Friend 2</p>
+                    <p>Default Friend 3</p>
+                </div>
+            </div>
+            <div class="channels">
+                <div class="channels-button" id="channels-button" onclick="channels_click('<c:url value='/images/' />')">
+                    <p>Channels</p>
+                    <img id="channels-drop" src="<c:url value='/images/chevron-down.svg' />"  alt="Logo"/>
+                </div>
+                <div class="channels-list" id="channels-list">
+                    <p>Default Channel 1</p>
+                    <p>Default Channel 2</p>
+                    <p>Default Channel 3</p>
+                </div>
+            </div>
         </div>
     </div>
-</nav>
 
-<div class="connections">
-    <div class="friends">
-        <p>Friends</p>
-        <ul class="friend-list"></ul>
-    </div>
-    <div class="channels">
-        <p>Channels</p>
-        <ul class="channel-list"></ul>
-    </div>
-</div>
 
 <div class="current-chat">
     <div class="chat-row">
