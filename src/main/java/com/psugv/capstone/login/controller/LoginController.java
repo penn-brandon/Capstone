@@ -49,20 +49,6 @@ public class LoginController {
         return "/open/error";
     }
 
-    @GetMapping(path="/chat")
-    public String toChatPage(Model model) {
-        /*
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-
-        System.out.println("Storing user to seesion: " + username);
-        System.out.println("Storing user to seesion: " + authentication.getCredentials());
-        UserModel userModel = loginService.getUserByUsername(username);
-        model.addAttribute("userModel", userModel);
-
-         */
-        return "/main/chat";
-    }
 
 /*
     @GetMapping(path="/logout")

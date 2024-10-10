@@ -1,4 +1,6 @@
-package com.psugv.capstone;
+package com.psugv.capstone.chat.model;
+
+import com.psugv.capstone.User;
 
 import java.util.Date;
 

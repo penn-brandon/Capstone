@@ -9,8 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.psugv.capstone.login.model.UserModel;
 
 @Service
-//@Transactional
-//@EnableTransactionManagement
+@Transactional
+@EnableTransactionManagement
 public class UserLoginService implements ILoginService {
 
     @Autowired

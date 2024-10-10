@@ -23,8 +23,8 @@ public class UserModel implements Serializable {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-            @Column(name="user_id")
-    int user_id;
+    @Column(name="user_id")
+    int id;
 
     String username;
 
@@ -48,7 +48,7 @@ public class UserModel implements Serializable {
 
     public UserModel(Integer id, String username, String password, String gender, Boolean isEnable) {
 
-        user_id = id;
+        this.id = id;
         this.username = username;
         this.password = password;
         this.date_of_creation = new Date();
@@ -58,12 +58,12 @@ public class UserModel implements Serializable {
 
     public UserModel() {}
 
-    public int getUser_id() {
-        return user_id;
+    public int getId() {
+        return id;
     }
 
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getUsername() {
@@ -119,7 +119,7 @@ public class UserModel implements Serializable {
     public boolean equals(Object object) {
 
         UserModel user = (UserModel) object;
-        if(this.user_id == user.user_id && this.username.equals(user.username)){
+        if(this.id == user.id && this.username.equals(user.username)){
             return true;
         }
         return false;

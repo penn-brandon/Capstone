@@ -1,7 +1,6 @@
-package com.psugv.capstone.service.login;
+package com.psugv.capstone.service;
 
 import com.psugv.capstone.login.model.UserModel;
-import com.psugv.capstone.login.repository.IUserDAO;
 import com.psugv.capstone.login.service.ILoginService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
