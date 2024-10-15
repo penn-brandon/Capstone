@@ -46,7 +46,7 @@ public class UserModel implements Serializable {
     //@OneToMany(mappedBy="user",fetch= FetchType.EAGER, cascade=CascadeType.ALL)
     //List<ChatRoom> charRooms;
 
-    public UserModel(Integer id, String username, String password, String gender, Boolean isEnable) {
+    public UserModel(Integer id, String username, String password, String gender, Boolean isEnable, Set<UserAuthorityModel> authorities) {
 
         this.id = id;
         this.username = username;
@@ -54,6 +54,7 @@ public class UserModel implements Serializable {
         this.date_of_creation = new Date();
         this.gender = gender;
         this.isEnable = isEnable;
+        this.authorities = authorities;
     }
 
     public UserModel() {}

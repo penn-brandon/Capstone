@@ -68,7 +68,7 @@ public class MessageListener {
                         message.wait();
                     }
 
-                    //Sending message
+
                     message = MESSAGE_WAIT;
                 }
             }
@@ -77,5 +77,27 @@ public class MessageListener {
             destroy();
         }
         System.out.println("Stop listening ");
+    }
+
+    @Override
+    public int hashCode(){
+
+        return user.getId();
+    }
+
+    public boolean isListening() {
+        return listening;
+    }
+
+    public ChatRoom getRoom() {
+        return room;
+    }
+
+    public ChatRoomName getRoomName() {
+        return roomName;
+    }
+
+    public UserModel getUser() {
+        return user;
     }
 }

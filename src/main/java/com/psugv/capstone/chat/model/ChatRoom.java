@@ -26,5 +26,23 @@ public class ChatRoom {
 
     public ChatRoom(){}
 
+    public ChatRoom(Integer id) {
+        this.id = id;
+    }
 
+    public Set<ChatRoomName> getChatRoomName() {
+        return chatRoomName;
+    }
+
+    public void setChatRoomName(Set<ChatRoomName> chatRoomName) {
+        this.chatRoomName = chatRoomName;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 }

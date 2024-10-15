@@ -5,6 +5,8 @@ import com.psugv.capstone.login.model.UserModel;
 import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
+
 @Entity(name = "chatRoomName")
 @Component("chatRoomName")
 public class ChatRoomName {
@@ -23,13 +25,17 @@ public class ChatRoomName {
 
     private Boolean admin;
 
+    @Column(name="last_modified")
+    private Date lastModified;
+
     public ChatRoomName(){}
 
-    public ChatRoomName(Boolean admin, ChatRoom chatRoom, String chatRoomName, Integer id) {
+    public ChatRoomName(Boolean admin, ChatRoom chatRoom, String chatRoomName, Integer id, Date lastModified) {
         this.admin = admin;
         this.chatRoom = chatRoom;
         this.chatRoomName = chatRoomName;
         this.id = id;
+        this.lastModified = lastModified;
     }
 
     public String getChatRoomName() {
@@ -62,5 +68,13 @@ public class ChatRoomName {
 
     public void setAdmin(Boolean admin) {
         this.admin = admin;
+    }
+
+    public Date getLastModified() {
+        return lastModified;
+    }
+
+    public void setLastModified(Date lastModified) {
+        this.lastModified = lastModified;
     }
 }

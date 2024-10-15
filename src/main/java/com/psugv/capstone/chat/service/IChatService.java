@@ -8,9 +8,11 @@ import java.util.List;
 
 public interface IChatService {
 
-    public Boolean sendMessage(String message, String chatRoomId, UserModel userModel);
+    public Boolean sendMessage(String message, String chatRoomId);
 
     public ChatRoom selectChatRoom(String chatRoomID, UserModel userModel);
 
     public List<ChatRoomName> getAllChatRoomName(UserModel userModel);
+
+    public void sendUpdate();
 }
