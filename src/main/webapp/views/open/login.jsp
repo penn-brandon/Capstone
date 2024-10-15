@@ -46,7 +46,7 @@
                 <input type="submit" value="Submit" class="submit-form" id="submit_button"/>
             </form>
         </div>
-        <p>Don't have a account <a href="${pageContext.request.contextPath}/signup">Sign up</a> Now!</p>
+        <p class="signup-p">Don't have a account <mark><a href="${pageContext.request.contextPath}/signup" class="signup-link">Sign up</a></mark> Now!</p>
     </div>
 </div>
 

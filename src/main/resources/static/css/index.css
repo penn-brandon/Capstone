@@ -1,5 +1,34 @@
 .main {
     position: absolute;
-    top: 50%;
+    top: 20%;
     margin-left: 10%;
+}
+
+.main > * {
+    margin-bottom: 20px;
+}
+
+.nav-login-login {
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #0098A9;
+    border:none;
+    margin-right: 5px;
+    font-size: 18px;
+}
+
+.nav-login-login:hover {
+    cursor: pointer;
+}
+
+.nav-login-register {
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #0098A9;
+    border: none;
+    font-size: 18px;
+}
+
+.nav-login-register:hover {
+    cursor: pointer;
 }

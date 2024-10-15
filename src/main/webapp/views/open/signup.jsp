@@ -35,7 +35,7 @@
         <h1>Get Started Today</h1>
         <p>This is a cool chat app</p>
         <div class="signup-form-box">
-            <p>Create Your Account Here</p>
+            <p>Create Your Account</p>
             <form id="signup-form-form" method="POST" role="form" th:action="@{/register/save}" th:object="${user}">
                 <div class="signup-form-box-content">
                     <label for="user"></label>
@@ -53,7 +53,7 @@
                 </button>
             </form>
         </div>
-        <p>Have an account <a href="${pageContext.request.contextPath}/login">Login in</a> Now!</p>
+        <p class="signup-p">Have an account <mark><a href="${pageContext.request.contextPath}/login" class="signup-link">Login in</a></mark> Now!</p>
     </div>
 </div>
 
