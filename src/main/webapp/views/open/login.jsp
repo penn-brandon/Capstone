@@ -15,7 +15,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Anta&display=swap" rel="stylesheet">
 
-    <script src="<c:url value='/javascript/min-theme.js' />"></script>
+    <script defer src="<c:url value='/javascript/min-theme.js' />"></script>
 </head>
 
 <body>
@@ -43,7 +43,7 @@
                 <input type="password" name="password" placeholder="Password here" class="submit-input" id="password"
                        autocomplete="current-password" required/>
                 <br>
-                <input type="submit" value="Submit" class="submit-form"/>
+                <input type="submit" value="Submit" class="submit-form" id="submit_button"/>
             </form>
         </div>
         <p>Don't have a account <a href="${pageContext.request.contextPath}/signup">Sign up</a> Now!</p>

@@ -1,10 +1,34 @@
 /* CHAT NAVBAR */
 
 .profile {
-    float: right;
-    margin-top: 35px;
-    margin-right: 50px;
+    right: 2.5%;
+    position: absolute;
+    margin-top: 25px;
+    height: 50px;
+    width: 50px;
 }
+
+.profile-dropdown {
+    position: absolute;
+    right: 2.5%;
+    top: 80px;
+}
+
+.profile-dropdown > a {
+    padding: 10px;
+    margin-bottom: 5px;
+    border-radius: 10px;
+    display: block;
+}
+
+.profile-dropdown > a {
+    text-decoration: none;
+    color: black;
+    background-color: orange;
+}
+
+
+
 /* Friends list */
 .connections-nav {
     margin-top: 150px;
