@@ -7,6 +7,7 @@ import com.psugv.capstone.login.model.UserModel;
 import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Set;
 
 @Entity(name = "chatroom")
@@ -23,6 +24,8 @@ public class ChatRoom {
     @OneToMany(mappedBy="chatroom",fetch= FetchType.EAGER, cascade=CascadeType.ALL)
     private Set<ChatRoomName> chatRoomName;
 
+    @OneToMany(mappedBy="chatroom",fetch= FetchType.EAGER, cascade=CascadeType.ALL)
+    private List<Message> messages;
 
     public ChatRoom(){}
 
@@ -44,5 +47,13 @@ public class ChatRoom {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public List<Message> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(List<Message> messages) {
+        this.messages = messages;
     }
 }

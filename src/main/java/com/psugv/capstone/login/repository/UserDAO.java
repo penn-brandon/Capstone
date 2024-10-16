@@ -5,6 +5,8 @@ import com.psugv.capstone.login.model.UserModel;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.Query;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
@@ -14,6 +16,8 @@ import java.util.Map;
 
 @Repository
 public class UserDAO implements IUserDAO {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserDAO.class);
 
     @Autowired
     EntityManager entityManager;

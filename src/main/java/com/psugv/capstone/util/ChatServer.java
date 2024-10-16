@@ -1,20 +1,26 @@
 package com.psugv.capstone.util;
 
 import jakarta.annotation.PostConstruct;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 public class ChatServer {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(ChatServer.class);
+
     /**
-     * The key is char room ID and the value is set of Listeners
+     * The key is char room ID and the value is map of user id to Listeners
      * This map is supposed to track the online user and the chat room they are looking into.
+     *
+     * So the inner map key is user id and value is listener.
      */
-    private static ConcurrentHashMap<Integer, Set<MessageListener>> ONLINE_LISTENER_POOL;
+    private static ConcurrentHashMap<Integer, ConcurrentHashMap<Integer, MessageListener>> ONLINE_LISTENER_POOL;
 
     /**
      * The key is user ID and the value is chat room ID
@@ -22,9 +28,11 @@ public class ChatServer {
      */
     private static ConcurrentHashMap<Integer, Integer> ONLINE_USER_POOL;
 
-    public static void updateOnlineUserPool(Integer userId, Integer chatRoomId, MessageListener listener) {
+    public synchronized static void updateOnlineUserPool(Integer userId, Integer chatRoomId, MessageListener listener) {
 
-        Set<MessageListener> temp;
+        ConcurrentHashMap<Integer, MessageListener> temp;
+
+        MessageListener tempListener = null;
 
         /*
         Remove old chatroom listener
@@ -35,33 +43,45 @@ public class ChatServer {
 
             temp = ONLINE_LISTENER_POOL.get(oldChatRoomId);
 
-            temp.remove(listener);
+            tempListener = temp.get(userId);
+
+            temp.remove(userId);
         }
 
         ONLINE_USER_POOL.put(userId, chatRoomId);
 
+        if(tempListener == null){
+
+            tempListener = new MessageListener(listener);
+
+        } else {
+
+            tempListener.updateChatRoom(listener);
+        }
+
+        tempListener.init();
+
         try{
-            if(ONLINE_LISTENER_POOL.get(chatRoomId) == null) {
+            if(!ONLINE_LISTENER_POOL.containsKey(chatRoomId)) {
 
-                temp = new HashSet<>();
-
-                temp.add(listener);
+                temp = new ConcurrentHashMap<>();
 
             } else {
 
                 temp = ONLINE_LISTENER_POOL.get(chatRoomId);
-
-                temp.add(listener);
             }
+
+            temp.put(userId, tempListener);
+
             ONLINE_LISTENER_POOL.put(chatRoomId, temp);
 
         } catch (Exception e){
 
-            e.printStackTrace();
+            LOGGER.error("Error in managing online user pool and listener pool", e);
         }
     }
 
-    public static void removeFromOnlineUserPool(Integer userId, MessageListener listener) {
+    public synchronized static void removeFromOnlineUserPool(Integer userId, MessageListener listener) {
 
         if (ONLINE_USER_POOL.get(userId) == null) {
 
@@ -70,9 +90,14 @@ public class ChatServer {
 
         Integer roomId = ONLINE_USER_POOL.get(userId);
 
-        Set<MessageListener> temp = ONLINE_LISTENER_POOL.get(roomId);
+        ConcurrentHashMap<Integer, MessageListener> temp = ONLINE_LISTENER_POOL.get(roomId);
 
-        temp.remove(listener);
+        temp.remove(userId);
+
+        if(temp.isEmpty()){
+
+            ONLINE_LISTENER_POOL.remove(roomId);
+        }
 
         ONLINE_USER_POOL.remove(roomId);
     }
@@ -83,9 +108,11 @@ public class ChatServer {
 
             if (ONLINE_LISTENER_POOL.containsKey(chatRoomId)) {
 
-                Set<MessageListener> listenerSet = ONLINE_LISTENER_POOL.get(chatRoomId);
+                ConcurrentHashMap<Integer, MessageListener> listenerMap = ONLINE_LISTENER_POOL.get(chatRoomId);
 
-                for(MessageListener listener : listenerSet) {
+                for(Map.Entry<Integer, MessageListener> entry: listenerMap.entrySet()) {
+
+                    MessageListener listener = entry.getValue();
 
                     if(listener.getUser().getId() == userId){
 
@@ -96,7 +123,7 @@ public class ChatServer {
             }
         } catch (Exception e) {
 
-            e.printStackTrace();
+            LOGGER.error("Error in sending message to listener", e);
             return false;
         }
         return true;

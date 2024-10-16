@@ -1,47 +1,68 @@
 package com.psugv.capstone.chat.model;
 
 import com.psugv.capstone.User;
+import com.psugv.capstone.login.model.UserModel;
+import jakarta.persistence.*;
+import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
+@Entity(name = "message")
+@Component("message")
 public class Message {
-    private final int message_id;
-    private final Date date;
-    private final String content;
-    private final ChatRoom chatroom;
-    private final User sender;
 
-    Message(String content, ChatRoom chatroom, User sender) {
-        this.message_id = nextAvailableID();
-        this.date = new Date();
-        this.content = content;
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
+    @Column(name="message_id")
+    private int id;
+
+    private Date time;
+
+    private String content;
+
+    @ManyToOne
+    @JoinColumn(name="id")
+    @Column(name="chat_room_id")
+    private ChatRoom chatroom;
+
+    public Message() {}
+
+    public Message(ChatRoom chatroom, String content, int id, Date time) {
         this.chatroom = chatroom;
-        this.sender = sender;
-    }
-
-    //Queries the postgres database for the next available message_id in the current chatroom
-    private int nextAvailableID() {
-        // TODO
-        return 0;
-    }
-
-    public int getMessage_id() {
-        return message_id;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public String getContent() {
-        return content;
+        this.content = content;
+        this.id = id;
+        this.time = time;
     }
 
     public ChatRoom getChatroom() {
         return chatroom;
     }
 
-    public User getSender() {
-        return sender;
+    public void setChatroom(ChatRoom chatroom) {
+        this.chatroom = chatroom;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Date getTime() {
+        return time;
+    }
+
+    public void setTime(Date time) {
+        this.time = time;
     }
 }

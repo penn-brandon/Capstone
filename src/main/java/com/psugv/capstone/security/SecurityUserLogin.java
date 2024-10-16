@@ -5,6 +5,8 @@ import java.util.*;
 import com.psugv.capstone.login.model.UserAuthorityModel;
 import com.psugv.capstone.login.model.UserModel;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Component;
 @Qualifier("SecurityUserLogin")
 public class SecurityUserLogin implements UserDetails {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(SecurityUserLogin.class);
 
     private static final long serialVersionUID = -6690946490872875352L;
 

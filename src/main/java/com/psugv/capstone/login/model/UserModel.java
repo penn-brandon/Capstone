@@ -33,6 +33,8 @@ public class UserModel implements Serializable {
 
     Date date_of_creation;
 
+    private String name;
+
     String gender;
 
     @JsonIgnore
@@ -46,12 +48,13 @@ public class UserModel implements Serializable {
     //@OneToMany(mappedBy="user",fetch= FetchType.EAGER, cascade=CascadeType.ALL)
     //List<ChatRoom> charRooms;
 
-    public UserModel(Integer id, String username, String password, String gender, Boolean isEnable, Set<UserAuthorityModel> authorities) {
+    public UserModel(Integer id, String username, String password, String name, Date date, String gender, Boolean isEnable, Set<UserAuthorityModel> authorities) {
 
         this.id = id;
         this.username = username;
         this.password = password;
-        this.date_of_creation = new Date();
+        this.name = name;
+        this.date_of_creation = date == null? date: new Date();
         this.gender = gender;
         this.isEnable = isEnable;
         this.authorities = authorities;
@@ -107,6 +110,13 @@ public class UserModel implements Serializable {
         isEnable = enable;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getGender() {
         return gender;

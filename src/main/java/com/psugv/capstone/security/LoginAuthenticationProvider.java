@@ -5,6 +5,8 @@ import java.util.*;
 
 import com.psugv.capstone.login.model.UserAuthorityModel;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -22,6 +24,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class LoginAuthenticationProvider implements AuthenticationProvider {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(LoginAuthenticationProvider.class);
 
     @Autowired
     @Qualifier("LoginUserDetailsService")

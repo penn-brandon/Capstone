@@ -3,10 +3,14 @@ package com.psugv.capstone.util;
 import com.psugv.capstone.chat.model.ChatRoom;
 import com.psugv.capstone.chat.model.ChatRoomName;
 import com.psugv.capstone.login.model.UserModel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
 public class MessageListener {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(MessageListener.class);
 
     private boolean listening = false;
 
@@ -26,29 +30,42 @@ public class MessageListener {
         this.user = user;
     }
 
+    public MessageListener(MessageListener messageListener) {
+        this.room = messageListener.getRoom();
+        this.roomName = messageListener.getRoomName();
+        this.user = messageListener.getUser();
+    }
+
+    public MessageListener(){}
+
     public void init(){
 
-        System.out.println("Listening start");
+        LOGGER.info("Listening start");
+        LOGGER.trace(this.toString());
         listening = true;
         listeringMessage();
     }
 
     public void destroy (){
 
-        System.out.println("Listening stop");
+        LOGGER.info("Listening stop");
+        LOGGER.trace(this.toString() + " !!Ceassed!!");
         listening = false;
         user = null;
         room = null;
         roomName = null;
     }
 
-    public void updateChatRoom(ChatRoom room, ChatRoomName roomName) {
+    public synchronized void updateChatRoom(MessageListener listener) {
 
-        listening = false;
-        System.out.println("Update chat room");
-        this.room = room;
-        this.roomName = roomName;
-        init();
+        synchronized (this){
+
+            listening = false;
+            LOGGER.info("Update chat room");
+            LOGGER.trace(this.toString());
+            this.room = listener.getRoom();
+            this.roomName = listener.getRoomName();
+        }
     }
 
     public synchronized void setMessage(String message) {
@@ -73,16 +90,10 @@ public class MessageListener {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error("Error occurred by listering loop", e);
             destroy();
         }
-        System.out.println("Stop listening ");
-    }
-
-    @Override
-    public int hashCode(){
-
-        return user.getId();
+        LOGGER.warn(this.toString() + "!!!Stop listening!!!");
     }
 
     public boolean isListening() {
@@ -99,5 +110,11 @@ public class MessageListener {
 
     public UserModel getUser() {
         return user;
+    }
+
+    @Override
+    public String toString(){
+
+        return user.getName() + " is listening to chat room " + roomName;
     }
 }
