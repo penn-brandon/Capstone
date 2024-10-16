@@ -1,0 +1,133 @@
+/* For less than 750 px */
+
+/* Link for colors: https://coolors.co/palette/03045e-023e8a-0077b6-0096c7-00b4d8-48cae4-90e0ef-ade8f4-caf0f8 */
+* {
+    margin: 0;
+    padding: 0;
+    color: black;
+    font-family: "Anta", sans-serif;
+    font-weight: 0;
+    font-style: normal;
+}
+
+body {
+    background-color: #CAF0F8;
+}
+
+/* Navigation Bar */
+nav {
+    position: fixed;
+    width: 95%;
+    top: 2.5%;
+    left:2.5%;
+    right:2.5%;
+    height: 100px;
+    background-color: #48CAE4;
+    font-size: 20px;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
+}
+
+.nav-img {
+    width: 100px;
+    float: left;
+}
+
+.nav-img > img {
+    height: 100px;
+    width: 100px;
+}
+
+.nav-img > p {
+    float: left;
+    color: black;
+}
+
+.nav-logo {
+    left: 100px;
+    top: 35px;
+    position: absolute;
+}
+
+/* WOW THIS IS THE SIGN UP FORM */
+
+.main {
+    width: 100%;
+    margin-top: 225px;
+}
+
+
+.signup-form {
+    top: 225px;
+    width: 450px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.signup-link {
+    text-decoration: none;
+}
+
+.signup-p {
+    margin-top: 10px;
+}
+
+.signup-form-box {
+    background-color: #0096C7;
+    padding: 75px;
+    margin-top: 15px;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
+}
+
+.signup-form-box > p {
+    font-size: 25px;
+}
+
+.signup-form-box-content {
+    margin-top: 10px;
+}
+
+.submit-input {
+    padding: 15px 60px;
+    border-radius: 5px;
+    margin: 5px;
+    border: none;
+    text-align: center;
+}
+
+.submit-form {
+    margin-top: 5px;
+    height: 50px;
+    width: 100px;
+    border-radius: 5px;
+    border: none;
+    background-color: #0077B6;
+}
+
+.signup-form-box-content > input::placeholder {
+    text-align: center;
+}
+
+.signup-form-no-account {
+    margin-top: 10px;
+}
+
+/* FOOTER */
+footer {
+    height: 50px;
+    position: fixed;
+    width: 50%;
+    left: 25%;
+    right: 25%;
+    bottom: 2.5%;
+    background-color: #48CAE4;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
+}
+.footer-copyright {
+    margin-top:15px;
+    text-align: center;
+}
+

@@ -35,9 +35,8 @@ public class WebSecurityConfig {
                         .requestMatchers("/css/**", "/images/**", "/javascript/**", "/sql/**", "/views/**").permitAll()
                         .requestMatchers("/", "/login", "/signup", "/index", "/error").permitAll()
                         .requestMatchers("/chat", "/send", "/select", "/loadMessage", "/loadAllChatRoomName").authenticated()
-                        //.requestMatchers("/view/open/error", "/view/open/index", "/view/open/login", "/view/open/signup").permitAll()
+                        .requestMatchers("/getMessage").authenticated()
                         //.requestMatchers("**/error", "**/index", "**/login", "**/signup").permitAll()
-                        //.requestMatchers("/chat").authenticated()
                         .anyRequest().authenticated()
                 );
 

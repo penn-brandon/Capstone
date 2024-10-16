@@ -1,15 +1,139 @@
-main {
+/* CHAT NAVBAR */
+
+.profile {
+    right: 2.5%;
     position: absolute;
-    top: 200px;
-    margin-left: 10%;
+    margin-top: 25px;
+    height: 50px;
+    width: 50px;
 }
 
+.profile-dropdown {
+    position: absolute;
+    right: 2.5%;
+    top: 80px;
+}
+
+.profile-dropdown > a {
+    padding: 10px;
+    margin-bottom: 5px;
+    border-radius: 10px;
+    display: block;
+}
+
+.profile-dropdown > a {
+    text-decoration: none;
+    color: black;
+    background-color: orange;
+}
+
+
+
+/* Friends list */
+.connections-nav {
+    margin-top: 150px;
+    width: 95%;
+    margin-left: 2.5%;
+    margin-right: 2.5%;
+}
+
+.friends {
+    padding: 10px;
+    position: absolute;
+    background-color: blue;
+    text-align: center;
+    width: 110px;
+    border-radius: 10px;
+    float:right;
+    margin-right: 10px;
+    z-index: 2;
+}
+
+.friends-button {
+    width: 100px;
+    text-align: center;
+}
+
+.friends-button > p {
+    float:left;
+}
+
+.friends-button > img {
+    height: 20px;
+    width: 20px;
+    margin-right: 10px;
+}
+
+.friends-button:hover {
+    cursor: pointer;
+}
+
+.friends-list {
+    display: none;
+}
+
+.friends-list > p {
+    margin-top: 10px;
+    padding: 10px;
+    width: auto;
+    box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
+}
+
+.friends-list > p:hover {
+    cursor: pointer;
+}
+
+.channels {
+    padding: 10px;
+    position: absolute;
+    background-color: orange;
+    text-align: center;
+    width: 110px;
+    border-radius: 10px;
+    float:right;
+    margin-right: 10px;
+    z-index: 2;
+    left: 175px;
+}
+.channels-button:hover {
+    cursor: pointer;
+}
+
+.channels-button > p {
+    float:left;
+    margin-left: 10px;
+}
+
+.channels-button > img {
+    height: 20px;
+    width: 20px;
+    margin-right: 10px;
+}
+
+.channels-list {
+    display: none;
+}
+
+.channels-list > p {
+    margin-top: 10px;
+    padding: 10px;
+    width: auto;
+    box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
+}
+
+/* Connections list */
+
+/* CHAT BOX */
 .current-chat {
+    position: absolute;
+    top: 250px;
+    margin-left: 2.5%;
     background-color: blue;
     border: 1px solid black;
     border-radius: 10px;
-    width: 900px;
+    width: 95%;
     height: 50%;
+    z-index: 1;
 }
 
 .chat-row {
@@ -21,17 +145,19 @@ main {
     background-color: green;
     width: 45%;
     border-radius: 10px;
-    border:none;
+    border: none;
     padding: 10px;
 }
 
 .chat-timestamp {
-    float:left;
+    float: left;
 }
+
 .chat-sender {
     float: left;
     margin-left: 10px;
 }
+
 .chat-message-data {
     clear: both;
 }
@@ -41,36 +167,29 @@ main {
     background-color: orange;
     width: 45%;
     border-radius: 10px;
-    border:none;
+    border: none;
     padding: 10px;
 }
 
 .chat-timestamp-response {
-    float:right;
+    float: right;
 }
+
 .chat-sender-response {
     float: right;
     margin-right: 10px;
 }
+
 .chat-message-data-response {
-    float:right;
+    float: right;
 }
 
-
-
-
-
-
-
 .chat-send {
-    position:absolute;
+    position: absolute;
     bottom: 15px;
     left: 15px;
-    padding-left: 0;
-    padding-right: 600px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    resize:none;
+    padding: 10px 600px 10px 0;
+    resize: none;
 }
 
 .chat-send-icon {
