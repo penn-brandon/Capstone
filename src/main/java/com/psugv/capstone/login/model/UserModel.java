@@ -2,6 +2,7 @@ package com.psugv.capstone.login.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.Setter;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
@@ -24,18 +25,19 @@ public class UserModel implements Serializable {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     @Column(name="user_id")
-    int id;
+    private int id;
 
-    String username;
+    private String username;
 
     @JsonIgnore
-    String password;
+    private String password;
 
-    Date date_of_creation;
+    private Date date_of_creation;
 
+    @Setter
     private String name;
 
-    String gender;
+    private String gender;
 
     @JsonIgnore
     @OneToMany(mappedBy="userModel",fetch= FetchType.EAGER, cascade=CascadeType.ALL)
@@ -112,10 +114,6 @@ public class UserModel implements Serializable {
 
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getGender() {

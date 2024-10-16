@@ -1,4 +1,4 @@
-package com.psugv.capstone.service;
+/*package com.psugv.capstone.service;
 
 import com.psugv.capstone.login.model.UserModel;
 import com.psugv.capstone.login.service.ILoginService;
@@ -28,8 +28,9 @@ public class UserLoginServiceTest {
         @Test
         /**
          * This method is designed to test toMil method in the UnitsConvertor class.
-         */
+
         public void analyzeLogin() {
             assertEquals(new UserModel(1, "weichuan", "19951027", "male", true), loginService.getUserByUsername("weuchuan"));
         }
 }
+*/

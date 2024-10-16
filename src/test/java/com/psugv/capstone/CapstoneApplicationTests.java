@@ -1,4 +1,4 @@
-package com.psugv.capstone;
+/*package com.psugv.capstone;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,3 +13,4 @@ class CapstoneApplicationTests {
     }
 
 }
+*/

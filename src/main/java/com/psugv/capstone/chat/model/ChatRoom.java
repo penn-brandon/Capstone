@@ -21,11 +21,9 @@ public class ChatRoom {
     private Integer id;
 
     @JsonIgnore
-    @OneToMany(mappedBy="chatroom",fetch= FetchType.EAGER, cascade=CascadeType.ALL)
+    @OneToMany(mappedBy="chatRoom",fetch= FetchType.EAGER, cascade=CascadeType.ALL)
     private Set<ChatRoomName> chatRoomName;
 
-    @OneToMany(mappedBy="chatroom",fetch= FetchType.EAGER, cascade=CascadeType.ALL)
-    private List<Message> messages;
 
     private Boolean joinable;
 
@@ -50,14 +48,6 @@ public class ChatRoom {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public List<Message> getMessages() {
-        return messages;
-    }
-
-    public void setMessages(List<Message> messages) {
-        this.messages = messages;
     }
 
     public Boolean getJoinable() {

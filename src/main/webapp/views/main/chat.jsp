@@ -20,17 +20,18 @@
 
     <script defer>
         window.onload = () => {
-            getMessages();
+            getChatRooms()
         }
 
-        function sendMessage() {
+        async function sendMessage() {
             const message = document.getElementById('chat-send').value;
             const chatroom = document.getElementById('TODO').value;
 
-            fetch('/sendMessage', {
+            fetch('/getMessage', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
+
                 },
                 body: JSON.stringify({
                     chatRoom: chatroom,
@@ -42,16 +43,23 @@
                 .catch(error => console.error('ERROR:', error));
         }
 
-        function getMessages() {
-            fetch('/getMessage', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
+        async function getChatRooms() {
+            const channel_name = document.getElementById("channels-list");
+
+            const url = '/Capstone/loadAllChatRoomName';
+            try {
+                const response = await fetch(url, {method: 'GET'});
+                if (!response.ok) {
+                    console.log("ERROR: "+  response.status);
                 }
-            })
-                .then(response => response.text())
-                .then(data => console.log(data))
-                .catch(error => console.error('ERROR:', error));
+                const json = await response.json();
+
+                console.log(json);
+
+                return json;
+            } catch (error) {
+                console.error(error.message);
+            }
         }
     </script>
 
