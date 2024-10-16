@@ -20,7 +20,8 @@
 
     <script defer>
         window.onload = () => {
-            getChatRooms()
+            let chat_rooms = getChatRooms();
+            displayChatRooms(chat_rooms);
         }
 
         async function sendMessage() {
@@ -44,22 +45,47 @@
         }
 
         async function getChatRooms() {
-            const channel_name = document.getElementById("channels-list");
-
-            const url = '/Capstone/loadAllChatRoomName';
             try {
-                const response = await fetch(url, {method: 'GET'});
+                const response = await fetch('/Capstone/loadAllChatRoomName', {method: 'GET'});
                 if (!response.ok) {
                     console.log("ERROR: "+  response.status);
                 }
                 const json = await response.json();
 
-                console.log(json);
-
-                return json;
+                let chat_rooms = [];
+                for (let i = 0; i < json.length; i++) {
+                    let curChatRoom = [];
+                    curChatRoom += json[i].chatRoomName;
+                    curChatRoom += json[i].chatRoomId;
+                    curChatRoom +=json[i].lastModifiedDate;
+                    chat_rooms += curChatRoom;
+                }
+                return chat_rooms;
             } catch (error) {
                 console.error(error.message);
             }
+        }
+        function displayChatRooms(chats) {
+            const channel_name = document.getElementById("channels-list");
+            for (let i = 0; i < chats.length; i++) {
+                let chat_room_name = document.createElement('span');
+                chat_room_name.textContent = chats[i][0];
+
+                let chat_room_id = document.createElement('span');
+                chat_room_id.textContent = chats[i][1];
+
+                let lastModifiedDate = document.createElement('span');
+                lastModifiedDate.textContent = chats[i][2];
+
+                let new_chat = document.createElement('p');
+                new_chat.appendChild(chat_room_name);
+                new_chat.appendChild(chat_room_id);
+                new_chat.appendChild(lastModifiedDate);
+
+                channel_name.appendChild(new_chat);
+
+            }
+
         }
     </script>
 

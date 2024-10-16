@@ -2,6 +2,7 @@ use capstone;
 
 drop table IF EXISTS user;
 drop table IF EXISTS authorities;
+drop table IF EXISTS chatroom;
 
 create table authorities
 (
@@ -22,23 +23,6 @@ create table user
     is_Enable        bool         not null,
     FOREIGN KEY (authority_id) REFERENCES authorities (authority_id)
 );
-
-CREATE TABLE IF NOT EXISTS ChatRoom(
-                                       id INT PRIMARY KEY,
-                                       joinable BOOLEAN NOT NULL DEFAULT TRUE,
-);
-
-CREATE TABLE IF NOT EXISTS ChatRoomName(
-                                           chat_room_name_id INT PRIMARY KEY,
-                                           user INT,
-                                           ChatRoom INT NOT NULL,
-                                           admin BOOLEAN NOT NULL,
-                                           chat_room_name TEXT NOT NULL,
-                                           last_motified DATE NOT NULL DEFAULT NOW(),
-                                           FOREIGN KEY (user) REFERENCES User(id),
-                                           FOREIGN KEY (ChatRoom) REFERENCES ChatRoom(id),
-);
-
 
 
 insert into authorities (user_id,
@@ -61,3 +45,10 @@ values ('Bob the builder',
         TRUE,
         1);
 
+CREATE TABLE IF NOT EXISTS ChatRoom (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    joinable TINYINT(1) NOT NULL DEFAULT 0
+);
+
+insert into chatroom(joinable) values(FALSE);
+insert into chatroom(joinable) values(FALSE);
