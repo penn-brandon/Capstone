@@ -19,7 +19,7 @@ public class UserAuthorityModel {
     private String authorityName;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "id")
     private UserModel userModel;
 
     public UserAuthorityModel() {}

@@ -1,6 +1,8 @@
 package com.psugv.capstone.security;
 
 import com.psugv.capstone.login.model.UserModel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.password.CompromisedPasswordChecker;
@@ -25,15 +27,16 @@ import static org.springframework.security.web.util.matcher.AntPathRequestMatche
 @Configuration
 public class WebSecurityConfig {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(WebSecurityConfig.class);
+
     @Bean
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/css/**", "/images/**", "/javascript/**", "/sql/**", "/views/**").permitAll()
                         .requestMatchers("/", "/login", "/signup", "/index", "/error").permitAll()
-                        //.requestMatchers("**/error.jsp", "**/index.jsp", "**/login.jsp", "**/signup.jsp").permitAll()
-                        //.requestMatchers("/view/open/error", "/view/open/index", "/view/open/login", "/view/open/signup").permitAll()
+                        .requestMatchers("/chat", "/send", "/select", "/loadMessage", "/loadAllChatRoomName").authenticated()
+                        .requestMatchers("/getMessage").authenticated()
                         //.requestMatchers("**/error", "**/index", "**/login", "**/signup").permitAll()
-                        .requestMatchers("/chat","/getMessage").authenticated()
                         .anyRequest().authenticated()
                 );
 

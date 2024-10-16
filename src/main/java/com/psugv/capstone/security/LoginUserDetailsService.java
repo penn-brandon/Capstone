@@ -5,6 +5,8 @@ import com.psugv.capstone.login.model.UserModel;
 
 import com.psugv.capstone.login.repository.IUserDAO;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,6 +18,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Qualifier("LoginUserDetailsService")
 public class LoginUserDetailsService implements UserDetailsService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(LoginUserDetailsService.class);
 
     @Autowired
     private IUserDAO userDAO;

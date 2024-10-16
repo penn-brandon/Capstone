@@ -1,6 +1,5 @@
-package com.psugv.capstone.repository.login;
+package com.psugv.capstone.repository;
 
-import com.psugv.capstone.login.model.UserModel;
 import com.psugv.capstone.login.model.UserModel;
 import com.psugv.capstone.login.repository.IUserDAO;
 import org.junit.Test;

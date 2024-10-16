@@ -23,8 +23,8 @@ public class UserModel implements Serializable {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-            @Column(name="user_id")
-    int user_id;
+    @Column(name="user_id")
+    int id;
 
     String username;
 
@@ -32,6 +32,8 @@ public class UserModel implements Serializable {
     String password;
 
     Date date_of_creation;
+
+    private String name;
 
     String gender;
 
@@ -46,24 +48,26 @@ public class UserModel implements Serializable {
     //@OneToMany(mappedBy="user",fetch= FetchType.EAGER, cascade=CascadeType.ALL)
     //List<ChatRoom> charRooms;
 
-    public UserModel(Integer id, String username, String password, String gender, Boolean isEnable) {
+    public UserModel(Integer id, String username, String password, String name, Date date, String gender, Boolean isEnable, Set<UserAuthorityModel> authorities) {
 
-        user_id = id;
+        this.id = id;
         this.username = username;
         this.password = password;
-        this.date_of_creation = new Date();
+        this.name = name;
+        this.date_of_creation = date == null? date: new Date();
         this.gender = gender;
         this.isEnable = isEnable;
+        this.authorities = authorities;
     }
 
     public UserModel() {}
 
-    public int getUser_id() {
-        return user_id;
+    public int getId() {
+        return id;
     }
 
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getUsername() {
@@ -106,6 +110,13 @@ public class UserModel implements Serializable {
         isEnable = enable;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getGender() {
         return gender;
@@ -119,7 +130,7 @@ public class UserModel implements Serializable {
     public boolean equals(Object object) {
 
         UserModel user = (UserModel) object;
-        if(this.user_id == user.user_id && this.username.equals(user.username)){
+        if(this.id == user.id && this.username.equals(user.username)){
             return true;
         }
         return false;

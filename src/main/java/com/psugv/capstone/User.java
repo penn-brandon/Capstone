@@ -1,5 +1,7 @@
 package com.psugv.capstone;
 
+import com.psugv.capstone.chat.model.ChatRoom;
+
 import java.util.ArrayList;
 import java.util.Date;
 

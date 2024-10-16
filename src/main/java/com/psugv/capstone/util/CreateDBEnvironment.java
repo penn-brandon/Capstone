@@ -5,6 +5,8 @@ package com.psugv.capstone.util;
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityManager;
 import org.apache.ibatis.jdbc.ScriptRunner;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -17,6 +19,8 @@ import java.sql.DriverManager;
 
 @Component
 public class CreateDBEnvironment {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(CreateDBEnvironment.class);
 
     @Autowired
     private EntityManager entityManager;
@@ -38,24 +42,24 @@ public class CreateDBEnvironment {
     @PostConstruct
     public void init() {
 
-        System.out.println("set up DB");
+        LOGGER.info("set up DB");
         setupDB();
     }
 
     private void setupDB(){
 
-        System.out.println("connection is open ");
+        LOGGER.trace("connection is open ");
 
         try(Connection connection = DriverManager.getConnection(URL, username, password)) {
 
             scriptRunner = new ScriptRunner(connection);
 
-            System.out.println("Implementing set up method");
+            LOGGER.info("Implementing set up method");
             establishTables(initializeTablesFilePath);
 
         } catch (Exception e) {
 
-            e.printStackTrace();
+            LOGGER.error("Fail to run sql script file", e);
         }
     }
 
@@ -68,9 +72,8 @@ public class CreateDBEnvironment {
         } catch(Exception e){
 
             File f = new File(".");
-            System.err.println(f.getAbsolutePath());
 
-            e.printStackTrace();
+            LOGGER.error("Root file path of the project is : " + f.getAbsolutePath(), e);
         }
     }
 }

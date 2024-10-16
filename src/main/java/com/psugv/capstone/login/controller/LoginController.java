@@ -1,24 +1,22 @@
 package com.psugv.capstone.login.controller;
 
-import com.psugv.capstone.login.model.UserModel;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
+
 
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import com.psugv.capstone.login.service.ILoginService;
 
 @Controller
-@SessionAttributes({"userModel"})
 @Component
 public class LoginController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
 
     @Autowired
     private ILoginService loginService;
@@ -49,20 +47,6 @@ public class LoginController {
         return "/open/error";
     }
 
-    @GetMapping(path="/chat")
-    public String toChatPage(Model model) {
-        /*
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-
-        System.out.println("Storing user to seesion: " + username);
-        System.out.println("Storing user to seesion: " + authentication.getCredentials());
-        UserModel userModel = loginService.getUserByUsername(username);
-        model.addAttribute("userModel", userModel);
-
-         */
-        return "/main/chat";
-    }
 
 /*
     @GetMapping(path="/logout")
