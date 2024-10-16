@@ -2,7 +2,7 @@ use capstone;
 
 drop table IF EXISTS chatroomname;
 
-CREATE TABLE IF NOT EXISTS ChatRoomName(
+CREATE TABLE IF NOT EXISTS 1_ChatRoomName(
     chat_room_name_id INT PRIMARY KEY,
     user_id INT,
     ChatRoom_id INT NOT NULL,
@@ -14,5 +14,5 @@ CREATE TABLE IF NOT EXISTS ChatRoomName(
 );
 
 
-insert into chatroomname (user_id,ChatRoom, admin, chat_room_name, last_motified) values (1,1,False,"Hello People",NOW() );
-insert into chatroomname (user_id,ChatRoom, admin, chat_room_name, last_motified) values (1,2,False,"Discover Knime",NOW() );
+insert into 1_chatroomname (user_id,ChatRoom, admin, chat_room_name, last_motified) values (1,1,False,"Hello People",NOW() );
+insert into 1_chatroomname (user_id,ChatRoom, admin, chat_room_name, last_motified) values (1,2,False,"Discover Knime",NOW() );

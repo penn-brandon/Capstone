@@ -67,6 +67,11 @@
         }
         function displayChatRooms(chats) {
             const channel_name = document.getElementById("channels-list");
+
+            while (channel_name.firstChild) {
+                channel_name.removeChild(channel_name.lastChild);
+            }
+
             for (let i = 0; i < chats.length; i++) {
                 let chat_room_name = document.createElement('span');
                 chat_room_name.textContent = chats[i][0];

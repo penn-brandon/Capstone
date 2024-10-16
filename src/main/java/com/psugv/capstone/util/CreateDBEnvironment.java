@@ -28,6 +28,9 @@ public class CreateDBEnvironment {
     @Value("${initialize.db.tables}")
     private String initializeTablesFilePath;
 
+    @Value("${initialize.db.tables.test}")
+    private String initializeTestingTablesFilePath;
+
     @Value("${spring.datasource.url}")
     private String URL;
 
@@ -56,6 +59,8 @@ public class CreateDBEnvironment {
 
             LOGGER.info("Implementing set up method");
             establishTables(initializeTablesFilePath);
+
+            establishTables(initializeTestingTablesFilePath);
 
         } catch (Exception e) {
 
