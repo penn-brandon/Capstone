@@ -33,7 +33,7 @@ public class WebSecurityConfig {
                         //.requestMatchers("**/error.jsp", "**/index.jsp", "**/login.jsp", "**/signup.jsp").permitAll()
                         //.requestMatchers("/view/open/error", "/view/open/index", "/view/open/login", "/view/open/signup").permitAll()
                         //.requestMatchers("**/error", "**/index", "**/login", "**/signup").permitAll()
-                        .requestMatchers("/chat").authenticated()
+                        .requestMatchers("/chat","/getMessage").authenticated()
                         .anyRequest().authenticated()
                 );
 
