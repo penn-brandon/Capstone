@@ -27,10 +27,13 @@ public class ChatRoom {
     @OneToMany(mappedBy="chatroom",fetch= FetchType.EAGER, cascade=CascadeType.ALL)
     private List<Message> messages;
 
+    private Boolean joinable;
+
     public ChatRoom(){}
 
-    public ChatRoom(Integer id) {
+    public ChatRoom(Integer id, Boolean joinable) {
         this.id = id;
+        this.joinable = joinable;
     }
 
     public Set<ChatRoomName> getChatRoomName() {
@@ -55,5 +58,13 @@ public class ChatRoom {
 
     public void setMessages(List<Message> messages) {
         this.messages = messages;
+    }
+
+    public Boolean getJoinable() {
+        return joinable;
+    }
+
+    public void setJoinable(Boolean joinable) {
+        this.joinable = joinable;
     }
 }

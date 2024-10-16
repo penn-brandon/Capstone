@@ -13,14 +13,14 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class ChatDAO {
+public class ChatDAO implements IChatDAO {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ChatDAO.class);
 
     @Autowired
     EntityManager entityManager;
 
-    private static final String CHAT_ROOM_NAME_POSTFIX = "_chat_room_name";
+    private static final String CHAT_ROOM_NAME_POSTFIX = "_chatroomname";
 
     private static final String MESSAGE_POSTFIX = "_message";
 
@@ -64,7 +64,29 @@ public class ChatDAO {
         return result;
     }
 
-    public ChatRoom getChatroom(Integer chatroomId){
+    @Override
+    public ChatRoomName findChatRoomName(Integer userId, Integer chatRoomId) {
+
+        ChatRoomName result;
+
+        try{
+            StringBuilder sql = new StringBuilder().append("select * from ").append(userId).append(CHAT_ROOM_NAME_POSTFIX).append(" where chat_room_name_id = ").append(chatRoomId);
+
+            Query query = entityManager.createNativeQuery(sql.toString());
+
+            result = (ChatRoomName) query.getSingleResult();
+
+        } catch (Exception e){
+
+            LOGGER.error("Fail to find the chat room name", e);
+
+            return null;
+        }
+        return result;
+    }
+
+    @Override
+    public ChatRoom findChatRoom(Integer chatroomId){
 
         ChatRoom result;
 
