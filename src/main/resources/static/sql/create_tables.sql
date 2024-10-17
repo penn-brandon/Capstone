@@ -1,7 +1,4 @@
 use capstone;
-drop table IF EXISTS authorities;
-drop table IF EXISTS user;
-drop table IF EXISTS chatroom;
 
 create table authorities
 (
@@ -23,31 +20,8 @@ create table user
     FOREIGN KEY (authority_id) REFERENCES authorities (authority_id)
 );
 
-
-insert into authorities (user_id,
-                         authorityName)
-values (1,
-        'NORMAL');
-
-insert into user(name,
-                 gender,
-                 username,
-                 password,
-                 date_of_creation,
-                 is_Enable,
-                 authority_id)
-values ('Bob the builder',
-        'male',
-        'weichuan',
-        '19951027',
-        '2024-09-25',
-        TRUE,
-        1);
-
-CREATE TABLE IF NOT EXISTS ChatRoom (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE ChatRoom (
+    chat_room_id INT AUTO_INCREMENT PRIMARY KEY,
     joinable TINYINT(1) NOT NULL DEFAULT 0
 );
 
-insert into chatroom(joinable) values(FALSE);
-insert into chatroom(joinable) values(FALSE);

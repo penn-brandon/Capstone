@@ -67,7 +67,8 @@ public class ChatService implements IChatService {
         return chatDAO.getAllChatroomName(userModel.getId());
     }
 
-    /*@Scheduled(fixedRate = 5000)
+    /*
+    @Scheduled(fixedRate = 5000)
     public void sendUpdate() {
 
        messagingTemplate.convertAndSend("/topic/updates", "Update: " + System.currentTimeMillis());

@@ -1,5 +1,6 @@
 package com.psugv.capstone.chat.model;
 
+import com.psugv.capstone.login.model.UserModel;
 import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +22,8 @@ public class Message {
     @ManyToOne
     @JoinColumn(name="id")
     private ChatRoom chatroom;
+
+    private Boolean sender;
 
     public Message() {}
 
@@ -61,5 +64,13 @@ public class Message {
 
     public void setTime(Date time) {
         this.time = time;
+    }
+
+    public Boolean getSender() {
+        return sender;
+    }
+
+    public void setSender(Boolean sender) {
+        this.sender = sender;
     }
 }

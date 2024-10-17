@@ -11,7 +11,7 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 
 import java.util.ListIterator;
 import java.util.concurrent.ConcurrentHashMap;
-
+/*
 @Configuration
 @EnableWebSocketMessageBroker
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
@@ -20,7 +20,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     /**
      * The key is user ID and the value is listener.
-     */
+     *//*
     private static ConcurrentHashMap<Integer, MessageListener> socketMap = new ConcurrentHashMap<>();
 
     @Override
@@ -41,3 +41,4 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
 
 }
+*/

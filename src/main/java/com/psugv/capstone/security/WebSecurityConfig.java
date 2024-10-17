@@ -21,7 +21,6 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.password.HaveIBeenPwnedRestApiPasswordChecker;
 
-import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
 @EnableWebSecurity
 @Configuration
@@ -54,8 +53,6 @@ public class WebSecurityConfig {
                         .loginPage("/login").permitAll()
                         .defaultSuccessUrl("/chat", true)
                         .failureUrl("/login?failed").permitAll());
-
-//        http.formLogin(Customizer.withDefaults());
 
         return http.build();
     }

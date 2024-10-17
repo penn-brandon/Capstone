@@ -25,11 +25,20 @@ public class CreateDBEnvironment {
     @Autowired
     private EntityManager entityManager;
 
+    @Value("${drop.db.tables}")
+    private String dropTablesFilePath;
+
     @Value("${initialize.db.tables}")
     private String initializeTablesFilePath;
 
     @Value("${initialize.db.tables.test}")
     private String initializeTestingTablesFilePath;
+
+    @Value("${initialize.db.tables.insert}")
+    private String insertTablesFilePath;
+
+    @Value("${initialize.db.tables.test.insert}")
+    private String insertTestingTablesFilePath;
 
     @Value("${spring.datasource.url}")
     private String URL;
@@ -59,9 +68,15 @@ public class CreateDBEnvironment {
 
             LOGGER.info("Implementing set up method");
 
-            establishTables(initializeTestingTablesFilePath);
+            implementScript(dropTablesFilePath);
 
-            establishTables(initializeTablesFilePath);
+            implementScript(initializeTablesFilePath);
+
+            implementScript(initializeTestingTablesFilePath);
+
+            implementScript(insertTablesFilePath);
+
+            implementScript(insertTestingTablesFilePath);
 
         } catch (Exception e) {
 
@@ -69,7 +84,7 @@ public class CreateDBEnvironment {
         }
     }
 
-    private void establishTables(String filePath){
+    private void implementScript(String filePath){
 
         try(BufferedReader br = new BufferedReader(new FileReader(filePath))){
 

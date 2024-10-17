@@ -18,7 +18,7 @@ public class ChatRoomName {
     private String chatRoomName;
 
     @OneToOne
-    @JoinColumn(name="id")
+    @JoinColumn(name="chat_room_id")
     private ChatRoom chatRoom;
 
     private Boolean admin;
