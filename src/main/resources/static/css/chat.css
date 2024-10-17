@@ -6,6 +6,12 @@
     margin-top: 25px;
     height: 50px;
     width: 50px;
+    border-radius: 10px;
+    border: none;
+}
+
+.profile:hover {
+    cursor: pointer;
 }
 
 .profile-dropdown {
@@ -88,7 +94,7 @@
     position: absolute;
     background-color: orange;
     text-align: center;
-    width: 110px;
+    width: auto;
     border-radius: 10px;
     float:right;
     margin-right: 10px;
@@ -117,8 +123,11 @@
 .channels-list > p {
     margin-top: 10px;
     padding: 10px;
-    width: auto;
     box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
+}
+
+span {
+    padding: 10px;
 }
 
 /* Connections list */
@@ -188,16 +197,21 @@
     position: absolute;
     bottom: 15px;
     left: 15px;
-    padding: 10px 600px 10px 0;
+    width: 85%;
+    height: 60px;
     resize: none;
 }
 
 .chat-send-icon {
     position: absolute;
     bottom: 15px;
-    right: 30px;
+    right: 4%;
     height: 60px;
     width: 60px;
     background-color: red;
     border-radius: 10px;
 }
+.chat-send-icon:hover {
+    cursor: pointer;
+}
+

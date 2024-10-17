@@ -30,5 +30,4 @@ function channels_click(location){
         channels_list.style.display = "block";
         channels_drop.src = location + "chevron-up.svg";
     }
-
 }
