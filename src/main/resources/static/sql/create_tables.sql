@@ -1,7 +1,6 @@
 use capstone;
-
-drop table IF EXISTS user;
 drop table IF EXISTS authorities;
+drop table IF EXISTS user;
 drop table IF EXISTS chatroom;
 
 create table authorities

@@ -16,3 +16,10 @@ CREATE TABLE IF NOT EXISTS 1_ChatRoomName(
 
 insert into 1_chatroomname (user_id,ChatRoom, admin, chat_room_name, last_motified) values (1,1,False,"Hello People",NOW() );
 insert into 1_chatroomname (user_id,ChatRoom, admin, chat_room_name, last_motified) values (1,2,False,"Discover Knime",NOW() );
+
+create table if not exist 1_message(
+    message_id int primary key,
+    time DATETIME not null default current timestamp,
+    content varchar(max) not null,
+    
+);

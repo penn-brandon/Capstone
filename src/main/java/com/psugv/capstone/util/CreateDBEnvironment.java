@@ -58,9 +58,10 @@ public class CreateDBEnvironment {
             scriptRunner = new ScriptRunner(connection);
 
             LOGGER.info("Implementing set up method");
-            establishTables(initializeTablesFilePath);
 
             establishTables(initializeTestingTablesFilePath);
+
+            establishTables(initializeTablesFilePath);
 
         } catch (Exception e) {
 
