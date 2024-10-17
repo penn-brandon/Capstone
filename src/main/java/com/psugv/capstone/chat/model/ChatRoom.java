@@ -21,24 +21,25 @@ public class ChatRoom {
     private Integer id;
 
     @JsonIgnore
-    @OneToMany(mappedBy="chatRoom",fetch= FetchType.EAGER, cascade=CascadeType.ALL)
-    private Set<ChatRoomName> chatRoomName;
+    @OneToOne(mappedBy="chatRoom",fetch= FetchType.EAGER, cascade=CascadeType.ALL)
+    private ChatRoomName chatRoomName;
 
 
     private Boolean joinable;
 
     public ChatRoom(){}
 
-    public ChatRoom(Integer id, Boolean joinable) {
+    public ChatRoom(Integer id, Boolean joinable, ChatRoomName chatRoomName) {
         this.id = id;
         this.joinable = joinable;
+        this.chatRoomName = chatRoomName;
     }
 
-    public Set<ChatRoomName> getChatRoomName() {
+    public ChatRoomName getChatRoomName() {
         return chatRoomName;
     }
 
-    public void setChatRoomName(Set<ChatRoomName> chatRoomName) {
+    public void setChatRoomName(ChatRoomName chatRoomName) {
         this.chatRoomName = chatRoomName;
     }
 

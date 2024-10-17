@@ -25,7 +25,7 @@ public class UserModel implements Serializable {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     @Column(name="user_id")
-    private int id;
+    private Integer id;
 
     private String username;
 
@@ -41,14 +41,11 @@ public class UserModel implements Serializable {
 
     @JsonIgnore
     @OneToMany(mappedBy="userModel",fetch= FetchType.EAGER, cascade=CascadeType.ALL)
-    Set<UserAuthorityModel> authorities;
+    private Set<UserAuthorityModel> authorities;
 
     @JsonIgnore
     @Column(name="is_Enable")
-    Boolean isEnable;
-
-    //@OneToMany(mappedBy="user",fetch= FetchType.EAGER, cascade=CascadeType.ALL)
-    //List<ChatRoom> charRooms;
+    private Boolean isEnable;
 
     public UserModel(Integer id, String username, String password, String name, Date date, String gender, Boolean isEnable, Set<UserAuthorityModel> authorities) {
 
