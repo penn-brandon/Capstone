@@ -2,6 +2,7 @@ package com.psugv.capstone.login.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.Setter;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
@@ -33,6 +34,7 @@ public class UserModel implements Serializable {
 
     private Date date_of_creation;
 
+    @Setter
     private String name;
 
     private String gender;
@@ -109,10 +111,6 @@ public class UserModel implements Serializable {
 
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getGender() {

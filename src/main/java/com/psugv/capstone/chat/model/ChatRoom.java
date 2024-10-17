@@ -24,6 +24,7 @@ public class ChatRoom {
     @OneToOne(mappedBy="chatRoom",fetch= FetchType.EAGER, cascade=CascadeType.ALL)
     private ChatRoomName chatRoomName;
 
+
     private Boolean joinable;
 
     public ChatRoom(){}

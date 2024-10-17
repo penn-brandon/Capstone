@@ -20,7 +20,6 @@ public class Message {
 
     @ManyToOne
     @JoinColumn(name="id")
-    @Column(name="chat_room_id")
     private ChatRoom chatroom;
 
     public Message() {}

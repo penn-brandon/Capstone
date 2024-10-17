@@ -20,17 +20,19 @@
 
     <script defer>
         window.onload = () => {
-            getMessages();
+            let chat_rooms = getChatRooms();
+            displayChatRooms(chat_rooms);
         }
 
-        function sendMessage() {
+        async function sendMessage() {
             const message = document.getElementById('chat-send').value;
             const chatroom = document.getElementById('TODO').value;
 
-            fetch('/sendMessage', {
+            fetch('/getMessage', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
+
                 },
                 body: JSON.stringify({
                     chatRoom: chatroom,
@@ -42,16 +44,53 @@
                 .catch(error => console.error('ERROR:', error));
         }
 
-        function getMessages() {
-            fetch('/getMessage', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
+        async function getChatRooms() {
+            try {
+                const response = await fetch('/Capstone/loadAllChatRoomName', {method: 'GET'});
+                if (!response.ok) {
+                    console.log("ERROR: "+  response.status);
                 }
-            })
-                .then(response => response.text())
-                .then(data => console.log(data))
-                .catch(error => console.error('ERROR:', error));
+                const json = await response.json();
+
+                let chat_rooms = [];
+                for (let i = 0; i < json.length; i++) {
+                    let curChatRoom = [];
+                    curChatRoom += json[i].chatRoomName;
+                    curChatRoom += json[i].chatRoomId;
+                    curChatRoom +=json[i].lastModifiedDate;
+                    chat_rooms += curChatRoom;
+                }
+                return chat_rooms;
+            } catch (error) {
+                console.error(error.message);
+            }
+        }
+        function displayChatRooms(chats) {
+            const channel_name = document.getElementById("channels-list");
+
+            while (channel_name.firstChild) {
+                channel_name.removeChild(channel_name.lastChild);
+            }
+
+            for (let i = 0; i < chats.length; i++) {
+                let chat_room_name = document.createElement('span');
+                chat_room_name.textContent = chats[i][0];
+
+                let chat_room_id = document.createElement('span');
+                chat_room_id.textContent = chats[i][1];
+
+                let lastModifiedDate = document.createElement('span');
+                lastModifiedDate.textContent = chats[i][2];
+
+                let new_chat = document.createElement('p');
+                new_chat.appendChild(chat_room_name);
+                new_chat.appendChild(chat_room_id);
+                new_chat.appendChild(lastModifiedDate);
+
+                channel_name.appendChild(new_chat);
+
+            }
+
         }
     </script>
 

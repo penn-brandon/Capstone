@@ -28,14 +28,14 @@ public class UserDAO implements IUserDAO {
         UserModel um;
         try {
             //return entityManager.createQuery("from capstone.user where username = " + userName, UserModel.class).setParameter("userName", userName).getSingleResult();
-            Query user_query = entityManager.createNativeQuery("select * from user where username = ?", UserModel.class);
+            Query user_query = entityManager.createNativeQuery("select * from user where userName = ?", UserModel.class);
             user_query.setParameter(1, userName);
 
             um = (UserModel) user_query.getSingleResult();
 
         } catch (NoResultException e) {
 
-            e.printStackTrace();
+            LOGGER.error("Fail to load user by user name!!!", e);
             return null;
         }
 
