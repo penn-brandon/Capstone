@@ -11,7 +11,7 @@ import java.util.Date;
 public class Message {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="message_id")
     private int id;
 

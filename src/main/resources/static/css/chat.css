@@ -16,6 +16,7 @@
 
 .profile-dropdown {
     position: absolute;
+    display: none;
     right: 2.5%;
     top: 80px;
 }
@@ -34,7 +35,6 @@
 }
 
 
-
 /* Friends list */
 .connections-nav {
     margin-top: 150px;
@@ -50,7 +50,7 @@
     text-align: center;
     width: 110px;
     border-radius: 10px;
-    float:right;
+    float: right;
     margin-right: 10px;
     z-index: 2;
 }
@@ -61,7 +61,7 @@
 }
 
 .friends-button > p {
-    float:left;
+    float: left;
 }
 
 .friends-button > img {
@@ -96,17 +96,18 @@
     text-align: center;
     width: auto;
     border-radius: 10px;
-    float:right;
+    float: right;
     margin-right: 10px;
     z-index: 2;
     left: 175px;
 }
+
 .channels-button:hover {
     cursor: pointer;
 }
 
 .channels-button > p {
-    float:left;
+    float: left;
     margin-left: 10px;
 }
 
@@ -211,6 +212,7 @@ span {
     background-color: red;
     border-radius: 10px;
 }
+
 .chat-send-icon:hover {
     cursor: pointer;
 }

@@ -3,11 +3,12 @@ use capstone;
 insert into 1_chatroomname (
     ChatRoom,
     admin,
-    chat_room_name)
+    chat_room_name,
+    last_modified)
 values (
         1,
         False,
-        "Robot");
+        "Robot",CURRENT_TIMESTAMP);
 
 insert into 2_chatroomname (
     ChatRoom,

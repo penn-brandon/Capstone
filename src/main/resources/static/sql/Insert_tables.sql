@@ -35,5 +35,7 @@ values ('Bob the builder',
         TRUE,
         1);
 
-insert into chatroom(joinable) values(FALSE);
-insert into chatroom(joinable) values(FALSE);
+insert into chatroom(joinable)
+values (FALSE);
+insert into chatroom(joinable)
+values (FALSE);
