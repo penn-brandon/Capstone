@@ -1,7 +1,5 @@
 package com.psugv.capstone.chat.model;
 
-import com.psugv.capstone.User;
-import com.psugv.capstone.login.model.UserModel;
 import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
 
@@ -19,7 +17,7 @@ public class ChatRoomName {
     @Column(name="chat_room_name")
     private String chatRoomName;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name="id")
     private ChatRoom chatRoom;
 

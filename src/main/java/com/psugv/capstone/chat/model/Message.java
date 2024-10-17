@@ -1,7 +1,5 @@
 package com.psugv.capstone.chat.model;
 
-import com.psugv.capstone.User;
-import com.psugv.capstone.login.model.UserModel;
 import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
 

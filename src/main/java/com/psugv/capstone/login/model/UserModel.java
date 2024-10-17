@@ -24,29 +24,26 @@ public class UserModel implements Serializable {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     @Column(name="user_id")
-    int id;
+    private Integer id;
 
-    String username;
+    private String username;
 
     @JsonIgnore
-    String password;
+    private String password;
 
-    Date date_of_creation;
+    private Date date_of_creation;
 
     private String name;
 
-    String gender;
+    private String gender;
 
     @JsonIgnore
     @OneToMany(mappedBy="userModel",fetch= FetchType.EAGER, cascade=CascadeType.ALL)
-    Set<UserAuthorityModel> authorities;
+    private Set<UserAuthorityModel> authorities;
 
     @JsonIgnore
     @Column(name="is_Enable")
-    Boolean isEnable;
-
-    //@OneToMany(mappedBy="user",fetch= FetchType.EAGER, cascade=CascadeType.ALL)
-    //List<ChatRoom> charRooms;
+    private Boolean isEnable;
 
     public UserModel(Integer id, String username, String password, String name, Date date, String gender, Boolean isEnable, Set<UserAuthorityModel> authorities) {
 
