@@ -16,9 +16,11 @@
 
 .profile-dropdown {
     position: absolute;
-    display: none;
     right: 2.5%;
-    top: 80px;
+    top: 85px;
+    width: 150px;
+    text-align: center;
+    z-index: 10;
 }
 
 .profile-dropdown > a {
@@ -35,7 +37,7 @@
 }
 
 
-/* Friends list */
+/* Chats list */
 .connections-nav {
     margin-top: 150px;
     width: 95%;
@@ -43,82 +45,18 @@
     margin-right: 2.5%;
 }
 
-.friends {
-    padding: 10px;
-    position: absolute;
-    background-color: blue;
-    text-align: center;
-    width: 110px;
-    border-radius: 10px;
-    float: right;
-    margin-right: 10px;
-    z-index: 2;
-}
-
-.friends-button {
-    width: 100px;
-    text-align: center;
-}
-
-.friends-button > p {
-    float: left;
-}
-
-.friends-button > img {
-    height: 20px;
-    width: 20px;
-    margin-right: 10px;
-}
-
-.friends-button:hover {
-    cursor: pointer;
-}
-
-.friends-list {
-    display: none;
-}
-
-.friends-list > p {
-    margin-top: 10px;
-    padding: 10px;
-    width: auto;
-    box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
-}
-
-.friends-list > p:hover {
-    cursor: pointer;
-}
-
-.channels {
+.chats {
     padding: 10px;
     position: absolute;
     background-color: orange;
     text-align: center;
-    width: auto;
+    width: 20%;
+    height: 70%;
     border-radius: 10px;
-    float: right;
     margin-right: 10px;
     z-index: 2;
-    left: 175px;
-}
-
-.channels-button:hover {
-    cursor: pointer;
-}
-
-.channels-button > p {
-    float: left;
-    margin-left: 10px;
-}
-
-.channels-button > img {
-    height: 20px;
-    width: 20px;
-    margin-right: 10px;
-}
-
-.channels-list {
-    display: none;
+    left: 2.5%;
+    top: 150px;
 }
 
 .channels-list > p {
@@ -131,19 +69,17 @@ span {
     padding: 10px;
 }
 
-/* Connections list */
-
 /* CHAT BOX */
 .current-chat {
     position: absolute;
-    top: 250px;
-    margin-left: 2.5%;
+    top: 150px;
     background-color: blue;
     border: 1px solid black;
     border-radius: 10px;
-    width: 95%;
-    height: 50%;
-    z-index: 1;
+    width: 70%;
+    height: 70%;
+    z-index: 5;
+    right: 2.5%;
 }
 
 .chat-row {

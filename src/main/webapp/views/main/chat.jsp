@@ -20,8 +20,8 @@
     <script defer src="<c:url value='/javascript/chat.js' />"></script>
 
     <script defer>
-        window.onload = () => {
-            let chat_rooms = getChatRooms();
+        window.onload = async () => {
+            let chat_rooms = await getChatRooms();
             displayChatRooms(chat_rooms);
         }
 
@@ -54,48 +54,48 @@
                     console.log("ERROR: "+  response.status);
                 }
                 const json = await response.json();
-                console.log(json);
                 let chat_rooms = [];
+                console.log(json);
 
                 for (let i = 0; i < json.length; i++) {
                     let curChatRoom = [];
-                    curChatRoom += json[i].chatRoomName;
-                    curChatRoom += json[i].chatRoomId;
-                    curChatRoom +=json[i].lastModifiedDate;
-                    chat_rooms += curChatRoom;
+                    curChatRoom.push(Object.values(json)[0][0]); //
+                    curChatRoom.push(Object.values(json)[0][1]); //
+                    let date = Object.values(json)[0][4]
+                    curChatRoom.push(new Date(date).getDay() + "/" + new Date(date).getMonth()); //date
+                    chat_rooms.push(curChatRoom);
                 }
-
                 return chat_rooms;
             } catch (error) {
                 console.error(error.message);
             }
         }
 
-        function displayChatRooms(chats) {
-            const channel_name = document.getElementById("channels-list");
+        function displayChatRooms(chat_rooms) {
+            const chat_room_div = document.getElementById("channels-list");
 
-            // Removes all extra p tags from channel list
-            while (channel_name.firstChild) {
-                channel_name.removeChild(channel_name.lastChild);
+            // Removes all extra p tags from chat room list
+            while (chat_room_div.firstChild) {
+                chat_room_div.removeChild(chat_room_div.lastChild);
             }
 
-            if (chats.length > 0) {
-                for (let i = 0; i < chats.length; i++) {
+            if (chat_rooms.length > 0) {
+                for (let i = 0; i < chat_rooms.length; i++) {
                     let chat_room_name = document.createElement('span');
-                    chat_room_name.textContent = chats[i][0];
-
-                    let chat_room_id = document.createElement('span');
-                    chat_room_id.textContent = chats[i][1];
+                    chat_room_name.textContent = chat_rooms[i][0]; //NAME
 
                     let lastModifiedDate = document.createElement('span');
-                    lastModifiedDate.textContent = chats[i][2];
+                    lastModifiedDate.textContent = chat_rooms[i][2]; //DATE
 
                     let new_chat = document.createElement('p');
                     new_chat.appendChild(chat_room_name);
-                    new_chat.appendChild(chat_room_id);
                     new_chat.appendChild(lastModifiedDate);
 
-                    channel_name.appendChild(new_chat);
+                    let description = document.createElement('a');
+                    description.href = "#";
+                    description.appendChild(new_chat);
+
+                    chat_room_div.appendChild(description);
                 }
             } else {
                 let chat_room_name = document.createElement('span');
@@ -112,7 +112,7 @@
                 new_chat.appendChild(chat_room_id);
                 new_chat.appendChild(lastModifiedDate);
 
-                channel_name.appendChild(new_chat);
+                chat_room_div.appendChild(new_chat);
             }
 
         }
@@ -194,83 +194,62 @@
 </head>
 
 <body>
-<nav>
-    <div class="nav-content">
-        <div class="nav-img">
-            <img src="<c:url value='/images/logo.svg' />" alt="Logo"/>
-            <span class="nav-logo">BLURB</span>
-        </div>
-        <div class="profile-div">
-            <button class="profile" id="profile" onclick="profile_click()">
-                <img src="<c:url value='/images/user.svg' />" alt="Profile"/>
-            </button>
-            <div class="profile-dropdown" id="profile-dropdown">
-                <a href="${pageContext.request.contextPath}/profile" id="profile-link">Profile</a>
-                <a href="${pageContext.request.contextPath}/logout" id="logout-link">Logout</a>
+    <nav>
+        <div class="nav-content">
+            <div class="nav-img">
+                <img src="<c:url value='/images/logo.svg' />" alt="Logo"/>
+                <span class="nav-logo">BLURB</span>
+            </div>
+            <div class="profile-div" id="profile-div">
+                <button class="profile" id="profile" onclick="profile_click(`${pageContext.request.contextPath}`)">
+                    <img src="<c:url value='/images/user.svg' />" alt="Profile"/>
+                </button>
             </div>
         </div>
-    </div>
-</nav>
+    </nav>
 
-<div class="connections-nav">
-    <div class="connections">
-        <div class="friends">
-            <div class="friends-button" id="friends-button" onclick="friends_click('<c:url value='/images/'/>')">
-                <p>Friends</p>
-                <img id="friends-drop" src="<c:url value='/images/chevron-down.svg' />" alt="Logo"/>
-            </div>
-            <div class="friends-list" id="friends-list">
-                <p>Default Friend </p>
-            </div>
-        </div>
-        <div class="channels">
-            <div class="channels-button" id="channels-button" onclick="channels_click('<c:url value='/images/'/>')">
-                <p>Channels</p>
-                <img id="channels-drop" src="<c:url value='/images/chevron-down.svg' />" alt="Logo"/>
-            </div>
-            <div class="channels-list" id="channels-list">
-                <p>Default Channel</p>
-            </div>
+    <div class="chats">
+        <p>Channels</p>
+        <div class="channels-list" id="channels-list">
+            <p>Default Channel</p>
         </div>
     </div>
-</div>
 
 
-<div class="current-chat" id="current-chat">
-    <!-- This is default example and not actual chat -->
-    <div class="chat-row">
-        <div class="chat-message">
-            <p class="chat-timestamp">Date: 09/06/2024</p>
-            <p class="chat-sender">Username : Dann123</p>
-            <p class="chat-message-data"> What's up dude</p>
+    <div class="current-chat" id="current-chat">
+        <!-- This is default example and not actual chat -->
+        <div class="chat-row">
+            <div class="chat-message">
+                <p class="chat-timestamp">Date: 09/06/2024</p>
+                <p class="chat-sender">Username : Dann123</p>
+                <p class="chat-message-data"> What's up dude</p>
+            </div>
         </div>
-    </div>
-    <div class="chat-row">
-        <div class="chat-message-response">
-            <p class="chat-timestamp-response">Date: 09/06/2024</p>
-            <p class="chat-sender-response">Username : Dann123</p>
-            <br>
-            <p class="chat-message-data-response"> Whats up dude</p>
+        <div class="chat-row">
+            <div class="chat-message-response">
+                <p class="chat-timestamp-response">Date: 09/06/2024</p>
+                <p class="chat-sender-response">Username : Dann123</p>
+                <br>
+                <p class="chat-message-data-response"> Whats up dude</p>
+            </div>
         </div>
+        <!-- End of Example-->
+        <label>
+            <textarea class="chat-send" id="chat-send"></textarea>
+        </label>
+        <button id="send-button" onclick="sendMessage()">
+            <img src="<c:url value='/images/send.svg' />" class="chat-send-icon" alt="Send">
+        </button>
+
     </div>
-    <!-- End of Example-->
-    <label>
-        <textarea class="chat-send" id="chat-send"></textarea>
-    </label>
-    <button id="send-button" onclick="sendMessage()">
-        <img src="<c:url value='/images/send.svg' />" class="chat-send-icon" alt="Send">
-    </button>
 
-</div>
-
-
-<footer>
-    <div class="footer-div">
-        <p class="footer-copyright">
-            Copyright of Cool Dudes &copy;2024. All Rights Reserved.
-        </p>
-    </div>
-</footer>
+    <footer>
+        <div class="footer-div">
+            <p class="footer-copyright">
+                Copyright of Cool Dudes &copy;2024. All Rights Reserved.
+            </p>
+        </div>
+    </footer>
 </body>
 
 </html>
