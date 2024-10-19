@@ -20,27 +20,13 @@ public class ChatRoom {
     @Column(name="chat_room_id")
     private Integer id;
 
-    @JsonIgnore
-    @OneToOne(mappedBy="chatRoom",fetch= FetchType.EAGER, cascade=CascadeType.ALL)
-    private ChatRoomName chatRoomName;
-
-
     private Boolean joinable;
 
     public ChatRoom(){}
 
-    public ChatRoom(Integer id, Boolean joinable, ChatRoomName chatRoomName) {
+    public ChatRoom(Integer id, Boolean joinable) {
         this.id = id;
         this.joinable = joinable;
-        this.chatRoomName = chatRoomName;
-    }
-
-    public ChatRoomName getChatRoomName() {
-        return chatRoomName;
-    }
-
-    public void setChatRoomName(ChatRoomName chatRoomName) {
-        this.chatRoomName = chatRoomName;
     }
 
     public Integer getId() {

@@ -97,14 +97,13 @@ public class ChatController {
 
     @GetMapping(path = "/loadMessage")
     public @ResponseBody List<Message> loadHistoryMessage(
-            @SessionAttribute ("chatRoomName") ChatRoomName chatRoomName,
-            @SessionAttribute ("userModel") UserModel userModel) {
+            @SessionAttribute ("chatRoomName") ChatRoomName chatRoomName) {
 
         List<Message> result;
 
         Integer chatRoomId = chatRoomName.getId();
 
-        result = chatService.loadHistoryMessage(chatRoomId, userModel);
+        result = chatService.loadHistoryMessage(chatRoomId);
 
         if(result == null) {
 
