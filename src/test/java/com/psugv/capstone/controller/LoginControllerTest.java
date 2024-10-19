@@ -1,4 +1,4 @@
-/*package com.psugv.capstone.controller;
+package com.psugv.capstone.controller;
 
 import com.psugv.capstone.login.controller.LoginController;
 import org.junit.jupiter.api.AfterEach;
@@ -27,9 +27,6 @@ public class LoginControllerTest {
     }
 
     @Test
-    /**
-     * This method is designed to test toMil method in the UnitsConvertor class.
-
     public void analyzeLogin() {
 
         assertEquals("redirect:/index", loginController.mainPagePath());
@@ -37,4 +34,4 @@ public class LoginControllerTest {
         assertEquals("/open/index", loginController.toIndexPage());
         assertEquals("/open/error", loginController.toErrorPage());
     }
-}*/
+}

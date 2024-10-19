@@ -75,4 +75,17 @@ public class ChatRoomName {
     public void setLastModified(Date lastModified) {
         this.lastModified = lastModified;
     }
+
+    @Override
+    public boolean equals(Object o) {
+
+        ChatRoomName other = (ChatRoomName) o;
+
+        if(this.chatRoomName.equals(other.chatRoomName)
+        && this.id == other.id){
+
+            return true;
+        }
+        return false;
+    }
 }

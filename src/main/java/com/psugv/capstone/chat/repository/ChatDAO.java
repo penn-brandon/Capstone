@@ -37,18 +37,18 @@ public class ChatDAO implements IChatDAO {
 
         }catch(Exception e){
 
-            e.printStackTrace();
+            LOGGER.error("Fail to load chat room name list!!", e);
 
             return null;
         }
         return result;
     }
 
-    public List<Message> loadHistoryMessage(Integer userId, Integer chatroomId){
+    public List<Message> loadHistoryMessage(Integer chatroomId){
 
         List<Message> result;
 
-        StringBuilder sql = new StringBuilder().append("select * from ").append(userId).append(MESSAGE_POSTFIX).append("where chat_room_id = ").append(chatroomId).append(" order by last_modified desc");
+        StringBuilder sql = new StringBuilder().append("select * from ").append(chatroomId).append(MESSAGE_POSTFIX).append(" order by last_modified desc");
 
         try {
             Query query = entityManager.createNativeQuery(sql.toString(), Message.class);
@@ -57,7 +57,7 @@ public class ChatDAO implements IChatDAO {
 
         }catch(Exception e){
 
-            e.printStackTrace();
+            LOGGER.error("Fail to load message list!!", e);
 
             return null;
         }
@@ -99,7 +99,7 @@ public class ChatDAO implements IChatDAO {
 
         }catch(Exception e){
 
-            e.printStackTrace();
+            LOGGER.error("Fail to find chat room!!", e);
 
             return null;
         }

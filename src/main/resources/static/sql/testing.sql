@@ -24,17 +24,9 @@ create table 1_message(
     message_id SERIAL primary key not null,
     time DATETIME not null DEFAULT CURRENT_TIMESTAMP,
     content varchar(225) not null,
-    chatroom int not null,
-    sender BOOLEAN not null,
-    FOREIGN KEY (chatroom) REFERENCES ChatRoom(chat_room_id)
+    senderId int not null,
+    sender varchar(225) not null,
+    FOREIGN KEY (senderId) REFERENCES USer(user_id)
 );
 
 
-create table 2_message(
-    message_id SERIAL primary key not null,
-    time DATETIME not null DEFAULT CURRENT_TIMESTAMP,
-    content varchar(225) not null,
-    chatroom int not null,
-    sender int not null,
-    FOREIGN KEY (chatroom) REFERENCES ChatRoom(chat_room_id)
-);

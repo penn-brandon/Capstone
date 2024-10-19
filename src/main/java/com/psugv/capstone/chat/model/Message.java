@@ -2,6 +2,7 @@ package com.psugv.capstone.chat.model;
 
 import com.psugv.capstone.login.model.UserModel;
 import jakarta.persistence.*;
+import org.apache.ibatis.annotations.One;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -12,34 +13,26 @@ public class Message {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="message_id")
+    @Column(name = "message_id")
     private int id;
 
     private Date time;
 
     private String content;
 
-    @ManyToOne
-    @JoinColumn(name="id")
-    private ChatRoom chatroom;
+    @OneToOne(cascade = CascadeType.ALL)
+    private UserModel senderId;
 
-    private Boolean sender;
+    private String sender;
 
-    public Message() {}
+    public Message() {
+    }
 
-    public Message(ChatRoom chatroom, String content, int id, Date time) {
-        this.chatroom = chatroom;
+    public Message(String content, String sender, UserModel senderId, Date time) {
         this.content = content;
-        this.id = id;
-        this.time = time;
-    }
-
-    public ChatRoom getChatroom() {
-        return chatroom;
-    }
-
-    public void setChatroom(ChatRoom chatroom) {
-        this.chatroom = chatroom;
+        this.sender = sender;
+        this.senderId = senderId;
+        this.time = time == null? new Date() : time;
     }
 
     public String getContent() {
@@ -66,11 +59,19 @@ public class Message {
         this.time = time;
     }
 
-    public Boolean getSender() {
+    public String getSender() {
         return sender;
     }
 
-    public void setSender(Boolean sender) {
+    public void setSender(String sender) {
         this.sender = sender;
+    }
+
+    public UserModel getSenderId() {
+        return senderId;
+    }
+
+    public void setSenderId(UserModel senderId) {
+        this.senderId = senderId;
     }
 }

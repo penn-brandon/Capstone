@@ -56,9 +56,9 @@ public class ChatService implements IChatService {
     }
 
     @Override
-    public List<Message> loadHistoryMessage(Integer chatRoomID, UserModel userModel) {
+    public List<Message> loadHistoryMessage(Integer chatRoomID) {
 
-        return chatDAO.loadHistoryMessage(userModel.getId(), chatRoomID);
+        return chatDAO.loadHistoryMessage(chatRoomID);
     }
 
     @Override

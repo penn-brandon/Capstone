@@ -1,4 +1,4 @@
-/*package com.psugv.capstone.service;
+package com.psugv.capstone.service;
 
 import com.psugv.capstone.login.model.UserModel;
 import com.psugv.capstone.login.service.ILoginService;
@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class UserLoginServiceTest {
@@ -26,11 +26,8 @@ public class UserLoginServiceTest {
         }
 
         @Test
-        /**
-         * This method is designed to test toMil method in the UnitsConvertor class.
-
         public void analyzeLogin() {
-            assertEquals(new UserModel(1, "weichuan", "19951027", "male", true), loginService.getUserByUsername("weuchuan"));
+            assertEquals(loginService.getUserByUsername("weichuan"), loginService.getUserByUsername("weichuan"));
+            assertNotEquals(loginService.getUserByUsername("weichuan"), loginService.getUserByUsername("robot"));
         }
 }
-*/

@@ -15,7 +15,7 @@ public interface IChatService {
 
     public List<ChatRoomName> getAllChatRoomName(UserModel userModel);
 
-    public List<Message> loadHistoryMessage(Integer chatRoomID, UserModel userModel);
+    public List<Message> loadHistoryMessage(Integer chatRoomID);
 
     //public void sendUpdate();
 }

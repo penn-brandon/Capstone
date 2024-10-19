@@ -10,7 +10,7 @@ public interface IChatDAO {
 
     public List<ChatRoomName> getAllChatroomName(Integer userId);
 
-    public List<Message> loadHistoryMessage(Integer userId, Integer chatroomId);
+    public List<Message> loadHistoryMessage(Integer chatroomId);
 
     public ChatRoom findChatRoom(Integer chatRoomId);
 

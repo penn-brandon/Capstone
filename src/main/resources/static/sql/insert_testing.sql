@@ -8,7 +8,8 @@ insert into 1_chatroomname (
 values (
         1,
         False,
-        "Robot",CURRENT_TIMESTAMP);
+        "Robot",
+        CURRENT_TIMESTAMP);
 
 insert into 2_chatroomname (
     ChatRoom,
@@ -19,8 +20,25 @@ values (
         False,
         "Chuan Wei");
 
-insert into 1_message(content, chatroom, sender) values("Hi, how are you?", 1, true);
-insert into 1_message(content, chatroom, sender) values("I'm good, how about you?", 1, false);
+insert into 1_message(
+    content,
+    time,
+    senderId,
+    sender)
+values(
+    "Hi, how are you?",
+       "2024-09-26 07:23:30",
+    1,
+    "Chuan Wei");
 
-insert into 2_message(content, chatroom, sender) values("Hi, how are you?", 1, false);
-insert into 2_message(content, chatroom, sender) values("I'm good, how about you?", 1, true);
+insert into 1_message(
+    content,
+    time,
+    senderId,
+    sender)
+values(
+    "I'm good, how about you?",
+    "2024-09-26 07:23:45",
+    2,
+    "Bob the builder");
+
