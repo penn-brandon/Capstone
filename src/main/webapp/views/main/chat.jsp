@@ -71,7 +71,7 @@
             }
         }
 
-        function displayChatRooms(chat_rooms) {
+        async function displayChatRooms(chat_rooms) {
             const chat_room_div = document.getElementById("channels-list");
 
             // Removes all extra p tags from chat room list
@@ -91,11 +91,14 @@
                     new_chat.appendChild(chat_room_name);
                     new_chat.appendChild(lastModifiedDate);
 
-                    let description = document.createElement('a');
-                    description.href = "#";
-                    description.appendChild(new_chat);
 
-                    chat_room_div.appendChild(description);
+                    // Loads new Messages when you click the channel name
+                    new_chat.addEventListener('click', async () => {
+                        let messages = await getMessages(chat_rooms[i][0]);
+                        displayMessages(messages);
+                    });
+
+                    chat_room_div.appendChild(new_chat);
                 }
             } else {
                 let chat_room_name = document.createElement('span');
@@ -117,11 +120,11 @@
 
         }
 
-        async function getMessages(){
+        async function getMessages(chatroom){
             const current_chat = document.getElementById("current-chat");
 
             try {
-                const response = await fetch('/Capstone/loadMessage', {method: 'GET'});
+                const response = await fetch('/Capstone/loadMessage', {method: 'GET', headers:{"Content-Type":"application/json","chatRoomName":chatroom.toString()}});
                 if (!response.ok) {
                     console.log("ERROR: "+  response.status);
                 }
