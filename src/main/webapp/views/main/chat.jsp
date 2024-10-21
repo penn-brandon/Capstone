@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8" import = "com.psugv.capstone.login.model.UserModel"
-         import = "com.psugv.capstone.chat.model.ChatRoom"%>
+         pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -9,20 +8,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat | BLURB</title>
-    <link rel="stylesheet" href="<c:url value='/css/theme.css' />"/>
-    <link rel="stylesheet" href="<c:url value='/css/chat.css' />"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/theme.css"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/chat.css"/>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Anta&display=swap" rel="stylesheet">
 
-    <script defer src="<c:url value='/javascript/min-theme.js' />"></script>
-    <script defer src="<c:url value='/javascript/chat.js' />"></script>
+    <script defer src="${pageContext.request.contextPath}/javascript/min-theme.js"></script>
+    <script defer src="${pageContext.request.contextPath}/javascript/chat.js"></script>
 
     <script defer>
         window.onload = async () => {
             let chat_rooms = await getChatRooms();
-            displayChatRooms(chat_rooms);
+            await displayChatRooms(chat_rooms);
         }
 
         async function sendMessage() {
@@ -200,12 +199,12 @@
     <nav>
         <div class="nav-content">
             <div class="nav-img">
-                <img src="<c:url value='/images/logo.svg' />" alt="Logo"/>
+                <img src="${pageContext.request.contextPath}/Capstone/images/logo.svg" alt="Logo"/>
                 <span class="nav-logo">BLURB</span>
             </div>
             <div class="profile-div" id="profile-div">
                 <button class="profile" id="profile" onclick="profile_click(`${pageContext.request.contextPath}`)">
-                    <img src="<c:url value='/images/user.svg' />" alt="Profile"/>
+                    <img src="${pageContext.request.contextPath}/Capstone/images/user.svg" alt="Profile"/>
                 </button>
             </div>
         </div>
@@ -241,7 +240,7 @@
             <textarea class="chat-send" id="chat-send"></textarea>
         </label>
         <button id="send-button" onclick="sendMessage()">
-            <img src="<c:url value='/images/send.svg' />" class="chat-send-icon" alt="Send">
+            <img src="${pageContext.request.contextPath}/images/send.svg" class="chat-send-icon" alt="Send">
         </button>
 
     </div>

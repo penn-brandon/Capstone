@@ -9,22 +9,22 @@ pageEncoding="UTF-8"%>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BLURB | Home Page</title>
 
-    <link rel="stylesheet" href="<c:url value='/css/theme.css' />" />
-    <link rel="stylesheet" href="<c:url value='/css/index.css' />" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/theme.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/index.css" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Anta&display=swap" rel="stylesheet">
 
-    <script src="<c:url value='/javascript/min-theme.js' />"></script>
+    <script src="${pageContext.request.contextPath}/javascript/theme.js"></script>
 </head>
 
 <body>
     <nav>
         <div class="nav-content">
-            <a href="<c:url value='/index' />">
+            <a href="${pageContext.request.contextPath}/index">
                 <div class="nav-img">
-                    <img src="<c:url value='/images/logo.svg' />"  alt="Logo"/>
+                    <img src="${pageContext.request.contextPath}/images/logo.svg"  alt="Logo"/>
                     <span class="nav-logo">BLURB</span>
                 </div>
             </a>
@@ -37,8 +37,8 @@ pageEncoding="UTF-8"%>
             A chatting app that is simply a prototype built by some people who love
             coding.
         </p>
-        <a href="<c:url value='/login' />"><button class="nav-login-login" id="toLogin">Login</button></a>
-        <a href="<c:url value='/signup' />"><button class="nav-login-register" id="toSignup">Register</button></a>
+        <a href="${pageContext.request.contextPath}/login"><button class="nav-login-login" id="toLogin">Login</button></a>
+        <a href="${pageContext.request.contextPath}/signup"><button class="nav-login-register" id="toSignup">Register</button></a>
     </div>
 
     <footer>

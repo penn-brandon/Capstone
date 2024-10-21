@@ -9,14 +9,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Error Page</title>
 
-  <link rel="stylesheet" href="<c:url value='/css/min-theme.css' />" media="(width >= 750px)" />
-  <link rel="stylesheet" href="<c:url value='/css/max-theme.css' />" media="(width < 750px)" />
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/theme.css" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Anta&display=swap" rel="stylesheet">
 
-  <script src="<c:url value='/javascript/min-theme.js' />"></script>
+  <script src="${pageContext.request.contextPath}/javascript/min-theme.js"></script>
 </head>
 
 <body>
