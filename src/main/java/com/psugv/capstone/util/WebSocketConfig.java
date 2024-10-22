@@ -11,34 +11,27 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 
 import java.util.ListIterator;
 import java.util.concurrent.ConcurrentHashMap;
-/*
+
 @Configuration
 @EnableWebSocketMessageBroker
+/*
+Configure to refresh the socket before time out.
+ */
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(WebSocketConfig.class);
 
-    /**
-     * The key is user ID and the value is listener.
-     *//*
-    private static ConcurrentHashMap<Integer, MessageListener> socketMap = new ConcurrentHashMap<>();
-
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
 
-        registry.addEndpoint("/ws").withSockJS();
-
-
+        registry.addEndpoint("/capstone").withSockJS();
     }
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
 
-        config.enableSimpleBroker("/topic");
+        config.enableSimpleBroker("/listening");
 
-        config.setApplicationDestinationPrefixes("/app");
+        config.setApplicationDestinationPrefixes("/controller");
     }
-
-
 }
-*/

@@ -24,6 +24,7 @@ public class ChatDAO implements IChatDAO {
 
     private static final String MESSAGE_POSTFIX = "_message";
 
+    @Override
     public List<ChatRoomName> getAllChatroomName(Integer userId){
 
         List<ChatRoomName> result;
@@ -44,11 +45,14 @@ public class ChatDAO implements IChatDAO {
         return result;
     }
 
+    @Override
     public List<Message> loadHistoryMessage(Integer chatroomId){
 
         List<Message> result;
 
-        StringBuilder sql = new StringBuilder().append("select * from ").append(chatroomId).append(MESSAGE_POSTFIX).append(" order by last_modified desc");
+        StringBuilder sql = new StringBuilder().append("select * from ").append(chatroomId).append(MESSAGE_POSTFIX).append(" order by time desc");
+
+        LOGGER.debug(sql.toString());
 
         try {
             Query query = entityManager.createNativeQuery(sql.toString(), Message.class);
@@ -70,9 +74,9 @@ public class ChatDAO implements IChatDAO {
         ChatRoomName result;
 
         try{
-            StringBuilder sql = new StringBuilder().append("select * from ").append(userId).append(CHAT_ROOM_NAME_POSTFIX).append(" where chat_room_name_id = ").append(chatRoomId);
+            StringBuilder sql = new StringBuilder().append("select * from ").append(userId).append(CHAT_ROOM_NAME_POSTFIX).append(" where chat_room_id = ").append(chatRoomId);
 
-            Query query = entityManager.createNativeQuery(sql.toString());
+            Query query = entityManager.createNativeQuery(sql.toString(), ChatRoomName.class);
 
             result = (ChatRoomName) query.getSingleResult();
 

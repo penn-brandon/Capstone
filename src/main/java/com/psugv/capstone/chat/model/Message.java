@@ -21,17 +21,18 @@ public class Message {
     private String content;
 
     @OneToOne(cascade = CascadeType.ALL)
-    private UserModel senderId;
+    @JoinColumn(name = "senderId", referencedColumnName = "user_id")
+    private UserModel userModel;
 
     private String sender;
 
     public Message() {
     }
 
-    public Message(String content, String sender, UserModel senderId, Date time) {
+    public Message(String content, String sender, UserModel userModel, Date time) {
         this.content = content;
         this.sender = sender;
-        this.senderId = senderId;
+        this.userModel = userModel;
         this.time = time == null? new Date() : time;
     }
 
@@ -67,11 +68,11 @@ public class Message {
         this.sender = sender;
     }
 
-    public UserModel getSenderId() {
-        return senderId;
+    public UserModel getUserModel() {
+        return userModel;
     }
 
-    public void setSenderId(UserModel senderId) {
-        this.senderId = senderId;
+    public void setUserModel(UserModel userModel) {
+        this.userModel = userModel;
     }
 }

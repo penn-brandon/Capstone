@@ -4,6 +4,7 @@ import com.psugv.capstone.chat.model.ChatRoom;
 import com.psugv.capstone.chat.model.ChatRoomName;
 import com.psugv.capstone.chat.model.Message;
 import com.psugv.capstone.login.model.UserModel;
+import com.psugv.capstone.util.MessageListener;
 
 import java.util.List;
 
@@ -17,5 +18,5 @@ public interface IChatService {
 
     public List<Message> loadHistoryMessage(Integer chatRoomID);
 
-    //public void sendUpdate();
+    public void sendUpdate(MessageListener messageListener, String message);
 }

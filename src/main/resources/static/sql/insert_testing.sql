@@ -1,7 +1,7 @@
 use capstone;
 
 insert into 1_chatroomname (
-    ChatRoom,
+    chat_room_id,
     admin,
     chat_room_name,
     last_modified)
@@ -12,7 +12,7 @@ values (
         CURRENT_TIMESTAMP);
 
 insert into 2_chatroomname (
-    ChatRoom,
+    chat_room_id,
     admin,
     chat_room_name)
 values (

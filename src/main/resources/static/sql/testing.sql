@@ -2,21 +2,21 @@ use capstone;
 
 CREATE TABLE 1_ChatRoomName(
     chat_room_name_id SERIAL PRIMARY KEY NOT NULL,
-    ChatRoom INT NOT NULL,
+    chat_room_id INT NOT NULL,
     admin BOOLEAN NOT NULL,
     chat_room_name TEXT NOT NULL,
     last_modified DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (ChatRoom) REFERENCES ChatRoom(chat_room_id)
+    FOREIGN KEY (chat_room_id) REFERENCES ChatRoom(chat_room_id)
 );
 
 
 CREATE TABLE 2_ChatRoomName(
     chat_room_name_id SERIAL PRIMARY KEY NOT NULL,
-    ChatRoom INT NOT NULL,
+    chat_room_id INT NOT NULL,
     admin BOOLEAN NOT NULL,
     chat_room_name TEXT NOT NULL,
     last_modified DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (ChatRoom) REFERENCES ChatRoom(chat_room_id)
+    FOREIGN KEY (chat_room_id) REFERENCES ChatRoom(chat_room_id)
 );
 
 

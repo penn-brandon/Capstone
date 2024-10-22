@@ -11,10 +11,10 @@ import com.psugv.capstone.util.MessageListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 import java.util.List;
 
@@ -28,6 +28,9 @@ public class ChatService implements IChatService {
     @Autowired
     IChatDAO chatDAO;
 
+    @Autowired
+    SimpMessagingTemplate messagingTemplate;
+
     @Override
     public Boolean sendMessage(String message, UserModel userModel, String chatRoomId) {
 
@@ -39,9 +42,11 @@ public class ChatService implements IChatService {
     @Override
     public ChatRoomName selectChatRoom(String chatRoomID, UserModel userModel) {
 
-        ChatRoom cr = chatDAO.findChatRoom(Integer.parseInt(chatRoomID));
+        int chatRoomId = Integer.parseInt(chatRoomID);
 
-        ChatRoomName crn = chatDAO.findChatRoomName(userModel.getId(), Integer.parseInt(chatRoomID));
+        ChatRoom cr = chatDAO.findChatRoom(chatRoomId);
+
+        ChatRoomName crn = chatDAO.findChatRoomName(userModel.getId(), chatRoomId);
 
         if(cr == null || crn == null){
 
@@ -50,7 +55,7 @@ public class ChatService implements IChatService {
 
         MessageListener ml = new MessageListener(cr, crn, userModel);
 
-        ChatServer.updateOnlineUserPool(userModel.getId(), Integer.parseInt(chatRoomID), ml);
+        ChatServer.updateOnlineUserPool(userModel.getId(), chatRoomId, ml);
 
         return crn;
     }
@@ -67,10 +72,13 @@ public class ChatService implements IChatService {
         return chatDAO.getAllChatroomName(userModel.getId());
     }
 
-    /*
-    @Scheduled(fixedRate = 5000)
-    public void sendUpdate() {
+    @Override
+    public void sendUpdate(MessageListener messageListener, String message) {
 
-       messagingTemplate.convertAndSend("/topic/updates", "Update: " + System.currentTimeMillis());
-    }*/
+       String userName = messageListener.getUser().getUsername();
+
+       LOGGER.info("Publish the data to " + "/listening/" + userName);
+
+       messagingTemplate.convertAndSend("/listening/" + userName, message);
+    }
 }

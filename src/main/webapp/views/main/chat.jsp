@@ -2,6 +2,7 @@
          pageEncoding="UTF-8" import = "com.psugv.capstone.login.model.UserModel"
          import = "com.psugv.capstone.chat.model.ChatRoom"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -25,13 +26,36 @@
             displayChatRooms(chat_rooms);
         }
 
+        function startListener() {
+
+            var socket = new SockJS('/capstone');
+
+            var stompClient = Stomp.over(socket);
+
+            let userName = `${sessionScope.userModel.getUsername()}`;
+
+            stompClient.connect({}, function(frame) {
+
+                console.log('Connected: ' + frame);
+
+                console.log("listening to /listening/" + userName);
+
+                stompClient.subscribe('/listening/' + userName, function(message) {
+
+                    var updatesDiv = document.getElementById('updates');
+
+                    updatesDiv.innerHTML += message.body + '<br/>';
+                });
+            });
+        }
+
         async function sendMessage() {
             const message = document.getElementById('chat-send').value;
             console.log(message);
             const chatroom = document.getElementById('TODO').value;
             console.log(chatroom);
 
-            fetch('/getMessage', {
+            fetch('/Capstone/send', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -64,6 +88,8 @@
                     curChatRoom +=json[i].lastModifiedDate;
                     chat_rooms += curChatRoom;
                 }
+
+                startListener();
 
                 return chat_rooms;
             } catch (error) {
@@ -134,7 +160,7 @@
                     let curMessage = [];
                     curMessage += json[i].timestamp;
                     curMessage += json[i].username;
-                    curMessage +=json[i].data;
+                    curMessage += json[i].data;
                     messages += curMessage;
                 }
                 return messages;

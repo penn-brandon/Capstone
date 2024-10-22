@@ -1,18 +1,20 @@
 package com.psugv.capstone.repository;
 
-import com.psugv.capstone.chat.repository.ChatDAO;
+import com.psugv.capstone.chat.repository.IChatDAO;
 import org.junit.Test;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
+@SpringBootTest
 public class ChatDAOTest {
 
     @Autowired
-    private ChatDAO chatDAO;
+    private IChatDAO chatDAO;
 
     @BeforeEach
     void setUp() throws Exception {

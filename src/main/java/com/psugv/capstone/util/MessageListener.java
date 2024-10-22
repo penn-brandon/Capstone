@@ -2,9 +2,11 @@ package com.psugv.capstone.util;
 
 import com.psugv.capstone.chat.model.ChatRoom;
 import com.psugv.capstone.chat.model.ChatRoomName;
+import com.psugv.capstone.chat.service.IChatService;
 import com.psugv.capstone.login.model.UserModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -23,6 +25,9 @@ public class MessageListener {
     private String message = MESSAGE_WAIT;
 
     private final static String MESSAGE_WAIT = "MESSAGE_IS_WAITING_FOR_NEW_INPUT";
+
+    @Autowired
+    private IChatService chatService;
 
     public MessageListener(ChatRoom room, ChatRoomName roomName, UserModel user) {
         this.room = room;
@@ -85,6 +90,9 @@ public class MessageListener {
                         message.wait();
                     }
 
+                    LOGGER.debug("Message received: " + message);
+                    LOGGER.debug("sending message out!!");
+                    chatService.sendUpdate(this, message);
 
                     message = MESSAGE_WAIT;
                 }
