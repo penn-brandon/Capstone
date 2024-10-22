@@ -72,7 +72,7 @@ public class ChatController {
     }
 
     @GetMapping(path = "/select")
-    public String selectChatBox(@RequestBody String chatRoomID, UserModel userModel, Model model) {
+    public String selectChatBox(@RequestHeader String chatRoomID,@SessionAttribute UserModel userModel, Model model) {
 
         ChatRoomName result;
 

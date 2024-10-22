@@ -53,9 +53,9 @@ public class ChatService implements IChatService {
             throw new NoChatRoomException("No such chat room or chat room name!!!");
         }
 
-        MessageListener ml = new MessageListener(cr, crn, userModel);
+        // MessageListener ml = new MessageListener(cr, crn, userModel);
 
-        ChatServer.updateOnlineUserPool(userModel.getId(), chatRoomId, ml);
+        //ChatServer.updateOnlineUserPool(userModel.getId(), chatRoomId, ml);
 
         return crn;
     }

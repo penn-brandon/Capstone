@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8" %>
+         pageEncoding="UTF-8" import = "com.psugv.capstone.login.model.UserModel"
+         import = "com.psugv.capstone.chat.model.ChatRoom"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -15,7 +16,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Anta&display=swap" rel="stylesheet">
 
-    <script defer src="${pageContext.request.contextPath}/javascript/min-theme.js"></script>
+    <script defer src="${pageContext.request.contextPath}/javascript/theme.js"></script>
     <script defer src="${pageContext.request.contextPath}/javascript/chat.js"></script>
 
     <script defer>
@@ -78,7 +79,6 @@
                 }
                 const json = await response.json();
                 let chat_rooms = [];
-                console.log(json);
 
                 for (let i = 0; i < json.length; i++) {
                     let curChatRoom = [];
@@ -147,11 +147,16 @@
             const current_chat = document.getElementById("current-chat");
 
             try {
-                const response = await fetch('/Capstone/loadMessage', {method: 'GET', headers:{"Content-Type":"application/json"}, body:{"chatRoomName":chatroom.toString()}});
+                const response = await fetch('/Capstone/select', {
+                    method: 'GET',
+                    headers:{"Content-Type":"application/json", "chatRoomID":chatroom.toString()}
+                });
                 if (!response.ok) {
                     console.log("ERROR: "+  response.status);
                 }
+                console.log(response);
                 const json = await response.json();
+                console.log("ERRORS + ")
                 console.log(json);
 
                 let messages = [];
