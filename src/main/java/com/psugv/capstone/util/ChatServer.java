@@ -37,7 +37,7 @@ public class ChatServer {
         /*
         Remove old chatroom listener
          */
-        if (!ONLINE_USER_POOL.containsKey(userId)) {
+        if (ONLINE_USER_POOL.containsKey(userId)) {
 
             Integer oldChatRoomId = ONLINE_USER_POOL.get(userId);
 

@@ -118,10 +118,11 @@ public class ChatController {
         return chatService.getAllChatRoomName(userModel);
     }
 /*
-    @MessageMapping("/hello")
-    @SendTo("/topic/greetings")
-    public String greeting(String message) throws Exception {
+    @MessageMapping("/subscription")
+    @SendTo("/listening/updates")
+    public String greeting(@RequestBody String message) throws Exception {
 
         return "Hello, " + message + "!";
-    }*/
+    }
+ */
 }
