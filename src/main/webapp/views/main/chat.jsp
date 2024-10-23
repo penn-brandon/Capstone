@@ -23,6 +23,7 @@
         window.onload = async () => {
             let chat_rooms = await getChatRooms();
             await displayChatRooms(chat_rooms);
+            let chat_id = null;
         }
 
         function startListener() {
@@ -51,24 +52,35 @@
 
         async function sendMessage() {
             const message = document.getElementById('chat-send').value;
-            console.log(message);
-            const chatroom = document.getElementById('TODO').value;
-            console.log(chatroom);
+            document.getElementById('chat-send').innerHTML = "";
 
-            fetch('/getMessage', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
+            if (chat_id === null) {
+                console.log("WOW WHAT AN ERROR");
+            } else {
+                try {
+                    const response = await fetch('/Capstone/send', {
+                        method: 'POST',
+                        headers: {"Content-Type": "application/json"},
+                        body: JSON.stringify({
+                            "message": message,
+                            "room": chat_id
+                        })
+                    });
+                    if (!response.ok) {
+                        console.log("ERROR: " + response.status);
+                    }
+                    const json = await response.json();
+                    console.log("JSON " + json);
 
-                },
-                body: JSON.stringify({
-                    chatRoom: chatroom,
-                    message: message
-                })
-            })
-                .then(response => response.text())
-                .then(data => console.log(data))
-                .catch(error => console.error('ERROR:', error));
+                    let messages = await getMessages(chat_id);
+                    displayMessages(messages);
+
+                } catch (error) {
+                    console.error(error.message);
+                }
+            }
+
+
         }
 
         async function getChatRooms() {
@@ -119,6 +131,7 @@
                     new_chat.addEventListener('click', async () => {
                         let messages = await getMessages(chat_rooms[i][0]);
                         displayMessages(messages);
+                        chat_id = chat_rooms[i][0];
                     });
 
                     chat_room_div.appendChild(new_chat);
@@ -239,7 +252,7 @@
                 <span class="nav-logo">BLURB</span>
             </div>
             <div class="profile-div" id="profile-div">
-                <button class="profile" id="profile" onclick="profile_click(`${pageContext.request.contextPath}`)">
+                <button class="profile" id="profile" onclick="profile_click()">
                     <img src="${pageContext.request.contextPath}/images/user.svg" alt="Profile"/>
                 </button>
             </div>
@@ -255,23 +268,7 @@
 
 
     <div class="current-chat" id="current-chat">
-        <!-- This is default example and not actual chat -->
-        <div class="chat-row">
-            <div class="chat-message">
-                <p class="chat-timestamp">Date: 09/06/2024</p>
-                <p class="chat-sender">Username : Dann123</p>
-                <p class="chat-message-data"> What's up dude</p>
-            </div>
-        </div>
-        <div class="chat-row">
-            <div class="chat-message-response">
-                <p class="chat-timestamp-response">Date: 09/06/2024</p>
-                <p class="chat-sender-response">Username : Dann123</p>
-                <br>
-                <p class="chat-message-data-response"> Whats up dude</p>
-            </div>
-        </div>
-        <!-- End of Example-->
+
     </div>
     <div class="chat-box">
         <label>
