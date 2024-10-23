@@ -9,8 +9,6 @@ import com.psugv.capstone.login.service.ILoginService;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -24,7 +22,6 @@ import java.util.Map;
 
 @Controller
 @SessionAttributes({"userModel", "chatRoomName"})
-@Component
 public class ChatController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ChatController.class);
@@ -72,7 +69,7 @@ public class ChatController {
     }
 
     @GetMapping(path = "/select")
-    public String selectChatBox(@RequestHeader String chatRoomID,@SessionAttribute UserModel userModel, Model model) {
+    public String selectChatBox(@RequestHeader String chatRoomID, @SessionAttribute ("userModel")UserModel userModel, Model model) {
 
         ChatRoomName result;
 
@@ -84,6 +81,7 @@ public class ChatController {
                 LOGGER.error("Chat room name not found for chat room ID " + chatRoomID + ", and user ID " + userModel.getId());
 
                 return "redirect:/error";
+
             }
 
             model.addAttribute("chatRoomName", result);

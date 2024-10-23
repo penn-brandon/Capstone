@@ -3,6 +3,9 @@ package com.psugv.capstone.chat.repository;
 import com.psugv.capstone.chat.model.ChatRoom;
 import com.psugv.capstone.chat.model.ChatRoomName;
 import com.psugv.capstone.chat.model.Message;
+import com.psugv.capstone.exception.InsertMessageException;
+import com.psugv.capstone.exception.NoChatRoomException;
+import com.psugv.capstone.login.model.UserModel;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import org.slf4j.Logger;
@@ -10,6 +13,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 @Repository
@@ -108,5 +114,31 @@ public class ChatDAO implements IChatDAO {
             return null;
         }
         return result;
+    }
+
+    @Override
+    public boolean insertMessage(String message, UserModel userModel, String chatRoomId){
+
+        Date currentDate = Calendar.getInstance().getTime();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        String formattedDate = sdf.format(currentDate);
+
+        try {
+            Query query = entityManager.createNativeQuery("insert into " + chatRoomId + MESSAGE_POSTFIX + "(content,time,senderId,sender) " +
+                    "value (\"" + message + "\",\"" + formattedDate + "\"," + userModel.getId() + ",\"" + userModel.getName() + "\");");
+
+            int result =  query.executeUpdate();
+            LOGGER.debug(result + " rows inserted");
+
+            return true;
+
+        }catch(Exception e){
+
+            LOGGER.error("Cannot insert message" + message, e);
+
+            throw new InsertMessageException("Cannot insert message" + message);
+        }
     }
 }

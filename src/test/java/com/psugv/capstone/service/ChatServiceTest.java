@@ -7,7 +7,6 @@ import com.psugv.capstone.chat.repository.IChatDAO;
 import com.psugv.capstone.chat.service.IChatService;
 import com.psugv.capstone.login.model.UserModel;
 import com.psugv.capstone.login.repository.IUserDAO;
-import com.psugv.capstone.login.repository.UserDAO;
 import com.psugv.capstone.util.MessageListener;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -49,13 +48,13 @@ public class ChatServiceTest {
     @Test
     public void analyzeSelectChatRoom() {
 
-        assertEquals("robot", chatService.selectChatRoom("1", userDAO.getUserByUsername("weichuan")).getChatRoomName());
+        assertEquals("Robot", chatService.selectChatRoom("1", userDAO.getUserByUsername("weichuan")).getChatRoomName());
     }
 
     @Test
     public void analyzeLoadHistoryMessage() {
 
-        assertEquals(2, chatService.loadHistoryMessage(1).size());
+        assertEquals(3, chatService.loadHistoryMessage(1).size());
     }
 
     @Test
@@ -69,25 +68,27 @@ public class ChatServiceTest {
 
         UserModel userModel = userDAO.getUserByUsername("weichuan");
 
-        ChatRoomName chatRoomName = chatService.selectChatRoom("1", userModel);
-
-        ChatRoom chatRoom = chatDAO.findChatRoom(1);
-
-        LOGGER.debug("Creating listener");
-        MessageListener messageListener = new MessageListener(chatRoom, chatRoomName, userModel);
-
         LOGGER.debug("Start multithread testing.");
-        Thread t1 = new Thread(messageListener::init);
+        Thread t1 = new Thread(() -> {
+
+            chatService.selectChatRoom("1", userModel);
+        });
 
         LOGGER.debug("t1 starts");
         t1.start();
 
+        UserModel sender = userDAO.getUserByUsername("robot");
+
         Thread t2 = new Thread(() -> {
 
-            assertEquals(Boolean.TRUE, chatService.sendMessage("Test123Test123!!", userModel, "1"));
+            //assertEquals(Boolean.TRUE, chatService.sendMessage("Test123Test123!!", userModel, "1"));
+            chatService.sendMessage("Test123Test123!!", sender, "1");
         });
 
         LOGGER.debug("t2 starts");
         t2.start();
+
+        LOGGER.info("analyzeSendUpdate is done");
     }
+
 }

@@ -4,6 +4,7 @@ import com.psugv.capstone.chat.model.ChatRoom;
 import com.psugv.capstone.chat.model.ChatRoomName;
 import com.psugv.capstone.chat.model.Message;
 import com.psugv.capstone.chat.repository.IChatDAO;
+import com.psugv.capstone.exception.InsertMessageException;
 import com.psugv.capstone.exception.NoChatRoomException;
 import com.psugv.capstone.login.model.UserModel;
 import com.psugv.capstone.util.ChatServer;
@@ -34,9 +35,15 @@ public class ChatService implements IChatService {
     @Override
     public Boolean sendMessage(String message, UserModel userModel, String chatRoomId) {
 
-        //Using chat DAO to save this message to the table.
+        boolean insertion = chatDAO.insertMessage(message, userModel, chatRoomId);
 
-        return ChatServer.sentMessage(message, userModel.getId(), Integer.parseInt(chatRoomId));
+        boolean sendToServer = ChatServer.sentMessage(message, userModel.getId(), Integer.parseInt(chatRoomId));
+
+        if((insertion && sendToServer) != true) {
+
+            throw new InsertMessageException("send message service is not implemented corrected");
+        }
+        return true;
     }
 
     @Override
