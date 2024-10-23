@@ -154,19 +154,20 @@
                 if (!response.ok) {
                     console.log("ERROR: "+  response.status);
                 }
-                console.log(response);
                 const json = await response.json();
-                console.log("ERRORS + ")
                 console.log(json);
-
                 let messages = [];
 
                 for (let i = 0; i < json.length; i++) {
                     let curMessage = [];
-                    curMessage += json[i].timestamp;
-                    curMessage += json[i].username;
-                    curMessage +=json[i].data;
-                    messages += curMessage;
+                    curMessage.push(json[i].id);
+                    curMessage.push(json[i].content);
+                    curMessage.push(json[i].sender);
+                    curMessage.push(json[i].time);
+                    messages.push(curMessage);
+                }
+                if (messages === []) {
+                    return ["WOW"];
                 }
                 return messages;
             } catch (error) {
@@ -174,48 +175,54 @@
             }
         }
 
+
+        // INDEX LIST
+        // ID = 0, CONTENT = 1, SENDER = 2, TIME = 3
         function displayMessages(messages){
             const current_chat = document.getElementById("current-chat");
 
-            // Removes all extra p tags from channel list
+            // Removes all old messages in current-chat
             while (current_chat.firstChild) {
                 current_chat.removeChild(current_chat.lastChild);
             }
 
-            if (messages.length > 0) {
-                for (let i = 0; i < messages.length; i++) {
-                    let chat_room_name = document.createElement('span');
-                    chat_room_name.textContent = messages[i][0];
+            if (messages !== 0) {
+                for (let i = messages.length-1; i >= 0; i--) {
+                    // For Message time
+                    let chat_room_time = document.createElement('p');
+                    chat_room_time.className = "chat-timestamp";
+                    chat_room_time.innerHTML = messages[i][3].toString();
 
-                    let chat_room_id = document.createElement('span');
-                    chat_room_id.textContent = messages[i][1];
+                    // For Message sender
+                    let chat_room_sender = document.createElement('p');
+                    chat_room_sender.innerHTML = messages[i][2];
+                    chat_room_sender.className = "chat-sender";
 
-                    let lastModifiedDate = document.createElement('span');
-                    lastModifiedDate.textContent = messages[i][2];
+                    // For message Data
+                    let chat_room_content = document.createElement('p');
+                    chat_room_content.innerHTML = messages[i][1];
+                    chat_room_content.className = "chat-message-data";
 
-                    let new_chat = document.createElement('p');
-                    new_chat.appendChild(chat_room_name);
-                    new_chat.appendChild(chat_room_id);
-                    new_chat.appendChild(lastModifiedDate);
+                    // Smaller div tag creation
+                    let chat_div = document.createElement('div');
+                    chat_div.className = "chat-message";
+                    chat_div.appendChild(chat_room_time);
+                    chat_div.appendChild(chat_room_sender);
+                    chat_div.appendChild(chat_room_content);
 
-                    current_chat.appendChild(new_chat);
+                    let chat_row = document.createElement('div');
+                    chat_row.className = "chat-row";
+                    chat_row.appendChild(chat_div);
+
+                    if(messages[i][0].toString() !== `${sessionScope.userModel.getId()}`.toString()){
+                        chat_room_time.className = "chat-timestamp-response";
+                        chat_room_sender.className = "chat-sender-response";
+                        chat_room_content.className = "chat-message-data-response";
+                        chat_div.className  = "chat-message-response";
+                    }
+
+                    current_chat.appendChild(chat_row);
                 }
-            } else {
-                let chat_room_name = document.createElement('span');
-                chat_room_name.textContent = "None";
-
-                let chat_room_id = document.createElement('span');
-                chat_room_id.textContent = "None";
-
-                let lastModifiedDate = document.createElement('span');
-                lastModifiedDate.textContent = "None";
-
-                let new_chat = document.createElement('p');
-                new_chat.appendChild(chat_room_name);
-                new_chat.appendChild(chat_room_id);
-                new_chat.appendChild(lastModifiedDate);
-
-                current_chat.appendChild(new_chat);
             }
 
         }
@@ -225,62 +232,63 @@
 </head>
 
 <body>
-<nav>
-    <div class="nav-content">
-        <div class="nav-img">
-            <img src="${pageContext.request.contextPath}/images/logo.svg" alt="Logo"/>
-            <span class="nav-logo">BLURB</span>
+    <nav>
+        <div class="nav-content">
+            <div class="nav-img">
+                <img src="${pageContext.request.contextPath}/images/logo.svg" alt="Logo"/>
+                <span class="nav-logo">BLURB</span>
+            </div>
+            <div class="profile-div" id="profile-div">
+                <button class="profile" id="profile" onclick="profile_click(`${pageContext.request.contextPath}`)">
+                    <img src="${pageContext.request.contextPath}/images/user.svg" alt="Profile"/>
+                </button>
+            </div>
         </div>
-        <div class="profile-div" id="profile-div">
-            <button class="profile" id="profile" onclick="profile_click(`${pageContext.request.contextPath}`)">
-                <img src="${pageContext.request.contextPath}/images/user.svg" alt="Profile"/>
-            </button>
-        </div>
-    </div>
-</nav>
+    </nav>
 
-<div class="chats">
-    <p>Channels</p>
-    <div class="channels-list" id="channels-list">
-        <p>Default Channel</p>
-    </div>
-</div>
-
-
-<div class="current-chat" id="current-chat">
-    <!-- This is default example and not actual chat -->
-    <div class="chat-row">
-        <div class="chat-message">
-            <p class="chat-timestamp">Date: 09/06/2024</p>
-            <p class="chat-sender">Username : Dann123</p>
-            <p class="chat-message-data"> What's up dude</p>
+    <div class="chats">
+        <p>Channels</p>
+        <div class="channels-list" id="channels-list">
+            <p>Default Channel</p>
         </div>
     </div>
-    <div class="chat-row">
-        <div class="chat-message-response">
-            <p class="chat-timestamp-response">Date: 09/06/2024</p>
-            <p class="chat-sender-response">Username : Dann123</p>
-            <br>
-            <p class="chat-message-data-response"> Whats up dude</p>
+
+
+    <div class="current-chat" id="current-chat">
+        <!-- This is default example and not actual chat -->
+        <div class="chat-row">
+            <div class="chat-message">
+                <p class="chat-timestamp">Date: 09/06/2024</p>
+                <p class="chat-sender">Username : Dann123</p>
+                <p class="chat-message-data"> What's up dude</p>
+            </div>
         </div>
+        <div class="chat-row">
+            <div class="chat-message-response">
+                <p class="chat-timestamp-response">Date: 09/06/2024</p>
+                <p class="chat-sender-response">Username : Dann123</p>
+                <br>
+                <p class="chat-message-data-response"> Whats up dude</p>
+            </div>
+        </div>
+        <!-- End of Example-->
     </div>
-    <!-- End of Example-->
-    <label>
-        <textarea class="chat-send" id="chat-send"></textarea>
-    </label>
-    <button id="send-button" onclick="sendMessage()">
-        <img src="${pageContext.request.contextPath}/images/send.svg" class="chat-send-icon" alt="Send">
-    </button>
-
-</div>
-
-<footer>
-    <div class="footer-div">
-        <p class="footer-copyright">
-            Copyright of Cool Dudes &copy;2024. All Rights Reserved.
-        </p>
+    <div>
+        <label>
+            <textarea class="chat-send" id="chat-send"></textarea>
+        </label>
+        <button id="send-button" onclick="sendMessage()">
+            <img src="${pageContext.request.contextPath}/images/send.svg" class="chat-send-icon" alt="Send">
+        </button>
     </div>
-</footer>
+
+    <footer>
+        <div class="footer-div">
+            <p class="footer-copyright">
+                Copyright of Cool Dudes &copy;2024. All Rights Reserved.
+            </p>
+        </div>
+    </footer>
 </body>
 
 </html>
