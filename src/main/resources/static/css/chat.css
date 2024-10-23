@@ -80,6 +80,7 @@ span {
     height: 65%;
     z-index: 5;
     right: 2.5%;
+    overflow: scroll;
 }
 
 .chat-row {
@@ -93,6 +94,10 @@ span {
     border-radius: 10px;
     border: none;
     padding: 10px;
+}
+
+.chat-message > p, .chat-message-response > p {
+    display: inline-block;
 }
 
 .chat-timestamp {

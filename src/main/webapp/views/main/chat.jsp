@@ -24,6 +24,14 @@
             let chat_rooms = await getChatRooms();
             await displayChatRooms(chat_rooms);
             let chat_id = null;
+
+            let send_message_enter = document.getElementById('chat-send');
+            send_message_enter.addEventListener("keypress", function(event) {
+                if (event.key === "Enter"){
+                    event.preventDefault();
+                    document.getElementById('send-button').click();
+                }
+            });
         }
 
         function startListener() {
@@ -52,11 +60,9 @@
 
         async function sendMessage() {
             const message = document.getElementById('chat-send').value;
-            document.getElementById('chat-send').innerHTML = "";
+            document.getElementById('chat-send').value = "";
 
-            if (chat_id === null) {
-                console.log("WOW WHAT AN ERROR");
-            } else {
+            if (chat_id !== null) {
                 try {
                     const response = await fetch('/Capstone/send', {
                         method: 'POST',
@@ -69,8 +75,6 @@
                     if (!response.ok) {
                         console.log("ERROR: " + response.status);
                     }
-                    const json = await response.json();
-                    console.log("JSON " + json);
 
                     let messages = await getMessages(chat_id);
                     displayMessages(messages);
@@ -79,8 +83,6 @@
                     console.error(error.message);
                 }
             }
-
-
         }
 
         async function getChatRooms() {
@@ -168,7 +170,6 @@
                     console.log("ERROR: "+  response.status);
                 }
                 const json = await response.json();
-                console.log(json);
                 let messages = [];
 
                 for (let i = 0; i < json.length; i++) {
@@ -179,9 +180,6 @@
                     curMessage.push(json[i].time);
                     messages.push(curMessage);
                 }
-                if (messages === []) {
-                    return ["WOW"];
-                }
                 return messages;
             } catch (error) {
                 console.error(error.message);
@@ -191,6 +189,11 @@
 
         // INDEX LIST
         // ID = 0, CONTENT = 1, SENDER = 2, TIME = 3
+
+        // <div>
+        //   <div>
+        //     <p>
+
         function displayMessages(messages){
             const current_chat = document.getElementById("current-chat");
 
@@ -240,6 +243,7 @@
 
         }
 
+
     </script>
 
 </head>
@@ -274,7 +278,7 @@
         <label>
             <textarea class="chat-send" id="chat-send"></textarea>
         </label>
-        <button id="send-button" onclick="sendMessage()">
+        <button id="send-button" onclick="sendMessage()" >
             <img src="${pageContext.request.contextPath}/images/send.svg" class="chat-send-icon" alt="Send">
         </button>
     </div>
