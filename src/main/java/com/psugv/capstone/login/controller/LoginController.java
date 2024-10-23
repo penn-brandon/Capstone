@@ -23,7 +23,7 @@ public class LoginController {
 
     @GetMapping(path="/")
     public String mainPagePath() {
-    	System.out.println("In controller");
+
     	return "redirect:/index";
     }
 

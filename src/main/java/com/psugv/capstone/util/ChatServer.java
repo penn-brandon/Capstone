@@ -39,6 +39,8 @@ public class ChatServer {
          */
         if (ONLINE_USER_POOL.containsKey(userId)) {
 
+            LOGGER.debug("User has existing listener!!");
+
             Integer oldChatRoomId = ONLINE_USER_POOL.get(userId);
 
             temp = ONLINE_LISTENER_POOL.get(oldChatRoomId);
@@ -50,6 +52,7 @@ public class ChatServer {
 
         ONLINE_USER_POOL.put(userId, chatRoomId);
 
+        LOGGER.debug("Establising new listener!!");
         if(tempListener == null){
 
             tempListener = new MessageListener(listener);
@@ -59,7 +62,9 @@ public class ChatServer {
             tempListener.updateChatRoom(listener);
         }
 
-        tempListener.init();
+        Thread thread = new Thread(tempListener::init);
+
+        thread.start();
 
         try{
             if(!ONLINE_LISTENER_POOL.containsKey(chatRoomId)) {

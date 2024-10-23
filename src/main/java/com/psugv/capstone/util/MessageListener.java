@@ -22,7 +22,7 @@ public class MessageListener {
 
     private ChatRoomName roomName;
 
-    private String message = MESSAGE_WAIT;
+    private String message;
 
     private final static String MESSAGE_WAIT = "MESSAGE_IS_WAITING_FOR_NEW_INPUT";
 
@@ -30,15 +30,21 @@ public class MessageListener {
     private IChatService chatService;
 
     public MessageListener(ChatRoom room, ChatRoomName roomName, UserModel user) {
+
+        LOGGER.info("Listener initializes");
         this.room = room;
         this.roomName = roomName;
         this.user = user;
+        message = MESSAGE_WAIT;
     }
 
     public MessageListener(MessageListener messageListener) {
+
+        LOGGER.info("Listener initializes");
         this.room = messageListener.getRoom();
         this.roomName = messageListener.getRoomName();
         this.user = messageListener.getUser();
+        message = MESSAGE_WAIT;
     }
 
     public MessageListener(){}
@@ -63,9 +69,11 @@ public class MessageListener {
 
     public synchronized void updateChatRoom(MessageListener listener) {
 
+        LOGGER.debug("Lock listener itself");
         synchronized (this){
 
             listening = false;
+
             LOGGER.info("Update chat room");
             LOGGER.trace(this.toString());
             this.room = listener.getRoom();
@@ -91,7 +99,7 @@ public class MessageListener {
                     }
 
                     LOGGER.debug("Message received: " + message);
-                    LOGGER.debug("sending message out!!");
+                    LOGGER.trace("sending message out!!");
                     chatService.sendUpdate(this, message);
 
                     message = MESSAGE_WAIT;
