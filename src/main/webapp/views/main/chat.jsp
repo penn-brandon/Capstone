@@ -273,7 +273,7 @@
         </div>
         <!-- End of Example-->
     </div>
-    <div>
+    <div class="chat-box">
         <label>
             <textarea class="chat-send" id="chat-send"></textarea>
         </label>
