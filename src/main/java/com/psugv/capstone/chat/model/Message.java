@@ -24,6 +24,9 @@ public class Message {
     @JoinColumn(name = "senderId", referencedColumnName = "user_id")
     private UserModel userModel;
 
+    @Transient
+    private Integer senderId;
+
     private String sender;
 
     public Message() {
@@ -33,6 +36,7 @@ public class Message {
         this.content = content;
         this.sender = sender;
         this.userModel = userModel;
+        senderId = userModel.getId();
         this.time = time == null? new Date() : time;
     }
 
@@ -74,5 +78,13 @@ public class Message {
 
     public void setUserModel(UserModel userModel) {
         this.userModel = userModel;
+    }
+
+    public Integer getSenderId() {
+        return senderId;
+    }
+
+    public void setSenderId(Integer senderId) {
+        this.senderId = senderId;
     }
 }

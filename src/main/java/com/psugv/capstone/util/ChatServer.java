@@ -109,6 +109,7 @@ public class ChatServer {
 
     public static Boolean sentMessage(String message, Integer userId, Integer chatRoomId){
 
+        LOGGER.debug("message sent to server!!");
         try {
 
             if (ONLINE_LISTENER_POOL.containsKey(chatRoomId)) {
