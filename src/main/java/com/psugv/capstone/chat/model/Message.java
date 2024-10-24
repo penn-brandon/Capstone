@@ -1,5 +1,6 @@
 package com.psugv.capstone.chat.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.psugv.capstone.login.model.UserModel;
 import jakarta.persistence.*;
 import org.apache.ibatis.annotations.One;
@@ -14,6 +15,7 @@ public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "message_id")
+    @JsonIgnore
     private int id;
 
     private Date time;

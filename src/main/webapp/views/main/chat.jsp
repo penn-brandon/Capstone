@@ -76,8 +76,41 @@
                             console.log("ERROR: " + response.status);
                         }
 
-                        let messages = await getMessages(chat_id);
-                        displayMessages(messages);
+                        const current_chat = document.getElementById("current-chat");
+
+                        let chat_room_time = document.createElement('p');
+                        chat_room_time.className = "chat-timestamp-sent";
+                        let date = new Date();
+
+                        chat_room_time.innerHTML = (
+                            date.getMonth()+ 1 + "/" +
+                            date.getDate() + " " +
+                            date.getHours() + ":" +
+                            date.getMinutes()).toString();
+
+                        // For Message sender
+                        let chat_room_sender = document.createElement('p');
+                        chat_room_sender.innerHTML = `${sessionScope.userModel.getName()}`.toString();
+                        chat_room_sender.className = "chat-message-sent";
+
+                        // For message Data
+                        let chat_room_content = document.createElement('p');
+                        chat_room_content.innerHTML = message;
+                        chat_room_content.className = "chat-message-data-sent";
+
+                        // Smaller div tag creation
+                        let chat_div = document.createElement('div');
+                        chat_div.className = "chat-sent";
+                        chat_div.appendChild(chat_room_time);
+                        chat_div.appendChild(chat_room_sender);
+                        chat_div.appendChild(chat_room_content);
+
+                        let chat_row = document.createElement('div');
+                        chat_row.className = "chat-row";
+                        chat_row.appendChild(chat_div);
+
+
+                        current_chat.appendChild(chat_row);
 
                     } catch (error) {
                         console.error(error.message);
@@ -159,8 +192,6 @@
             }
 
             async function getMessages(chatroom){
-                const current_chat = document.getElementById("current-chat");
-
                 try {
                     const response = await fetch('/Capstone/select', {
                         method: 'GET',
@@ -203,25 +234,26 @@
                 }
 
                 if (messages !== 0) {
+                    console.log(messages);
                     for (let i = messages.length-1; i >= 0; i--) {
                         // For Message time
                         let chat_room_time = document.createElement('p');
-                        chat_room_time.className = "chat-timestamp";
+                        chat_room_time.className = "chat-timestamp-sent";
                         chat_room_time.innerHTML = messages[i][3].toString();
 
                         // For Message sender
                         let chat_room_sender = document.createElement('p');
                         chat_room_sender.innerHTML = messages[i][2];
-                        chat_room_sender.className = "chat-sender";
+                        chat_room_sender.className = "chat-message-sent";
 
                         // For message Data
                         let chat_room_content = document.createElement('p');
                         chat_room_content.innerHTML = messages[i][1];
-                        chat_room_content.className = "chat-message-data";
+                        chat_room_content.className = "chat-message-data-sent";
 
                         // Smaller div tag creation
                         let chat_div = document.createElement('div');
-                        chat_div.className = "chat-message";
+                        chat_div.className = "chat-sent";
                         chat_div.appendChild(chat_room_time);
                         chat_div.appendChild(chat_room_sender);
                         chat_div.appendChild(chat_room_content);
@@ -230,11 +262,14 @@
                         chat_row.className = "chat-row";
                         chat_row.appendChild(chat_div);
 
-                        if(messages[i][0].toString() !== `${sessionScope.userModel.getId()}`.toString()){
-                            chat_room_time.className = "chat-timestamp-response";
-                            chat_room_sender.className = "chat-sender-response";
-                            chat_room_content.className = "chat-message-data-response";
-                            chat_div.className  = "chat-message-response";
+                        console.log(`${sessionScope.userModel.getName()}`);
+                        console.log(messages[i][2]);
+
+                        if(messages[i][2].toString() !== `${sessionScope.userModel.getName()}`.toString()){
+                            chat_room_time.className = "chat-timestamp-received";
+                            chat_room_sender.className = "chat-message-received";
+                            chat_room_content.className = "chat-message-data-received";
+                            chat_div.className  = "chat-received";
                         }
 
                         current_chat.appendChild(chat_row);
@@ -269,10 +304,7 @@
                 <p>Default Channel</p>
             </div>
         </div>
-
-
         <div class="current-chat" id="current-chat">
-
         </div>
         <div class="chat-box">
             <label>

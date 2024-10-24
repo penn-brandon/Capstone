@@ -73,7 +73,7 @@ span {
 .current-chat {
     position: absolute;
     top: 150px;
-    background-color: blue;
+    background-color: rgb(153,175,213);
     border: 1px solid black;
     border-radius: 10px;
     width: 70%;
@@ -85,57 +85,29 @@ span {
 
 .chat-row {
     width: 100%;
-    height: 40px;
-}
-
-.chat-message {
-    background-color: green;
-    width: 45%;
-    border-radius: 10px;
-    border: none;
-    padding: 10px;
-}
-
-.chat-message > p, .chat-message-response > p {
-    display: inline-block;
-}
-
-.chat-timestamp {
-    float: left;
-}
-
-.chat-sender {
-    float: left;
-    margin-left: 10px;
-}
-
-.chat-message-data {
+    height: auto;
     clear: both;
 }
 
-.chat-message-response {
-    float: right;
-    background-color: orange;
+.chat-sent {
+    height: 100%;
+    background-color:rgb(141,227,134);
+    margin: 5px;
     width: 45%;
-    border-radius: 10px;
-    border: none;
-    padding: 10px;
+    float:right;
+    border-radius: 5px;
+    border:none;
 }
 
-.chat-timestamp-response {
-    float: right;
+.chat-received {
+    background-color: rgb(254,254,254);
+    width: 45%;
+    height: 100%;
+    margin: 5px;
+    float: left;
+    border-radius: 5px;
+    border:none;
 }
-
-.chat-sender-response {
-    float: right;
-    margin-right: 10px;
-}
-
-.chat-message-data-response {
-    float: right;
-}
-
-
 
 /* CHAT BOX */
 
