@@ -96,6 +96,14 @@
                             chat_row.className = "chat-row";
                             chat_row.appendChild(chat_div);
 
+                            if(resultMap.senderName.toString() !== `${sessionScope.userModel.getName()}`.toString()){
+                                chat_room_time.className = "chat-timestamp-received";
+                                chat_room_sender.className = "chat-message-received";
+                                chat_room_content.className = "chat-message-data-received";
+                                chat_div.className  = "chat-received";
+                            }
+
+
                             current_chat.appendChild(chat_row);
 
                         } catch (error) {
