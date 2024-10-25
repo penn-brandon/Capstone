@@ -38,8 +38,8 @@ public class ChatController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
 
-        LOGGER.trace("Storing user to seesion: " + username);
-        LOGGER.trace("Storing user to seesion: " + authentication.getCredentials());
+        LOGGER.trace("Storing user to session: " + username);
+        LOGGER.trace("Storing user to session: " + authentication.getCredentials());
         UserModel userModel = loginService.getUserByUsername(username);
         model.addAttribute("userModel", userModel);
 
