@@ -8,6 +8,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Component
 public class MessageListener {
 
@@ -26,6 +29,8 @@ public class MessageListener {
     private final static String MESSAGE_WAIT = "MESSAGE_IS_WAITING_FOR_NEW_INPUT";
 
     private SimpMessagingTemplate messagingTemplate;
+
+    private String senderName = null;
 
     public MessageListener(ChatRoom room, ChatRoomName roomName, UserModel user, SimpMessagingTemplate messagingTemplate) {
 
@@ -84,7 +89,7 @@ public class MessageListener {
         }
     }
 
-    public synchronized void setMessage(String message) {
+    public synchronized void setMessage(String message, String name) {
 
         LOGGER.debug("In setMessage method");
 
@@ -92,7 +97,7 @@ public class MessageListener {
 
             LOGGER.debug("Message: " + this.message + " synchronized, set message field and notify it.");
             this.message = message;
-
+            this.senderName = name;
             this.notify();
         }
     }
@@ -109,11 +114,12 @@ public class MessageListener {
                         LOGGER.debug("Message object wait!!");
                         this.wait();
                     }
-                    LOGGER.debug("Message received: " + message);
+                    LOGGER.debug("Message received: " + message + "sender is " + this.senderName);
                     LOGGER.trace("sending message out!!");
-                    sendUpdateToSocket(message);
+                    sendUpdateToSocket(message, new String(senderName));
 
                     message = MESSAGE_WAIT;
+                    senderName = null;
                 }
             }
         } catch (Exception e) {
@@ -145,14 +151,20 @@ public class MessageListener {
         return user.getName() + " is listening to chat room " + roomName;
     }
 
-    private void sendUpdateToSocket(String message){
+    private void sendUpdateToSocket(String message, String senderName){
 
         LOGGER.debug("ChatService.sendUpdate, message is: " + message + ", and Listener is: " + (this.getUser().getUsername()));
         String userName = this.getUser().getUsername();
 
         LOGGER.info("Publish the data to " + "/listening/" + userName);
         LOGGER.debug("messagingTemplate is null? " + (messagingTemplate == null));
-        messagingTemplate.convertAndSend("/listening/" + userName, message);
+
+        Map<String, Object> result = new HashMap<>();
+
+        result.put("message", message);
+        result.put("senderName", senderName);
+
+        messagingTemplate.convertAndSend("/listening/" + userName, result);
     }
 
     public SimpMessagingTemplate getMessagingTemplate() {

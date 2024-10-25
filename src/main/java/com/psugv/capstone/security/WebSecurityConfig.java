@@ -35,7 +35,7 @@ public class WebSecurityConfig {
                         .requestMatchers("/", "/login", "/signup", "/index", "/error").permitAll()
                         .requestMatchers("/chat", "/send", "/select", "/loadMessage", "/loadAllChatRoomName").authenticated()
                         .requestMatchers("/getMessage").authenticated()
-                        .requestMatchers("/listening", "/controller").permitAll()
+                        .requestMatchers("/listening/**", "/controller/**", "/capstone").permitAll()
                         .anyRequest().authenticated()
                 );
 

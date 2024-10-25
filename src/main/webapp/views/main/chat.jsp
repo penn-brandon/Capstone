@@ -19,8 +19,8 @@
         <script defer src="${pageContext.request.contextPath}/javascript/theme.js"></script>
         <script defer src="${pageContext.request.contextPath}/javascript/chat.js"></script>
 
-        <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.5.1/dist/sockjs.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.2/sockjs.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 
         <script defer>
             window.onload = async () => {
@@ -38,28 +38,72 @@
                 startListener();
             }
 
-            var socket = new SockJS('/Capstone/capstone');
-
-            var stompClient = Stomp.over(socket);
-
             function startListener() {
+
+                var socket = new SockJS('http://localhost:8080/Capstone/capstone');
+                //var socket = new SockJS('/Capstone/capstone');
+
+                var stompClient = Stomp.over(socket);
 
                 let userName = `${sessionScope.userModel.getUsername()}`;
                 console.log("JS socket set up");
+                console.log("listening to /listening/" + userName);
 
                 stompClient.connect({}, function(frame) {
 
-                    console.log('Connected: ' + frame);
-                    console.log("listening to /listening/" + userName);
-
-                    stompClient.subscribe('/listening/' + userName, function(message) {
+                    //console.log('Connected: ' + frame);
+                    stompClient.subscribe("/listening/" + userName, function (message) {
 
                         console.log("Will I gtt the message? To get or not to get, that's the question");
-                        console.log("message: " + message);
+                        console.log("message data type: " + typeof(message));
+
+                        const resultMap = JSON.parse(message.body);
+
+                        console.log("message: " + resultMap.message);
+                        console.log("sender: " + resultMap.senderName);
+
+                        try{
+                            const current_chat = document.getElementById("current-chat");
+
+                            let chat_room_time = document.createElement('p');
+                            chat_room_time.className = "chat-timestamp-sent";
+                            let date = new Date();
+
+                            chat_room_time.innerHTML = (
+                                date.getMonth()+ 1 + "/" +
+                                date.getDate() + " " +
+                                date.getHours() + ":" +
+                                date.getMinutes()).toString();
+
+                            // For Message sender
+                            let chat_room_sender = document.createElement('p');
+                            chat_room_sender.innerHTML = resultMap.senderName;
+                            chat_room_sender.className = "chat-message-sent";
+
+                            // For message Data
+                            let chat_room_content = document.createElement('p');
+                            chat_room_content.innerHTML = resultMap.message;
+                            chat_room_content.className = "chat-message-data-sent";
+
+                            // Smaller div tag creation
+                            let chat_div = document.createElement('div');
+                            chat_div.className = "chat-sent";
+                            chat_div.appendChild(chat_room_time);
+                            chat_div.appendChild(chat_room_sender);
+                            chat_div.appendChild(chat_room_content);
+
+                            let chat_row = document.createElement('div');
+                            chat_row.className = "chat-row";
+                            chat_row.appendChild(chat_div);
+
+                            current_chat.appendChild(chat_row);
+
+                        } catch (error) {
+                            console.error(error.message);
+                        }
                     });
                 });
             }
-
 
             async function sendMessage() {
                 const message = document.getElementById('chat-send').value;

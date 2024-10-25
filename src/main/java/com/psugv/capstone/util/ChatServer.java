@@ -106,7 +106,7 @@ public class ChatServer {
         ONLINE_USER_POOL.remove(roomId);
     }
 
-    public static Boolean sentMessage(String message, Integer userId, Integer chatRoomId){
+    public static Boolean sentMessage(String message, Integer userId, Integer chatRoomId, String name){
 
         LOGGER.debug("message sent to server!!");
         try {
@@ -121,12 +121,12 @@ public class ChatServer {
 
                     MessageListener listener = entry.getValue();
 
-                    if(listener.getUser().getId() == userId){
+                    if(listener.getUser().getId().equals(userId)){
 
                         continue;
                     }
                     LOGGER.debug("Sent message to the listener of " + listener.getUser().getUsername());
-                    listener.setMessage(message);
+                    listener.setMessage(message, name);
                 }
             }
         } catch (Exception e) {

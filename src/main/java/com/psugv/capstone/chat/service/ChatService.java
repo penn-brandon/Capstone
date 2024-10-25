@@ -41,7 +41,7 @@ public class ChatService implements IChatService {
         LOGGER.debug("User: " + userModel.getName() + ", chat room: " + chatRoomId + ", send message: " + message);
         boolean insertion = chatDAO.insertMessage(message, userModel, chatRoomId);
 
-        boolean sendToServer = ChatServer.sentMessage(message, userModel.getId(), Integer.parseInt(chatRoomId));
+        boolean sendToServer = ChatServer.sentMessage(message, userModel.getId(), Integer.parseInt(chatRoomId), userModel.getName());
 
         if((insertion && sendToServer) != true) {
 
