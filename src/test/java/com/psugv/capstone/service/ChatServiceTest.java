@@ -28,6 +28,7 @@ public class ChatServiceTest {
 
     @Autowired
     private IUserDAO userDAO;
+
     @Autowired
     private IChatDAO chatDAO;
 

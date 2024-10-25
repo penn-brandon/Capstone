@@ -19,6 +19,9 @@
         <script defer src="${pageContext.request.contextPath}/javascript/theme.js"></script>
         <script defer src="${pageContext.request.contextPath}/javascript/chat.js"></script>
 
+        <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.5.1/dist/sockjs.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+
         <script defer>
             window.onload = async () => {
                 let chat_rooms = await getChatRooms();
@@ -32,27 +35,27 @@
                         document.getElementById('send-button').click();
                     }
                 });
+                startListener();
             }
+
+            var socket = new SockJS('/Capstone/capstone');
+
+            var stompClient = Stomp.over(socket);
 
             function startListener() {
 
-                var socket = new SockJS('/capstone');
-
-                var stompClient = Stomp.over(socket);
-
                 let userName = `${sessionScope.userModel.getUsername()}`;
+                console.log("JS socket set up");
 
                 stompClient.connect({}, function(frame) {
 
                     console.log('Connected: ' + frame);
-
                     console.log("listening to /listening/" + userName);
 
                     stompClient.subscribe('/listening/' + userName, function(message) {
 
-                        var updatesDiv = document.getElementById('updates');
-
-                        updatesDiv.innerHTML += message.body + '<br/>';
+                        console.log("Will I gtt the message? To get or not to get, that's the question");
+                        console.log("message: " + message);
                     });
                 });
             }

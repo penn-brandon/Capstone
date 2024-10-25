@@ -2,11 +2,10 @@ package com.psugv.capstone.util;
 
 import com.psugv.capstone.chat.model.ChatRoom;
 import com.psugv.capstone.chat.model.ChatRoomName;
-import com.psugv.capstone.chat.service.IChatService;
 import com.psugv.capstone.login.model.UserModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -26,16 +25,17 @@ public class MessageListener {
 
     private final static String MESSAGE_WAIT = "MESSAGE_IS_WAITING_FOR_NEW_INPUT";
 
-    @Autowired
-    private IChatService chatService;
+    private SimpMessagingTemplate messagingTemplate;
 
-    public MessageListener(ChatRoom room, ChatRoomName roomName, UserModel user) {
+    public MessageListener(ChatRoom room, ChatRoomName roomName, UserModel user, SimpMessagingTemplate messagingTemplate) {
 
         LOGGER.info("Listener initializes");
         this.room = room;
         this.roomName = roomName;
         this.user = user;
         message = MESSAGE_WAIT;
+        this.messagingTemplate = messagingTemplate;
+        LOGGER.debug("messagingTemplate is null in constructor? " + (messagingTemplate == null));
     }
 
     public MessageListener(MessageListener messageListener) {
@@ -45,6 +45,8 @@ public class MessageListener {
         this.roomName = messageListener.getRoomName();
         this.user = messageListener.getUser();
         message = MESSAGE_WAIT;
+        this.messagingTemplate = messageListener.getMessagingTemplate();
+        LOGGER.debug("messagingTemplate is null in constructor? " + (messagingTemplate == null));
     }
 
     public MessageListener(){}
@@ -78,29 +80,38 @@ public class MessageListener {
             LOGGER.trace(this.toString());
             this.room = listener.getRoom();
             this.roomName = listener.getRoomName();
+            LOGGER.debug("messagingTemplate is null in update method? " + (messagingTemplate == null));
         }
     }
 
     public synchronized void setMessage(String message) {
-        this.message = message;
-        this.message.notify();
+
+        LOGGER.debug("In setMessage method");
+
+        synchronized (this) {
+
+            LOGGER.debug("Message: " + this.message + " synchronized, set message field and notify it.");
+            this.message = message;
+
+            this.notify();
+        }
     }
 
     private void listeringMessage(){
 
         try {
-            synchronized (message){
+            synchronized (this){
 
                 while(listening){
 
                     if(message.equals(MESSAGE_WAIT)){
 
-                        message.wait();
+                        LOGGER.debug("Message object wait!!");
+                        this.wait();
                     }
-
                     LOGGER.debug("Message received: " + message);
                     LOGGER.trace("sending message out!!");
-                    chatService.sendUpdate(this, message);
+                    sendUpdateToSocket(message);
 
                     message = MESSAGE_WAIT;
                 }
@@ -109,7 +120,7 @@ public class MessageListener {
             LOGGER.error("Error occurred by listering loop", e);
             destroy();
         }
-        LOGGER.warn(this.toString() + "!!!Stop listening!!!");
+        LOGGER.warn("!!!Stop listening!!!");
     }
 
     public boolean isListening() {
@@ -132,5 +143,23 @@ public class MessageListener {
     public String toString(){
 
         return user.getName() + " is listening to chat room " + roomName;
+    }
+
+    private void sendUpdateToSocket(String message){
+
+        LOGGER.debug("ChatService.sendUpdate, message is: " + message + ", and Listener is: " + (this.getUser().getUsername()));
+        String userName = this.getUser().getUsername();
+
+        LOGGER.info("Publish the data to " + "/listening/" + userName);
+        LOGGER.debug("messagingTemplate is null? " + (messagingTemplate == null));
+        messagingTemplate.convertAndSend("/listening/" + userName, message);
+    }
+
+    public SimpMessagingTemplate getMessagingTemplate() {
+        return messagingTemplate;
+    }
+
+    public void setMessagingTemplate(SimpMessagingTemplate messagingTemplate) {
+        this.messagingTemplate = messagingTemplate;
     }
 }
