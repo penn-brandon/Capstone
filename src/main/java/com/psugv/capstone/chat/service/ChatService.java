@@ -12,10 +12,10 @@ import com.psugv.capstone.util.MessageListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 import java.util.List;
 
@@ -30,14 +30,18 @@ public class ChatService implements IChatService {
     IChatDAO chatDAO;
 
     @Autowired
-    SimpMessagingTemplate messagingTemplate;
+    private MessageListener messageListener;
+
+    @Autowired
+    private SimpMessagingTemplate messagingTemplate;
 
     @Override
     public Boolean sendMessage(String message, UserModel userModel, String chatRoomId) {
 
+        LOGGER.debug("User: " + userModel.getName() + ", chat room: " + chatRoomId + ", send message: " + message);
         boolean insertion = chatDAO.insertMessage(message, userModel, chatRoomId);
 
-        boolean sendToServer = ChatServer.sentMessage(message, userModel.getId(), Integer.parseInt(chatRoomId));
+        boolean sendToServer = ChatServer.sentMessage(message, userModel.getId(), Integer.parseInt(chatRoomId), userModel.getName());
 
         if((insertion && sendToServer) != true) {
 
@@ -61,7 +65,7 @@ public class ChatService implements IChatService {
         }
 
         LOGGER.info("Create new listener for new chat room");
-        MessageListener ml = new MessageListener(cr, crn, userModel);
+        MessageListener ml = new MessageListener(cr, crn, userModel,messagingTemplate);
 
         LOGGER.info("Update new listener to server");
         ChatServer.updateOnlineUserPool(userModel.getId(), chatRoomId, ml);
@@ -79,15 +83,5 @@ public class ChatService implements IChatService {
     public List<ChatRoomName> getAllChatRoomName(UserModel userModel){
 
         return chatDAO.getAllChatroomName(userModel.getId());
-    }
-
-    @Override
-    public void sendUpdate(MessageListener messageListener, String message) {
-
-       String userName = messageListener.getUser().getUsername();
-
-       LOGGER.info("Publish the data to " + "/listening/" + userName);
-
-       messagingTemplate.convertAndSend("/listening/" + userName, message);
     }
 }

@@ -19,6 +19,9 @@
         <script defer src="${pageContext.request.contextPath}/javascript/theme.js"></script>
         <script defer src="${pageContext.request.contextPath}/javascript/chat.js"></script>
 
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.2/sockjs.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+
         <script defer>
             window.onload = async () => {
                 let chat_rooms = await getChatRooms();
@@ -32,31 +35,83 @@
                         document.getElementById('send-button').click();
                     }
                 });
+                startListener();
             }
 
             function startListener() {
 
-                var socket = new SockJS('/capstone');
+                var socket = new SockJS('http://localhost:8080/Capstone/capstone');
+                //var socket = new SockJS('/Capstone/capstone');
 
                 var stompClient = Stomp.over(socket);
 
                 let userName = `${sessionScope.userModel.getUsername()}`;
+                console.log("JS socket set up");
+                console.log("listening to /listening/" + userName);
 
                 stompClient.connect({}, function(frame) {
 
-                    console.log('Connected: ' + frame);
+                    //console.log('Connected: ' + frame);
+                    stompClient.subscribe("/listening/" + userName, function (message) {
 
-                    console.log("listening to /listening/" + userName);
+                        console.log("Will I gtt the message? To get or not to get, that's the question");
+                        console.log("message data type: " + typeof(message));
 
-                    stompClient.subscribe('/listening/' + userName, function(message) {
+                        const resultMap = JSON.parse(message.body);
 
-                        var updatesDiv = document.getElementById('updates');
+                        console.log("message: " + resultMap.message);
+                        console.log("sender: " + resultMap.senderName);
 
-                        updatesDiv.innerHTML += message.body + '<br/>';
+                        try{
+                            const current_chat = document.getElementById("current-chat");
+
+                            let chat_room_time = document.createElement('p');
+                            chat_room_time.className = "chat-timestamp-sent";
+                            let date = new Date();
+
+                            chat_room_time.innerHTML = (
+                                date.getMonth()+ 1 + "/" +
+                                date.getDate() + " " +
+                                date.getHours() + ":" +
+                                date.getMinutes()).toString();
+
+                            // For Message sender
+                            let chat_room_sender = document.createElement('p');
+                            chat_room_sender.innerHTML = resultMap.senderName;
+                            chat_room_sender.className = "chat-message-sent";
+
+                            // For message Data
+                            let chat_room_content = document.createElement('p');
+                            chat_room_content.innerHTML = resultMap.message;
+                            chat_room_content.className = "chat-message-data-sent";
+
+                            // Smaller div tag creation
+                            let chat_div = document.createElement('div');
+                            chat_div.className = "chat-sent";
+                            chat_div.appendChild(chat_room_time);
+                            chat_div.appendChild(chat_room_sender);
+                            chat_div.appendChild(chat_room_content);
+
+                            let chat_row = document.createElement('div');
+                            chat_row.className = "chat-row";
+                            chat_row.appendChild(chat_div);
+
+                            if(resultMap.senderName.toString() !== `${sessionScope.userModel.getName()}`.toString()){
+                                chat_room_time.className = "chat-timestamp-received";
+                                chat_room_sender.className = "chat-message-received";
+                                chat_room_content.className = "chat-message-data-received";
+                                chat_div.className  = "chat-received";
+                            }
+
+
+                            current_chat.appendChild(chat_row);
+
+                        } catch (error) {
+                            console.error(error.message);
+                        }
                     });
                 });
             }
-
 
             async function sendMessage() {
                 const message = document.getElementById('chat-send').value;
