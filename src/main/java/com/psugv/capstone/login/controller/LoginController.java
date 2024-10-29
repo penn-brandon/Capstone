@@ -50,7 +50,7 @@ public class LoginController {
         return "/open/error";
     }
 
-    @GetMapping(path="/signin")
+    @GetMapping(path="/signup")
     public String toSignupPage() {
         return "/open/signup";
     }
