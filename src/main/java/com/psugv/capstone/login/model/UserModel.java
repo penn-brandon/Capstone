@@ -23,7 +23,7 @@ import java.io.Serializable;
 public class UserModel implements Serializable {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name="user_id")
     private Integer id;
 
@@ -47,8 +47,9 @@ public class UserModel implements Serializable {
     @Column(name="is_Enable")
     private Boolean isEnable;
 
-    public UserModel( String username, String password, String name, Date date, String gender, Boolean isEnable, Set<UserAuthorityModel> authorities) {
+    public UserModel(Integer id, String username, String password, String name, Date date, String gender, Boolean isEnable, Set<UserAuthorityModel> authorities) {
 
+        this.id = id;
         this.username = username;
         this.password = password;
         this.name = name;

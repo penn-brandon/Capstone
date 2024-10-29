@@ -52,7 +52,7 @@ public class UserDAO implements IUserDAO {
             String name = inputMap.get("name");
             String gender = inputMap.get("gender");
 
-            UserModel newUser = new UserModel(username, password, name, null, gender, true, authorities);
+            UserModel newUser = new UserModel(null, username, password, name, null, gender, true, authorities);
 
             entityManager.persist(newUser);
 

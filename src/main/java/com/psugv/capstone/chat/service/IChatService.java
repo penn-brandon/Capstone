@@ -17,4 +17,6 @@ public interface IChatService {
     public List<ChatRoomName> getAllChatRoomName(UserModel userModel);
 
     public List<Message> loadHistoryMessage(Integer chatRoomID);
+
+    public List<UserModel> searchUser(String input);
 }

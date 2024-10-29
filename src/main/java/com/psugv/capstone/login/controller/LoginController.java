@@ -69,7 +69,7 @@ public class LoginController {
      * Key: name, value: name displayed in the chat.
      * Key: gender, value: drop down list, should only have have male, female, and other.
      */
-    public @ResponseBody String registerToApp(Map<String, String> inputMap){
+    public @ResponseBody String registerToApp(@RequestBody Map<String, String> inputMap){
 
         boolean result;
 
