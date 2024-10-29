@@ -47,12 +47,13 @@ public class UserDAO implements IUserDAO {
     public boolean registration(Map<String, String> inputMap, Set<UserAuthorityModel> authorities){
 
         try {
+            LOGGER.info(inputMap.toString());
             String username = inputMap.get("username");
             String password = inputMap.get("password");
             String name = inputMap.get("name");
             String gender = inputMap.get("gender");
 
-            UserModel newUser = new UserModel(username, password, name, null, gender, true, authorities);
+            UserModel newUser = new UserModel(null, username, password, name, null, gender, true, authorities);
 
             entityManager.persist(newUser);
 

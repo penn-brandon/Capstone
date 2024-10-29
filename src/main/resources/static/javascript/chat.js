@@ -24,5 +24,3 @@ function profile_click(route) {
         document.getElementById("profile-div").appendChild(profile_dropdown);
     }
 }
-
-

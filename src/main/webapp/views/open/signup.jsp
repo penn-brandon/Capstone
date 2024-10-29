@@ -16,6 +16,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Anta&display=swap" rel="stylesheet">
 
     <script src="${pageContext.request.contextPath}/javascript/theme.js"></script>
+    <script src="${pageContext.request.contextPath}/javascript/register.js"></script>
 </head>
 
 <body>
@@ -35,7 +36,7 @@
             <p>This is a cool chat app</p>
             <div class="signup-form-box">
                 <p>Create Your Account</p>
-                <form id="signup-form-form" method="POST" action="${pageContext.request.contextPath}/register">
+                <form id="signup-form-form">
                     <div class="signup-form-box-content">
                         <label for="user"></label>
                         <input type="text" name="username" placeholder="Username"
@@ -57,7 +58,7 @@
                             <option value="other">Other</option>
                         </select>
                     </div>
-                    <button class="submit-form" id="submit-button">
+                    <button class="submit-form" id="submit-button" onclick="register()">
                         Submit
                     </button>
                 </form>

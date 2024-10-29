@@ -47,4 +47,10 @@ public class UserAuthorityModel {
     public void setLoginModel(UserModel userModel) {
         this.userModel = userModel;
     }
+
+    @Override
+    public String toString() {
+
+        return "Authority name is: " + this.authorityName;
+    }
 }

@@ -19,8 +19,8 @@
         <script defer src="${pageContext.request.contextPath}/javascript/theme.js"></script>
         <script defer src="${pageContext.request.contextPath}/javascript/chat.js"></script>
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.2/sockjs.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+        <script src="${pageContext.request.contextPath}/javascript/sockjs.min.js"></script>
+        <script src="${pageContext.request.contextPath}/javascript/stomp.min.js"></script>
 
         <script defer>
             window.onload = async () => {

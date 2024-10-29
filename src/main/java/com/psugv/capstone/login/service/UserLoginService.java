@@ -39,7 +39,7 @@ public class UserLoginService implements ILoginService {
 
         try{
             UserAuthorityModel authority = userDAO.getAuthority(NORMAL_AUTHORITIy);
-
+            LOGGER.info(authority.toString());
             Set<UserAuthorityModel> authoritiesSet = new HashSet<UserAuthorityModel>();
 
             authoritiesSet.add(authority);
