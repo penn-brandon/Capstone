@@ -3,7 +3,7 @@ package com.psugv.capstone.chat.controller;
 import com.psugv.capstone.chat.model.ChatRoomName;
 import com.psugv.capstone.chat.model.Message;
 import com.psugv.capstone.chat.service.IChatService;
-import com.psugv.capstone.exception.NoChatRoomException;
+import com.psugv.capstone.exception.NoQueryResultException;
 import com.psugv.capstone.login.model.UserModel;
 import com.psugv.capstone.login.service.ILoginService;
 import org.slf4j.LoggerFactory;
@@ -11,7 +11,6 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -87,7 +86,7 @@ public class ChatController {
             model.addAttribute("chatRoomName", result);
 
             return "redirect:/loadMessage";
-        } catch (NoChatRoomException e) {
+        } catch (NoQueryResultException e) {
 
             return "redirect:/error";
         }
@@ -115,12 +114,5 @@ public class ChatController {
 
         return chatService.getAllChatRoomName(userModel);
     }
-/*
-    @MessageMapping("/subscription")
-    @SendTo("/listening/updates")
-    public String greeting(@RequestBody String message) throws Exception {
 
-        return "Hello, " + message + "!";
-    }
- */
 }

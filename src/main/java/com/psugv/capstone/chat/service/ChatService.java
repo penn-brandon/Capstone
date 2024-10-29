@@ -4,8 +4,8 @@ import com.psugv.capstone.chat.model.ChatRoom;
 import com.psugv.capstone.chat.model.ChatRoomName;
 import com.psugv.capstone.chat.model.Message;
 import com.psugv.capstone.chat.repository.IChatDAO;
-import com.psugv.capstone.exception.InsertMessageException;
-import com.psugv.capstone.exception.NoChatRoomException;
+import com.psugv.capstone.exception.InsertErrorException;
+import com.psugv.capstone.exception.NoQueryResultException;
 import com.psugv.capstone.login.model.UserModel;
 import com.psugv.capstone.util.ChatServer;
 import com.psugv.capstone.util.MessageListener;
@@ -45,7 +45,7 @@ public class ChatService implements IChatService {
 
         if((insertion && sendToServer) != true) {
 
-            throw new InsertMessageException("send message service is not implemented corrected");
+            throw new InsertErrorException("send message service is not implemented corrected");
         }
         return true;
     }
@@ -61,7 +61,7 @@ public class ChatService implements IChatService {
 
         if(cr == null || crn == null){
 
-            throw new NoChatRoomException("No such chat room or chat room name!!!");
+            throw new NoQueryResultException("No such chat room or chat room name!!!");
         }
 
         LOGGER.info("Create new listener for new chat room");
