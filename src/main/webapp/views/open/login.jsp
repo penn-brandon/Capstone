@@ -35,7 +35,7 @@
             <p>Thanks for choosing BLURB.</p>
             <div class="signup-form-box">
                 <p>Login Here</p>
-                <form method="post" action="${pageContext.request.contextPath}/login">
+                <form action="${pageContext.request.contextPath}register" method="post">
                     <div class="signup-form-box-content"></div>
                     <label for="username"></label>
                     <input type="text" name="username" placeholder="Username here" class="submit-input" id="username"

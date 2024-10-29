@@ -47,6 +47,11 @@ public class LoginController {
         return "/open/error";
     }
 
+    @GetMapping(path="/signin")
+    public String toSignupPage() {
+        return "/open/signup";
+    }
+
 
 /*
     @GetMapping(path="/logout")

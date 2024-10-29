@@ -35,17 +35,27 @@
             <p>This is a cool chat app</p>
             <div class="signup-form-box">
                 <p>Create Your Account</p>
-                <form id="signup-form-form" method="POST" role="form" th:action="@{/register/save}" th:object="${user}">
+                <form id="signup-form-form" method="POST" action="${pageContext.request.contextPath}/register">
                     <div class="signup-form-box-content">
                         <label for="user"></label>
-                        <input type="text" name="username" placeholder="Username here"
+                        <input type="text" name="username" placeholder="Username"
                                class="submit-input" id="user"
                                autocomplete="username" required/>
                         <br/>
-                        <label for="pass"></label>
-                        <input type="password" name="password" placeholder="Password here"
-                               class="submit-input" id="pass"
+                        <label for="password"></label>
+                        <input type="password" name="password" placeholder="Password"
+                               class="submit-input" id="password"
                                autocomplete="new-password" required/>
+                        <label for="name"></label>
+                        <input type="text" name="name" placeholder="Name"
+                               class="submit-input" id="name"
+                               autocomplete="text" required/>
+                        <label for="gender"></label>
+                        <select name="gender" id="gender" class="gender-select">
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                        </select>
                     </div>
                     <button class="submit-form" id="submit-button">
                         Submit
