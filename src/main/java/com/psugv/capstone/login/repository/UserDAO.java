@@ -1,5 +1,7 @@
 package com.psugv.capstone.login.repository;
 
+import com.psugv.capstone.exception.InsertErrorException;
+import com.psugv.capstone.exception.NoQueryResultException;
 import com.psugv.capstone.login.model.UserAuthorityModel;
 import com.psugv.capstone.login.model.UserModel;
 import jakarta.persistence.EntityManager;
@@ -11,8 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
-import java.util.HashSet;
-import java.util.Map;
+import java.util.*;
 
 @Repository
 public class UserDAO implements IUserDAO {
@@ -40,5 +41,43 @@ public class UserDAO implements IUserDAO {
         }
 
         return um;
+    }
+
+    @Override
+    public boolean registration(Map<String, String> inputMap, Set<UserAuthorityModel> authorities){
+
+        try {
+            String username = inputMap.get("username");
+            String password = inputMap.get("password");
+            String name = inputMap.get("name");
+            String gender = inputMap.get("gender");
+
+            UserModel newUser = new UserModel(username, password, name, null, gender, true, authorities);
+
+            entityManager.persist(newUser);
+
+        } catch (Exception e) {
+
+            LOGGER.error("Fail to register user!!!", e);
+            throw new InsertErrorException("Registration failure!!!");
+        }
+        return true;
+    }
+
+    @Override
+    public UserAuthorityModel getAuthority(String authorityName){
+
+        UserAuthorityModel authority;
+
+        try{
+            authority = entityManager.createQuery("from authorities where authorityName = :authorityName", UserAuthorityModel.class)
+                    .setParameter("authorityName", authorityName).getSingleResult();
+
+        } catch (NoResultException e) {
+
+            LOGGER.error("Fail to load authority by user name!!!", e);
+            throw new NoQueryResultException("Cannot find given authrities name.");
+        }
+        return authority;
     }
 }

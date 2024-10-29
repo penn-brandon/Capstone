@@ -3,8 +3,7 @@ package com.psugv.capstone.chat.repository;
 import com.psugv.capstone.chat.model.ChatRoom;
 import com.psugv.capstone.chat.model.ChatRoomName;
 import com.psugv.capstone.chat.model.Message;
-import com.psugv.capstone.exception.InsertMessageException;
-import com.psugv.capstone.exception.NoChatRoomException;
+import com.psugv.capstone.exception.InsertErrorException;
 import com.psugv.capstone.login.model.UserModel;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
@@ -15,7 +14,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.List;
 
 @Repository
@@ -119,7 +117,7 @@ public class ChatDAO implements IChatDAO {
     @Override
     public boolean insertMessage(String message, UserModel userModel, String chatRoomId){
 
-        Date currentDate = Calendar.getInstance().getTime();
+        Date currentDate = new Date();
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -138,7 +136,7 @@ public class ChatDAO implements IChatDAO {
 
             LOGGER.error("Cannot insert message" + message, e);
 
-            throw new InsertMessageException("Cannot insert message" + message);
+            throw new InsertErrorException("Cannot insert message" + message);
         }
     }
 }
