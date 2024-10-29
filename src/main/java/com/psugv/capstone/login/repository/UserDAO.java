@@ -44,18 +44,11 @@ public class UserDAO implements IUserDAO {
     }
 
     @Override
-    public boolean registration(Map<String, String> inputMap, Set<UserAuthorityModel> authorities){
+    public boolean registration(UserModel user) {
 
         try {
-            LOGGER.info(inputMap.toString());
-            String username = inputMap.get("username");
-            String password = inputMap.get("password");
-            String name = inputMap.get("name");
-            String gender = inputMap.get("gender");
 
-            UserModel newUser = new UserModel(null, username, password, name, null, gender, true, authorities);
-
-            entityManager.persist(newUser);
+            entityManager.persist(user);
 
         } catch (Exception e) {
 
@@ -64,7 +57,7 @@ public class UserDAO implements IUserDAO {
         }
         return true;
     }
-
+/*
     @Override
     public UserAuthorityModel getAuthority(String authorityName){
 
@@ -80,5 +73,5 @@ public class UserDAO implements IUserDAO {
             throw new NoQueryResultException("Cannot find given authrities name.");
         }
         return authority;
-    }
+    }*/
 }

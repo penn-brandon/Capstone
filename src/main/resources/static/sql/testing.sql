@@ -26,7 +26,7 @@ create table 1_message(
     content varchar(225) not null,
     senderId int not null,
     sender varchar(225) not null,
-    FOREIGN KEY (senderId) REFERENCES USer(user_id)
+    FOREIGN KEY (senderId) REFERENCES User(user_id)
 );
 
 

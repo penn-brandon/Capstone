@@ -15,9 +15,7 @@ create table user
     username         varchar(255) not null,
     password         varchar(255) not null,
     date_of_creation datetime     not null default CURRENT_TIMESTAMP,
-    authority_id     int          not null,
-    is_Enable        bool         not null default true,
-    FOREIGN KEY (authority_id) REFERENCES authorities (authority_id)
+    is_Enable        bool         not null default true
 );
 
 CREATE TABLE ChatRoom (

@@ -24,6 +24,13 @@ public class UserAuthorityModel {
 
     public UserAuthorityModel() {}
 
+    public UserAuthorityModel(Integer id, String authorityName, UserModel userModel) {
+
+        this.id = id;
+        this.authorityName = authorityName;
+        this.userModel = userModel;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -40,11 +47,11 @@ public class UserAuthorityModel {
         this.authorityName = authorityName;
     }
 
-    public UserModel getLoginModel() {
+    public UserModel getUserModel() {
         return userModel;
     }
 
-    public void setLoginModel(UserModel userModel) {
+    public void setUserModel(UserModel userModel) {
         this.userModel = userModel;
     }
 
