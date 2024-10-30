@@ -1,22 +1,14 @@
-
 package com.psugv.capstone.security;
-
-import java.util.*;
-
-import com.psugv.capstone.login.model.UserAuthorityModel;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -45,10 +37,9 @@ public class LoginAuthenticationProvider implements AuthenticationProvider {
         System.out.println("uesr password: " + user.getPassword());
 
         if (passwordEncoder.matches(pwd, user.getPassword())) {
-                System.out.println("Login successful");
-                return new UsernamePasswordAuthenticationToken(username, pwd, user.getAuthorities());
-        }
-        else {
+            System.out.println("Login successful");
+            return new UsernamePasswordAuthenticationToken(username, pwd, user.getAuthorities());
+        } else {
 
             System.err.println("Invalid username or password!");
 

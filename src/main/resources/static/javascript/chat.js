@@ -1,8 +1,7 @@
 function profile_click(route) {
-    if(document.getElementById('profile-dropdown')){
+    if (document.getElementById('profile-dropdown')) {
         document.getElementById('profile-dropdown').remove();
-    }
-    else {
+    } else {
         const profile_dropdown = document.createElement("div");
         profile_dropdown.id = 'profile-dropdown';
         profile_dropdown.className = 'profile-dropdown';

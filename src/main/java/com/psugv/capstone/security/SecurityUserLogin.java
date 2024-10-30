@@ -1,10 +1,7 @@
 package com.psugv.capstone.security;
 
-import java.util.*;
-
 import com.psugv.capstone.login.model.UserAuthorityModel;
 import com.psugv.capstone.login.model.UserModel;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -12,6 +9,10 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 @Component
 @Qualifier("SecurityUserLogin")
@@ -21,7 +22,7 @@ public class SecurityUserLogin implements UserDetails {
 
     private static final long serialVersionUID = -6690946490872875352L;
 
-    private UserModel user;
+    private final UserModel user;
 
     public SecurityUserLogin(UserModel user) {
         this.user = user;
@@ -35,7 +36,7 @@ public class SecurityUserLogin implements UserDetails {
 
         Set<UserAuthorityModel> auSet = user.getAuthorities();
 
-        for(UserAuthorityModel au : auSet) {
+        for (UserAuthorityModel au : auSet) {
             authorities.add(new SimpleGrantedAuthority(au.getAuthorityName()));
         }
         return authorities;

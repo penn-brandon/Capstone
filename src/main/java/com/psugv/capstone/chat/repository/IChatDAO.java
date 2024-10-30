@@ -9,13 +9,13 @@ import java.util.List;
 
 public interface IChatDAO {
 
-    public List<ChatRoomName> getAllChatroomName(Integer userId);
+    List<ChatRoomName> getAllChatroomName(Integer userId);
 
-    public List<Message> loadHistoryMessage(Integer chatroomId);
+    List<Message> loadHistoryMessage(Integer chatroomId);
 
-    public ChatRoom findChatRoom(Integer chatRoomId);
+    ChatRoom findChatRoom(Integer chatRoomId);
 
-    public ChatRoomName findChatRoomName(Integer userId, Integer chatRoomId);
+    ChatRoomName findChatRoomName(Integer userId, Integer chatRoomId);
 
-    public boolean insertMessage(String message, UserModel userModel, String chatRoomId);
+    boolean insertMessage(String message, UserModel userModel, String chatRoomId);
 }

@@ -12,24 +12,21 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.Date;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Repository
 public class ChatDAO implements IChatDAO {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ChatDAO.class);
-
+    private static final String CHAT_ROOM_NAME_POSTFIX = "_chatroomname";
+    private static final String MESSAGE_POSTFIX = "_message";
     @Autowired
     EntityManager entityManager;
 
-    private static final String CHAT_ROOM_NAME_POSTFIX = "_chatroomname";
-
-    private static final String MESSAGE_POSTFIX = "_message";
-
     @Override
-    public List<ChatRoomName> getAllChatroomName(Integer userId){
+    public List<ChatRoomName> getAllChatroomName(Integer userId) {
 
         List<ChatRoomName> result;
 
@@ -40,7 +37,7 @@ public class ChatDAO implements IChatDAO {
 
             result = (List<ChatRoomName>) query.getResultList();
 
-        }catch(Exception e){
+        } catch (Exception e) {
 
             LOGGER.error("Fail to load chat room name list!!", e);
 
@@ -50,7 +47,7 @@ public class ChatDAO implements IChatDAO {
     }
 
     @Override
-    public List<Message> loadHistoryMessage(Integer chatroomId){
+    public List<Message> loadHistoryMessage(Integer chatroomId) {
 
         List<Message> result;
 
@@ -63,7 +60,7 @@ public class ChatDAO implements IChatDAO {
 
             result = (List<Message>) query.getResultList();
 
-        }catch(Exception e){
+        } catch (Exception e) {
 
             LOGGER.error("Fail to load message list!!", e);
 
@@ -77,14 +74,13 @@ public class ChatDAO implements IChatDAO {
 
         ChatRoomName result;
 
-        try{
-            StringBuilder sql = new StringBuilder().append("select * from ").append(userId).append(CHAT_ROOM_NAME_POSTFIX).append(" where chat_room_id = ").append(chatRoomId);
+        try {
 
-            Query query = entityManager.createNativeQuery(sql.toString(), ChatRoomName.class);
+            Query query = entityManager.createNativeQuery("select * from " + userId + CHAT_ROOM_NAME_POSTFIX + " where chat_room_id = " + chatRoomId, ChatRoomName.class);
 
             result = (ChatRoomName) query.getSingleResult();
 
-        } catch (Exception e){
+        } catch (Exception e) {
 
             LOGGER.error("Fail to find the chat room name", e);
 
@@ -94,7 +90,7 @@ public class ChatDAO implements IChatDAO {
     }
 
     @Override
-    public ChatRoom findChatRoom(Integer chatroomId){
+    public ChatRoom findChatRoom(Integer chatroomId) {
 
         ChatRoom result;
 
@@ -105,7 +101,7 @@ public class ChatDAO implements IChatDAO {
 
             result = (ChatRoom) query.getSingleResult();
 
-        }catch(Exception e){
+        } catch (Exception e) {
 
             LOGGER.error("Fail to find chat room!!", e);
 
@@ -115,7 +111,7 @@ public class ChatDAO implements IChatDAO {
     }
 
     @Override
-    public boolean insertMessage(String message, UserModel userModel, String chatRoomId){
+    public boolean insertMessage(String message, UserModel userModel, String chatRoomId) {
 
         Date currentDate = new Date();
 
@@ -127,12 +123,12 @@ public class ChatDAO implements IChatDAO {
             Query query = entityManager.createNativeQuery("insert into " + chatRoomId + MESSAGE_POSTFIX + "(content,time,senderId,sender) " +
                     "value (\"" + message + "\",\"" + formattedDate + "\"," + userModel.getId() + ",\"" + userModel.getName() + "\");");
 
-            int result =  query.executeUpdate();
+            int result = query.executeUpdate();
             LOGGER.debug(result + " rows inserted");
 
             return true;
 
-        }catch(Exception e){
+        } catch (Exception e) {
 
             LOGGER.error("Cannot insert message" + message, e);
 

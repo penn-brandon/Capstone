@@ -6,8 +6,8 @@ import com.psugv.capstone.chat.service.IChatService;
 import com.psugv.capstone.exception.NoQueryResultException;
 import com.psugv.capstone.login.model.UserModel;
 import com.psugv.capstone.login.service.ILoginService;
-import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -53,8 +53,7 @@ public class ChatController {
     @PostMapping(path = "/send", consumes = "application/json")
     public @ResponseBody String sendMessage(@RequestBody Map<String, String> inputMap, @SessionAttribute UserModel userModel) {
 
-        if(inputMap.get("message") == null || inputMap.get("message").isEmpty()
-                || inputMap.get("room") == null || inputMap.get("room").isEmpty()) {
+        if (inputMap.get("message") == null || inputMap.get("message").isEmpty() || inputMap.get("room") == null || inputMap.get("room").isEmpty()) {
 
             LOGGER.debug("message: " + inputMap.get("message"));
             LOGGER.debug("room: " + inputMap.get("room"));
@@ -68,14 +67,14 @@ public class ChatController {
     }
 
     @GetMapping(path = "/select")
-    public String selectChatBox(@RequestHeader String chatRoomID, @SessionAttribute ("userModel")UserModel userModel, Model model) {
+    public String selectChatBox(@RequestHeader String chatRoomID, @SessionAttribute("userModel") UserModel userModel, Model model) {
 
         ChatRoomName result;
 
         try {
             result = chatService.selectChatRoom(chatRoomID, userModel);
 
-            if(result == null) {
+            if (result == null) {
 
                 LOGGER.error("Chat room name not found for chat room ID " + chatRoomID + ", and user ID " + userModel.getId());
 
@@ -93,8 +92,7 @@ public class ChatController {
     }
 
     @GetMapping(path = "/loadMessage")
-    public @ResponseBody List<Message> loadHistoryMessage(
-            @SessionAttribute ("chatRoomName") ChatRoomName chatRoomName) {
+    public @ResponseBody List<Message> loadHistoryMessage(@SessionAttribute("chatRoomName") ChatRoomName chatRoomName) {
 
         List<Message> result;
 
@@ -102,7 +100,7 @@ public class ChatController {
 
         result = chatService.loadHistoryMessage(chatRoomId);
 
-        if(result == null) {
+        if (result == null) {
 
             return new ArrayList<>();
         }

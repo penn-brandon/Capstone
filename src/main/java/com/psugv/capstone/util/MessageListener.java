@@ -15,19 +15,12 @@ import java.util.Map;
 public class MessageListener {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MessageListener.class);
-
-    private boolean listening = false;
-
-    private UserModel user;
-
-    private ChatRoom room;
-
-    private ChatRoomName roomName;
-
-    private String message;
-
     private final static String MESSAGE_WAIT = "MESSAGE_IS_WAITING_FOR_NEW_INPUT";
-
+    private boolean listening = false;
+    private UserModel user;
+    private ChatRoom room;
+    private ChatRoomName roomName;
+    private String message;
     private SimpMessagingTemplate messagingTemplate;
 
     private String senderName = null;
@@ -54,9 +47,10 @@ public class MessageListener {
         LOGGER.debug("messagingTemplate is null in constructor? " + (messagingTemplate == null));
     }
 
-    public MessageListener(){}
+    public MessageListener() {
+    }
 
-    public void init(){
+    public void init() {
 
         LOGGER.info("Listening start");
         LOGGER.trace(this.toString());
@@ -64,10 +58,10 @@ public class MessageListener {
         listeringMessage();
     }
 
-    public void destroy (){
+    public void destroy() {
 
         LOGGER.info("Listening stop");
-        LOGGER.trace(this.toString() + " !!Ceassed!!");
+        LOGGER.trace(this + " !!Ceassed!!");
         listening = false;
         user = null;
         room = null;
@@ -77,7 +71,7 @@ public class MessageListener {
     public synchronized void updateChatRoom(MessageListener listener) {
 
         LOGGER.debug("Lock listener itself");
-        synchronized (this){
+        synchronized (this) {
 
             listening = false;
 
@@ -102,21 +96,21 @@ public class MessageListener {
         }
     }
 
-    private void listeringMessage(){
+    private void listeringMessage() {
 
         try {
-            synchronized (this){
+            synchronized (this) {
 
-                while(listening){
+                while (listening) {
 
-                    if(message.equals(MESSAGE_WAIT)){
+                    if (message.equals(MESSAGE_WAIT)) {
 
                         LOGGER.debug("Message object wait!!");
                         this.wait();
                     }
                     LOGGER.debug("Message received: " + message + "sender is " + this.senderName);
                     LOGGER.trace("sending message out!!");
-                    sendUpdateToSocket(message, new String(senderName));
+                    sendUpdateToSocket(message, senderName);
 
                     message = MESSAGE_WAIT;
                     senderName = null;
@@ -146,12 +140,12 @@ public class MessageListener {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
 
         return user.getName() + " is listening to chat room " + roomName;
     }
 
-    private void sendUpdateToSocket(String message, String senderName){
+    private void sendUpdateToSocket(String message, String senderName) {
 
         LOGGER.debug("ChatService.sendUpdate, message is: " + message + ", and Listener is: " + (this.getUser().getUsername()));
         String userName = this.getUser().getUsername();

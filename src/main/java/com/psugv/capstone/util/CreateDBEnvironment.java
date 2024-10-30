@@ -1,7 +1,6 @@
 package com.psugv.capstone.util;
 
 
-
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityManager;
 import org.apache.ibatis.jdbc.ScriptRunner;
@@ -58,11 +57,11 @@ public class CreateDBEnvironment {
         setupDB();
     }
 
-    private void setupDB(){
+    private void setupDB() {
 
         LOGGER.trace("connection is open ");
 
-        try(Connection connection = DriverManager.getConnection(URL, username, password)) {
+        try (Connection connection = DriverManager.getConnection(URL, username, password)) {
 
             scriptRunner = new ScriptRunner(connection);
 
@@ -84,13 +83,13 @@ public class CreateDBEnvironment {
         }
     }
 
-    private void implementScript(String filePath){
+    private void implementScript(String filePath) {
 
-        try(BufferedReader br = new BufferedReader(new FileReader(filePath))){
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
 
             scriptRunner.runScript(br);
 
-        } catch(Exception e){
+        } catch (Exception e) {
 
             File f = new File(".");
 

@@ -43,7 +43,7 @@ public class ChatService implements IChatService {
 
         boolean sendToServer = ChatServer.sentMessage(message, userModel.getId(), Integer.parseInt(chatRoomId), userModel.getName());
 
-        if((insertion && sendToServer) != true) {
+        if (!(insertion && sendToServer)) {
 
             throw new InsertErrorException("send message service is not implemented corrected");
         }
@@ -59,13 +59,13 @@ public class ChatService implements IChatService {
 
         ChatRoomName crn = chatDAO.findChatRoomName(userModel.getId(), chatRoomId);
 
-        if(cr == null || crn == null){
+        if (cr == null || crn == null) {
 
             throw new NoQueryResultException("No such chat room or chat room name!!!");
         }
 
         LOGGER.info("Create new listener for new chat room");
-        MessageListener ml = new MessageListener(cr, crn, userModel,messagingTemplate);
+        MessageListener ml = new MessageListener(cr, crn, userModel, messagingTemplate);
 
         LOGGER.info("Update new listener to server");
         ChatServer.updateOnlineUserPool(userModel.getId(), chatRoomId, ml);
@@ -80,7 +80,7 @@ public class ChatService implements IChatService {
     }
 
     @Override
-    public List<ChatRoomName> getAllChatRoomName(UserModel userModel){
+    public List<ChatRoomName> getAllChatRoomName(UserModel userModel) {
 
         return chatDAO.getAllChatroomName(userModel.getId());
     }

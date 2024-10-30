@@ -73,7 +73,7 @@ span {
 .current-chat {
     position: absolute;
     top: 150px;
-    background-color: rgb(146,170,212);
+    background-color: rgb(146, 170, 212);
     border: none;
     border-radius: 10px;
     width: 70%;
@@ -91,22 +91,22 @@ span {
 
 .chat-sent {
     height: 100%;
-    background-color:rgb(141,227,134);
+    background-color: rgb(141, 227, 134);
     margin: 5px;
     width: 45%;
-    float:right;
+    float: right;
     border-radius: 5px;
-    border:none;
+    border: none;
 }
 
 .chat-received {
-    background-color: rgb(255,255,255);
+    background-color: rgb(255, 255, 255);
     width: 45%;
     height: 100%;
     margin: 5px;
     float: left;
     border-radius: 5px;
-    border:none;
+    border: none;
 }
 
 /* CHAT BOX */
@@ -133,7 +133,7 @@ span {
     bottom: 15px;
     height: 60px;
     width: 60px;
-    right:0;
+    right: 0;
     background-color: red;
     border-radius: 10px;
 }

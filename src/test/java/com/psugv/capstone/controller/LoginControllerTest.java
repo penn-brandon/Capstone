@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class LoginControllerTest {
 
 
-    private LoginController loginController = new LoginController();
+    private final LoginController loginController = new LoginController();
 
     @BeforeEach
     void setUp() throws Exception {

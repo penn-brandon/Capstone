@@ -7,9 +7,9 @@ import java.util.Map;
 
 public interface ILoginService {
 
-	//public UserModel getUser(UserModel user);
+    //public UserModel getUser(UserModel user);
 
-	public UserModel getUserByUsername(String userName);
+    UserModel getUserByUsername(String userName);
 
-	public boolean registration(Map<String, String> inputMap);
+    boolean registration(Map<String, String> inputMap);
 }
