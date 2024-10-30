@@ -53,7 +53,7 @@ public class UserModel implements Serializable {
         this.username = username;
         this.password = password;
         this.name = name;
-        this.date_of_creation = date == null? date: new Date();
+        this.date_of_creation = date == null? new Date():date;
         this.gender = gender;
         this.isEnable = isEnable;
         this.authorities = authorities;

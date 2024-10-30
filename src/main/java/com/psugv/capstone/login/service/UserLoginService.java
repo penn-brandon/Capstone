@@ -21,7 +21,7 @@ import java.util.Set;
 @EnableTransactionManagement
 public class UserLoginService implements ILoginService {
 
-    private final static String NORMAL_AUTHORITIy = "NORMAL";
+    private final static String NORMAL_AUTHORITIY = "NORMAL";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserLoginService.class);
 
@@ -47,11 +47,21 @@ public class UserLoginService implements ILoginService {
 
             UserAuthorityModel authority = userDAO.getAuthority(NORMAL_AUTHORITIy);
 
+        try{
+            UserAuthorityModel authority = new UserAuthorityModel(null, NORMAL_AUTHORITIY, null);
+          
             Set<UserAuthorityModel> authoritiesSet = new HashSet<UserAuthorityModel>();
 
             authoritiesSet.add(authority);
 
-            userDAO.registration(inputMap, authoritiesSet);
+            String username = inputMap.get("username");
+            String password = inputMap.get("password");
+            String name = inputMap.get("name");
+            String gender = inputMap.get("gender");
+
+            UserModel newUser = new UserModel(null, username, password, name, null, gender, true, null);
+
+            authority.setUserModel(newUser);
 
         } catch (Exception e){
 

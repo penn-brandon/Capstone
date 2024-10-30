@@ -50,6 +50,11 @@ public class LoginController {
         return "/open/error";
     }
 
+    @GetMapping(path="/signup")
+    public String toSignupPage() {
+        return "/open/signup";
+    }
+
 
 /*
     @GetMapping(path="/logout")
@@ -71,6 +76,8 @@ public class LoginController {
      */
     public @ResponseBody String registerToApp(@RequestBody Map<String, String> inputMap){
 
+        LOGGER.info("registerToApp() called");
+        LOGGER.debug(inputMap.toString());
         boolean result;
 
         try {

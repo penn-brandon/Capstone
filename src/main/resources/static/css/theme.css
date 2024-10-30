@@ -53,7 +53,7 @@ nav {
 
 .main {
     width: 100%;
-    margin-top: 225px;
+    margin-top: 175px;
 }
 
 
@@ -87,6 +87,14 @@ nav {
 
 .signup-form-box-content {
     margin-top: 10px;
+}
+
+.gender-select {
+    padding: 15px 110px;
+    border-radius: 5px;
+    margin: 5px;
+    border: none;
+    text-align: center;
 }
 
 .submit-input {

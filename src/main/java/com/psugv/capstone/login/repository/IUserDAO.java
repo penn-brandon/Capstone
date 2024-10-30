@@ -10,7 +10,9 @@ public interface IUserDAO {
 
     public UserModel getUserByUsername(String username);
 
-    public boolean registration(Map<String, String> inputMap, Set<UserAuthorityModel> authorities);
+    public boolean registration(UserModel user);
 
-    public UserAuthorityModel getAuthority(String authorityName);
+    //public UserAuthorityModel insertAuthority(UserAuthorityModel authority);
+
+    //public boolean registrateAuthority(UserAuthorityModel authority);
 }

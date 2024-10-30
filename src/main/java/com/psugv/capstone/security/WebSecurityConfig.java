@@ -32,7 +32,7 @@ public class WebSecurityConfig {
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/css/**", "/images/**", "/javascript/**", "/sql/**", "/views/**").permitAll()
-                        .requestMatchers("/", "/login", "/signup", "/index", "/error").permitAll()
+                        .requestMatchers("/", "/login", "/signup", "/index", "/error", "/register").permitAll()
                         .requestMatchers("/chat", "/send", "/select", "/loadMessage", "/loadAllChatRoomName").authenticated()
                         .requestMatchers("/getMessage").authenticated()
                         .requestMatchers("/listening/**", "/controller/**", "/capstone").permitAll()

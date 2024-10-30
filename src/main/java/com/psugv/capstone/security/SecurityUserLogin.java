@@ -25,18 +25,19 @@ public class SecurityUserLogin implements UserDetails {
 
     public SecurityUserLogin(UserModel user) {
         this.user = user;
-        this.user.toString();
+        LOGGER.debug(this.user.toString());
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+
         Set<GrantedAuthority> authorities = new HashSet<>();
+
         Set<UserAuthorityModel> auSet = user.getAuthorities();
 
         for(UserAuthorityModel au : auSet) {
             authorities.add(new SimpleGrantedAuthority(au.getAuthorityName()));
         }
-
         return authorities;
     }
 

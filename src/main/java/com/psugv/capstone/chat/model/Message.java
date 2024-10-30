@@ -22,7 +22,7 @@ public class Message {
 
     private String content;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "senderId", referencedColumnName = "user_id")
     private UserModel userModel;
 
