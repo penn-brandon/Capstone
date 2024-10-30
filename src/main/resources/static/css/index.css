@@ -8,6 +8,11 @@
     margin-bottom: 20px;
 }
 
+.main > a {
+    text-decoration: none;
+}
+
+
 .nav-login-login {
     padding: 10px;
     border-radius: 10px;
