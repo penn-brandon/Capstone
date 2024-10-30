@@ -6,7 +6,8 @@ async function register() {
 
     if (username !== "" && password !== "" && name !== "" && gender !== "") {
         // RUN QUERY HERE
-        const register = await fetch('Capstone/register', {
+        console.log("WOW");
+        const register = await fetch('/Capstone/register', {
             method: 'POST',
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({
@@ -16,7 +17,6 @@ async function register() {
                 "gender": gender
             })
         });
-        console.log("WOW");
         console.log(register.body);
         if (!register.ok) {
             console.log("ERROR: " + register.status);
