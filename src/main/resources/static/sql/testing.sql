@@ -62,5 +62,15 @@ create table 2_message
     FOREIGN KEY (senderId) REFERENCES User (user_id)
 );
 
+create table 3_message
+(
+    message_id SERIAL primary key not null,
+    time       DATETIME           not null DEFAULT CURRENT_TIMESTAMP,
+    content    varchar(225)       not null,
+    senderId   int                not null,
+    sender     varchar(225)       not null,
+    FOREIGN KEY (senderId) REFERENCES User (user_id)
+);
+
 
 
