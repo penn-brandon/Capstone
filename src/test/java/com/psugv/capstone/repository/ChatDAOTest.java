@@ -39,7 +39,7 @@ public class ChatDAOTest {
     @Test
     public void analyzeFindChatRoomName() {
 
-        assertNotEquals(chatDAO.findChatRoomName(2,1), chatDAO.findChatRoomName(1,2));
+        assertNotEquals(chatDAO.findChatRoomName(2, 1), chatDAO.findChatRoomName(1, 2));
     }
 
     @Test
