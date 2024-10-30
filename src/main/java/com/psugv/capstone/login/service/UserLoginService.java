@@ -37,9 +37,19 @@ public class UserLoginService implements ILoginService {
     @Override
     public boolean registration(Map<String, String> inputMap){
 
+        try{
+            UserModel search = userDAO.getUserByUsername(inputMap.get("username"));
+
+            if(search != null){
+
+                return false;
+            }
+
+            UserAuthorityModel authority = userDAO.getAuthority(NORMAL_AUTHORITIy);
 
         try{
             UserAuthorityModel authority = new UserAuthorityModel(null, NORMAL_AUTHORITIY, null);
+          
             Set<UserAuthorityModel> authoritiesSet = new HashSet<UserAuthorityModel>();
 
             authoritiesSet.add(authority);

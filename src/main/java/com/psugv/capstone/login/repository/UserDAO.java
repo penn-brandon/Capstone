@@ -47,7 +47,6 @@ public class UserDAO implements IUserDAO {
     public boolean registration(UserModel user) {
 
         try {
-
             entityManager.persist(user);
 
         } catch (Exception e) {
