@@ -20,7 +20,7 @@
     top: 85px;
     width: 150px;
     text-align: center;
-    z-index: 10;
+    z-index: 99 !important;
 }
 
 .profile-dropdown > a {
@@ -69,6 +69,19 @@ span {
     padding: 10px;
 }
 
+#chat-room-plus {
+    margin-top: 10px;
+    padding: 15px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
+    background-color: orange;
+    border: none;
+    border-radius: 10px;
+}
+
+#chat-room-plus:hover, .channels-list > p:hover {
+    cursor: pointer;
+}
+
 /* CHAT Messages */
 .current-chat {
     position: absolute;
@@ -97,6 +110,7 @@ span {
     float: right;
     border-radius: 5px;
     border: none;
+    box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
 }
 
 .chat-received {
@@ -107,6 +121,7 @@ span {
     float: left;
     border-radius: 5px;
     border: none;
+    box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
 }
 
 /* CHAT BOX */

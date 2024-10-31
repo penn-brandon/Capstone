@@ -221,8 +221,8 @@
 
                     // Loads new Messages when you click the channel name
                     new_chat.addEventListener('click', async () => {
-                        console.log(chat_rooms[i][0]);
-                        console.log(chat_rooms);
+                        //console.log(chat_rooms[i][0]);
+                        //console.log(chat_rooms);
                         let messages = await getMessages(chat_rooms[i][0]);
                         displayMessages(messages);
                         chat_id = chat_rooms[i][0];
@@ -247,6 +247,20 @@
 
                 chat_room_div.appendChild(new_chat);
             }
+
+            // Creates Add To ChatRoom button at the end of channels list
+
+            let chat_room_plus = document.createElement('button');
+            chat_room_plus.id = "chat-room-plus";
+            chat_room_plus.innerHTML = "+";
+
+            chat_room_div.append(chat_room_plus);
+
+            chat_room_plus.addEventListener('onclick', () => {
+               // TODO
+               // JOIN CHATROOM CODE
+               // OR CREATE NEW CHATROOM
+            });
 
         }
 
