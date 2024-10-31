@@ -26,7 +26,7 @@
         window.onload = async () => {
             let chat_rooms = await getChatRooms();
             await displayChatRooms(chat_rooms);
-            let chat_id = null;
+            var chat_id = null;
 
             let send_message_enter = document.getElementById('chat-send');
             send_message_enter.addEventListener("keypress", function (event) {
@@ -252,7 +252,7 @@
 
         async function getMessages(chatroom) {
             try {
-                console.log("CHAT ROOM " + chatroom.toString());
+                console.log("ARROWHEAD" + chatroom.toString());
                 const response = await fetch('/Capstone/select', {
                     method: 'GET',
                     headers: {"Content-Type": "application/json", "chatRoomID": chatroom.toString()}
@@ -260,6 +260,7 @@
                 if (!response.ok) {
                     console.log("ERROR: " + response.status);
                 }
+                console.log("SHAKE");
                 console.log(response);
                 const json = await response.json();
                 let messages = [];
@@ -295,7 +296,6 @@
             }
 
             if (messages !== 0) {
-                console.log(messages);
                 for (let i = messages.length - 1; i >= 0; i--) {
                     // For Message time
                     let chat_room_time = document.createElement('p');
@@ -322,9 +322,6 @@
                     let chat_row = document.createElement('div');
                     chat_row.className = "chat-row";
                     chat_row.appendChild(chat_div);
-
-                    console.log(`${sessionScope.userModel.getName()}`);
-                    console.log(messages[i][2]);
 
                     if (messages[i][2].toString() !== `${sessionScope.userModel.getName()}`.toString()) {
                         chat_room_time.className = "chat-timestamp-received";

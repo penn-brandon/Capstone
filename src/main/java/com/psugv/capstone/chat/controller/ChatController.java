@@ -71,6 +71,8 @@ public class ChatController {
 
         ChatRoomName result;
 
+        LOGGER.debug("Incoming chat room ID is: " + chatRoomID);
+
         try {
             result = chatService.selectChatRoom(chatRoomID, userModel);
 
@@ -96,7 +98,7 @@ public class ChatController {
 
         List<Message> result;
 
-        Integer chatRoomId = chatRoomName.getId();
+        Integer chatRoomId = chatRoomName.getChatRoom().getId();
 
         result = chatService.loadHistoryMessage(chatRoomId);
 
@@ -104,6 +106,7 @@ public class ChatController {
 
             return new ArrayList<>();
         }
+        LOGGER.debug("MESSAGE LENGTH" + result.size());
         return result;
     }
 
