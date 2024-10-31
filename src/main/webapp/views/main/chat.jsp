@@ -182,11 +182,13 @@
                 const json = await response.json();
                 let chat_rooms = [];
 
+                console.log("FRIES");
+                console.log(json);
                 for (let i = 0; i < json.length; i++) {
                     let curChatRoom = [];
-                    curChatRoom.push(Object.values(json)[0][0]); // id
-                    curChatRoom.push(Object.values(json)[0][3]); // name
-                    let date = Object.values(json)[0][4] // date
+                    curChatRoom.push(Object.values(json)[i][1]); // id
+                    curChatRoom.push(Object.values(json)[i][3]); // name
+                    let date = Object.values(json)[i][4] // date
                     curChatRoom.push(new Date(date).getDay() + "/" + new Date(date).getMonth()); //date
                     chat_rooms.push(curChatRoom);
                 }
@@ -219,6 +221,8 @@
 
                     // Loads new Messages when you click the channel name
                     new_chat.addEventListener('click', async () => {
+                        console.log(chat_rooms[i][0]);
+                        console.log(chat_rooms);
                         let messages = await getMessages(chat_rooms[i][0]);
                         displayMessages(messages);
                         chat_id = chat_rooms[i][0];
@@ -248,6 +252,7 @@
 
         async function getMessages(chatroom) {
             try {
+                console.log("CHAT ROOM " + chatroom.toString());
                 const response = await fetch('/Capstone/select', {
                     method: 'GET',
                     headers: {"Content-Type": "application/json", "chatRoomID": chatroom.toString()}
@@ -255,6 +260,7 @@
                 if (!response.ok) {
                     console.log("ERROR: " + response.status);
                 }
+                console.log(response);
                 const json = await response.json();
                 let messages = [];
 
