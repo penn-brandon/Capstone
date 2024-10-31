@@ -44,7 +44,7 @@ public class UserLoginService implements ILoginService {
                 return false;
             }
 
-            UserAuthorityModel authority = new UserAuthorityModel(null, NORMAL_AUTHORITIY, null);
+            UserAuthorityModel authority = new UserAuthorityModel(null, NORMAL_AUTHORITY, null);
           
             Set<UserAuthorityModel> authoritiesSet = new HashSet<UserAuthorityModel>();
 
