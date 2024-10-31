@@ -45,9 +45,6 @@ public class UserLoginService implements ILoginService {
                 return false;
             }
 
-            UserAuthorityModel authority = userDAO.getAuthority(NORMAL_AUTHORITIy);
-
-        try{
             UserAuthorityModel authority = new UserAuthorityModel(null, NORMAL_AUTHORITIY, null);
           
             Set<UserAuthorityModel> authoritiesSet = new HashSet<UserAuthorityModel>();

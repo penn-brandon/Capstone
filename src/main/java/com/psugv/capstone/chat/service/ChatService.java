@@ -91,9 +91,9 @@ public class ChatService implements IChatService {
         List<UserModel> result;
 
         try {
-            result = chatDAO.blurrySearchUsername(String input);
+            result = chatDAO.blurrySearchUsername(input);
 
-        } catch (NoQueryResultException){
+        } catch (NoQueryResultException e){
 
             LOGGER.warn("Username does not exist, please try again");
             return null;
