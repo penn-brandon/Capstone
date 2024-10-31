@@ -2,6 +2,7 @@ package com.psugv.capstone.login.service;
 
 import com.psugv.capstone.exception.InsertErrorException;
 import com.psugv.capstone.login.model.UserAuthorityModel;
+import com.psugv.capstone.login.model.UserModel;
 import com.psugv.capstone.login.repository.IUserDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.psugv.capstone.login.model.UserModel;
 
 import java.util.HashSet;
 import java.util.Map;
@@ -21,7 +20,7 @@ import java.util.Set;
 @EnableTransactionManagement
 public class UserLoginService implements ILoginService {
 
-    private final static String NORMAL_AUTHORITIY = "NORMAL";
+    private final static String NORMAL_AUTHORITY = "NORMAL";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserLoginService.class);
 
@@ -29,13 +28,13 @@ public class UserLoginService implements ILoginService {
     IUserDAO userDAO;
 
     @Override
-    public UserModel getUserByUsername(String username){
+    public UserModel getUserByUsername(String username) {
 
         return userDAO.getUserByUsername(username);
     }
 
     @Override
-    public boolean registration(Map<String, String> inputMap){
+    public boolean registration(Map<String, String> inputMap) {
 
         try{
             UserModel search = userDAO.getUserByUsername(inputMap.get("username"));
@@ -59,9 +58,7 @@ public class UserLoginService implements ILoginService {
             UserModel newUser = new UserModel(null, username, password, name, null, gender, true, null);
 
             authority.setUserModel(newUser);
-
-        } catch (Exception e){
-
+        } catch (Exception e) {
             LOGGER.error(e.getMessage());
             throw new InsertErrorException("Registration failed");
         }

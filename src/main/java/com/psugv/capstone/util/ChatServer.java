@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Component
@@ -52,7 +51,7 @@ public class ChatServer {
         ONLINE_USER_POOL.put(userId, chatRoomId);
 
         LOGGER.debug("Establising new listener!!");
-        if(tempListener == null){
+        if (tempListener == null) {
 
             tempListener = new MessageListener(listener);
 
@@ -65,8 +64,8 @@ public class ChatServer {
 
         thread.start();
 
-        try{
-            if(!ONLINE_LISTENER_POOL.containsKey(chatRoomId)) {
+        try {
+            if (!ONLINE_LISTENER_POOL.containsKey(chatRoomId)) {
 
                 temp = new ConcurrentHashMap<>();
 
@@ -79,7 +78,7 @@ public class ChatServer {
 
             ONLINE_LISTENER_POOL.put(chatRoomId, temp);
 
-        } catch (Exception e){
+        } catch (Exception e) {
 
             LOGGER.error("Error in managing online user pool and listener pool", e);
         }
@@ -98,7 +97,7 @@ public class ChatServer {
 
         temp.remove(userId);
 
-        if(temp.isEmpty()){
+        if (temp.isEmpty()) {
 
             ONLINE_LISTENER_POOL.remove(roomId);
         }
@@ -106,7 +105,7 @@ public class ChatServer {
         ONLINE_USER_POOL.remove(roomId);
     }
 
-    public static Boolean sentMessage(String message, Integer userId, Integer chatRoomId, String name){
+    public static Boolean sentMessage(String message, Integer userId, Integer chatRoomId, String name) {
 
         LOGGER.debug("message sent to server!!");
         try {
@@ -117,11 +116,11 @@ public class ChatServer {
                 ConcurrentHashMap<Integer, MessageListener> listenerMap = ONLINE_LISTENER_POOL.get(chatRoomId);
 
                 LOGGER.debug("Size of Listener pool of this chat room is " + listenerMap.size());
-                for(Map.Entry<Integer, MessageListener> entry: listenerMap.entrySet()) {
+                for (Map.Entry<Integer, MessageListener> entry : listenerMap.entrySet()) {
 
                     MessageListener listener = entry.getValue();
 
-                    if(listener.getUser().getId().equals(userId)){
+                    if (listener.getUser().getId().equals(userId)) {
 
                         continue;
                     }

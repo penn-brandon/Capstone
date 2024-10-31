@@ -1,8 +1,6 @@
 package com.psugv.capstone.login.repository;
 
 import com.psugv.capstone.exception.InsertErrorException;
-import com.psugv.capstone.exception.NoQueryResultException;
-import com.psugv.capstone.login.model.UserAuthorityModel;
 import com.psugv.capstone.login.model.UserModel;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
@@ -10,10 +8,7 @@ import jakarta.persistence.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
-
-import java.util.*;
 
 @Repository
 public class UserDAO implements IUserDAO {
@@ -24,7 +19,7 @@ public class UserDAO implements IUserDAO {
     EntityManager entityManager;
 
 
-    public UserModel getUserByUsername(String userName){
+    public UserModel getUserByUsername(String userName) {
 
         UserModel um;
         try {

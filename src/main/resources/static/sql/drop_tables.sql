@@ -1,8 +1,13 @@
 use capstone;
+drop table if exists capstone.`1_ChatRoomName`;
+drop table if exists capstone.`2_ChatRoomName`;
+drop table if exists capstone.`3_ChatRoomName`;
+drop table if exists capstone.`4_ChatRoomName`;
 
-drop table IF EXISTS 1_chatroomname;
-drop table IF EXISTS 2_chatroomname;
-drop table IF EXISTS 1_message;
-drop table IF EXISTS user;
-drop table IF EXISTS authorities;
-drop table IF EXISTS chatroom;
+drop table IF EXISTS capstone.`1_message`;
+drop table if exists capstone.`2_message`;
+drop table if exists capstone.`3_message`;
+
+drop table IF EXISTS capstone.user;
+drop table IF EXISTS capstone.authorities;
+drop table IF EXISTS capstone.ChatRoom;

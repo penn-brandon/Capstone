@@ -3,7 +3,6 @@ package com.psugv.capstone.chat.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.psugv.capstone.login.model.UserModel;
 import jakarta.persistence.*;
-import org.apache.ibatis.annotations.One;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -39,7 +38,7 @@ public class Message {
         this.sender = sender;
         this.userModel = userModel;
         senderId = userModel.getId();
-        this.time = time == null? new Date() : time;
+        this.time = time == null ? new Date() : time;
     }
 
     public String getContent() {

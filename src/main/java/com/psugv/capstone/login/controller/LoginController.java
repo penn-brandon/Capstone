@@ -2,16 +2,16 @@ package com.psugv.capstone.login.controller;
 
 
 import com.psugv.capstone.exception.InsertErrorException;
+import com.psugv.capstone.login.service.ILoginService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
-
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-
-import com.psugv.capstone.login.service.ILoginService;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Map;
 
@@ -24,57 +24,56 @@ public class LoginController {
     @Autowired
     private ILoginService loginService;
 
-    @GetMapping(path="/")
+    @GetMapping(path = "/")
     public String mainPagePath() {
 
-    	return "redirect:/index";
+        return "redirect:/index";
     }
 
-    @GetMapping (path="/login")
+    @GetMapping(path = "/login")
     public String loginPagePath() {
         return "/open/login";
     }
 
-    @GetMapping (path="/tosql")
+    @GetMapping(path = "/tosql")
     public String tosql() {
         return "/error";
     }
 
-    @GetMapping(path="/index")
+    @GetMapping(path = "/index")
     public String toIndexPage() {
         return "/open/index";
     }
 
-    @GetMapping(path="/error")
+    @GetMapping(path = "/error")
     public String toErrorPage() {
         return "/open/error";
     }
 
-    @GetMapping(path="/signup")
+    @GetMapping(path = "/signup")
     public String toSignupPage() {
         return "/open/signup";
     }
 
 
-/*
-    @GetMapping(path="/logout")
-    public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null){
+    /*
+        @GetMapping(path="/logout")
+        public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            if (auth != null){
 
-        	new SecurityContextLogoutHandler().logout(request, response, auth);
+                new SecurityContextLogoutHandler().logout(request, response, auth);
+            }
+            return "redirect:/index";
         }
-        return "redirect:/index";
-    }
-*/
-    @PostMapping(path="/register", consumes = "application/json")
+    */
+    @PostMapping(path = "/register", consumes = "application/json")
     /**
      * Key: username, value: input username.
      * Key: password, value: input password.
      * Key: name, value: name displayed in the chat.
      * Key: gender, value: drop down list, should only have have male, female, and other.
-     */
-    public @ResponseBody String registerToApp(@RequestBody Map<String, String> inputMap){
+     */ public @ResponseBody String registerToApp(@RequestBody Map<String, String> inputMap) {
 
         LOGGER.info("registerToApp() called");
         LOGGER.debug(inputMap.toString());
@@ -83,7 +82,7 @@ public class LoginController {
         try {
             result = loginService.registration(inputMap);
 
-        }catch (InsertErrorException e){
+        } catch (InsertErrorException e) {
 
             LOGGER.error(e.getMessage());
             return Boolean.FALSE.toString();

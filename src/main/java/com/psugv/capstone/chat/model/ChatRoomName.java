@@ -10,11 +10,11 @@ import java.util.Date;
 public class ChatRoomName {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
-    @Column(name="chat_room_name_id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "chat_room_name_id")
     private Integer id;
 
-    @Column(name="chat_room_name")
+    @Column(name = "chat_room_name")
     private String chatRoomName;
 
     @OneToOne
@@ -23,10 +23,11 @@ public class ChatRoomName {
 
     private Boolean admin;
 
-    @Column(name="last_modified")
+    @Column(name = "last_modified")
     private Date lastModified;
 
-    public ChatRoomName(){}
+    public ChatRoomName() {
+    }
 
     public ChatRoomName(Boolean admin, ChatRoom chatRoom, String chatRoomName, Integer id, Date lastModified) {
         this.admin = admin;
@@ -81,11 +82,6 @@ public class ChatRoomName {
 
         ChatRoomName other = (ChatRoomName) o;
 
-        if(this.chatRoomName.equals(other.chatRoomName)
-        && this.id == other.id){
-
-            return true;
-        }
-        return false;
+        return this.chatRoomName.equals(other.chatRoomName) && this.id == other.id;
     }
 }

@@ -1,7 +1,6 @@
 package com.psugv.capstone.login.model;
 
 
-
 import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
 
@@ -13,7 +12,7 @@ public class UserAuthorityModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="authority_id")
+    @Column(name = "authority_id")
     private Integer id;
 
     private String authorityName;
@@ -22,7 +21,8 @@ public class UserAuthorityModel {
     @JoinColumn(name = "user_id")
     private UserModel userModel;
 
-    public UserAuthorityModel() {}
+    public UserAuthorityModel() {
+    }
 
     public UserAuthorityModel(Integer id, String authorityName, UserModel userModel) {
 

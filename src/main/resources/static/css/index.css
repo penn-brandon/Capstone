@@ -8,11 +8,16 @@
     margin-bottom: 20px;
 }
 
+.main > a {
+    text-decoration: none;
+}
+
+
 .nav-login-login {
     padding: 10px;
     border-radius: 10px;
     background-color: #0098A9;
-    border:none;
+    border: none;
     margin-right: 5px;
     font-size: 18px;
 }

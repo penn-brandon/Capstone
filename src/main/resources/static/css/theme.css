@@ -19,8 +19,8 @@ nav {
     position: fixed;
     width: 95%;
     top: 2.5%;
-    left:2.5%;
-    right:2.5%;
+    left: 2.5%;
+    right: 2.5%;
     height: 100px;
     background-color: #48CAE4;
     font-size: 20px;
@@ -134,8 +134,9 @@ footer {
     border-radius: 10px;
     box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
 }
+
 .footer-copyright {
-    margin-top:15px;
+    margin-top: 15px;
     text-align: center;
 }
 

@@ -1,8 +1,6 @@
 package com.psugv.capstone.security;
 
 import com.psugv.capstone.login.model.UserModel;
-
-
 import com.psugv.capstone.login.repository.IUserDAO;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;

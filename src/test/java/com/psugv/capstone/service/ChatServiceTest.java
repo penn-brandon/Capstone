@@ -1,20 +1,16 @@
 package com.psugv.capstone.service;
 
-import com.psugv.capstone.chat.model.ChatRoom;
-import com.psugv.capstone.chat.model.ChatRoomName;
-
 import com.psugv.capstone.chat.repository.IChatDAO;
 import com.psugv.capstone.chat.service.IChatService;
 import com.psugv.capstone.login.model.UserModel;
 import com.psugv.capstone.login.repository.IUserDAO;
-import com.psugv.capstone.util.MessageListener;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -43,7 +39,7 @@ public class ChatServiceTest {
     @Test
     public void analyzeSendMessage() {
 
-        assertEquals(Boolean.TRUE ,chatService.sendMessage("Hi!", userDAO.getUserByUsername("weichuan"), "1"));
+        assertEquals(Boolean.TRUE, chatService.sendMessage("Hi!", userDAO.getUserByUsername("weichuan"), "1"));
     }
 
     @Test

@@ -8,20 +8,16 @@ import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.simp.config.ChannelRegistration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.messaging.support.ChannelInterceptor;
-import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
-
-import java.util.ListIterator;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Configuration
 @EnableWebSocketMessageBroker
 /*
 Configure to refresh the socket before time out.
  */
-public class WebSocketConfig implements WebSocketMessageBrokerConfigurer  {
+public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(WebSocketConfig.class);
 
