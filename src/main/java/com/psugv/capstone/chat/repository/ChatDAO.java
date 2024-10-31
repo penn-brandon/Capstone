@@ -135,4 +135,18 @@ public class ChatDAO implements IChatDAO {
             throw new InsertErrorException("Cannot insert message" + message);
         }
     }
+
+    public List<UserModel> blurrySearchUsername(String input){
+
+        List<UserModel> result;
+        try{
+            result = entityManager.createQuery("from user where username like '%chu%'", UserModel.class).getResultList();
+
+        } catch(Exception e){
+
+            LOGGER.warn("No match result!", e.getMessage());
+            return null;
+        }
+        return result;
+    }
 }

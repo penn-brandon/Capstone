@@ -74,14 +74,31 @@ public class ChatService implements IChatService {
     }
 
     @Override
-    public List<Message> loadHistoryMessage(Integer chatRoomID) {
+    public List<Message> loadHistoryMessage (Integer chatRoomID) {
 
         return chatDAO.loadHistoryMessage(chatRoomID);
     }
 
     @Override
-    public List<ChatRoomName> getAllChatRoomName(UserModel userModel) {
+    public List<ChatRoomName> getAllChatRoomName (UserModel userModel){
+
 
         return chatDAO.getAllChatroomName(userModel.getId());
+    }
+
+    @Override
+    public List<UserModel> searchUser (String input){
+
+        List<UserModel> result;
+
+        try {
+            result = chatDAO.blurrySearchUsername(input);
+
+        } catch (NoQueryResultException e){
+
+            LOGGER.warn("Username does not exist, please try again");
+            return null;
+        }
+        return result;
     }
 }
