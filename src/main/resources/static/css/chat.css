@@ -1,13 +1,59 @@
+* {
+    margin: 0;
+    padding: 0;
+    color: black;
+    font-family: "Anta", sans-serif;
+    font-weight: 0;
+    font-style: normal;
+}
+
+body {
+    background-color: #CAF0F8;
+}
+
+/* Navigation Bar */
+nav {
+    margin-top: 25px;
+    margin-left: 2.5%;
+    width: 95%;
+    height: 100px;
+    background-color: #48CAE4;
+    font-size: 20px;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
+}
+
+.nav-content {
+    width: 200px;
+}
+
+.nav-img {
+    width: 200px;
+    height: 100px;
+}
+
+.nav-img > img {
+    height: 100px;
+    width: 100px;
+    margin-top: 5px;
+    float:left;
+}
+
+.nav-logo {
+    margin-top: 25px;
+    float: left;
+    color: black;
+}
+
 /* CHAT NAVBAR */
 
 .profile {
-    right: 2.5%;
-    position: absolute;
     margin-top: 25px;
     height: 50px;
     width: 50px;
     border-radius: 10px;
     border: none;
+    float: right;
 }
 
 .profile:hover {
@@ -15,8 +61,6 @@
 }
 
 .profile-dropdown {
-    position: absolute;
-    right: 2.5%;
     top: 85px;
     width: 150px;
     text-align: center;
@@ -34,6 +78,13 @@
     text-decoration: none;
     color: black;
     background-color: orange;
+}
+
+.profile-div {
+    margin-right: 10px;
+    float: right;
+    width: 100px;
+    height: 100px;
 }
 
 
@@ -155,5 +206,23 @@ span {
 
 .chat-send-icon:hover {
     cursor: pointer;
+}
+
+/* FOOTER */
+footer {
+    height: 50px;
+    position: fixed;
+    width: 50%;
+    left: 25%;
+    right: 25%;
+    bottom: 2.5%;
+    background-color: #48CAE4;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
+}
+
+.footer-copyright {
+    margin-top: 15px;
+    text-align: center;
 }
 
