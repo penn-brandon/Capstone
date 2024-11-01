@@ -1,6 +1,7 @@
 package com.psugv.capstone.login.repository;
 
 import com.psugv.capstone.exception.InsertErrorException;
+import com.psugv.capstone.exception.NoQueryResultException;
 import com.psugv.capstone.login.model.UserModel;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
@@ -32,7 +33,7 @@ public class UserDAO implements IUserDAO {
         } catch (NoResultException e) {
 
             LOGGER.error("Fail to load user by user name!!!", e);
-            return null;
+            throw new NoQueryResultException("username: " + userName + " not found");
         }
 
         return um;
