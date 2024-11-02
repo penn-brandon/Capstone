@@ -6,6 +6,8 @@ import com.psugv.capstone.login.service.ILoginService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.net.URI;
 import java.util.Map;
 
 @Controller
@@ -33,11 +36,6 @@ public class LoginController {
     @GetMapping(path = "/login")
     public String loginPagePath() {
         return "/open/login";
-    }
-
-    @GetMapping(path = "/tosql")
-    public String tosql() {
-        return "/error";
     }
 
     @GetMapping(path = "/index")
@@ -73,11 +71,14 @@ public class LoginController {
      * Key: password, value: input password.
      * Key: name, value: name displayed in the chat.
      * Key: gender, value: drop down list, should only have have male, female, and other.
-     */ public @ResponseBody String registerToApp(@RequestBody Map<String, String> inputMap) {
+     */
+    public @ResponseBody String registerToApp(@RequestBody Map<String, String> inputMap) {
 
         LOGGER.info("registerToApp() called");
         LOGGER.debug(inputMap.toString());
-        boolean result;
+        boolean result = false;
+
+        URI redirectUri;
 
         try {
             result = loginService.registration(inputMap);
@@ -85,8 +86,15 @@ public class LoginController {
         } catch (InsertErrorException e) {
 
             LOGGER.error(e.getMessage());
-            return Boolean.FALSE.toString();
+            return String.valueOf(result);
         }
+        if(!result) {
+
+            LOGGER.debug("Registration failed");
+            return String.valueOf(result);
+        }
+
+        LOGGER.info("register succeed^_^");
         return String.valueOf(result);
     }
 }

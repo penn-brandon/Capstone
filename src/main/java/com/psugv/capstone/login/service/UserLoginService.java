@@ -1,6 +1,7 @@
 package com.psugv.capstone.login.service;
 
 import com.psugv.capstone.exception.InsertErrorException;
+import com.psugv.capstone.exception.NoQueryResultException;
 import com.psugv.capstone.login.model.UserAuthorityModel;
 import com.psugv.capstone.login.model.UserModel;
 import com.psugv.capstone.login.repository.IUserDAO;
@@ -37,27 +38,48 @@ public class UserLoginService implements ILoginService {
     public boolean registration(Map<String, String> inputMap) {
 
         try{
-            UserModel search = userDAO.getUserByUsername(inputMap.get("username"));
-
-            if(search != null){
-
-                return false;
-            }
-
-            UserAuthorityModel authority = new UserAuthorityModel(null, NORMAL_AUTHORITY, null);
-          
-            Set<UserAuthorityModel> authoritiesSet = new HashSet<UserAuthorityModel>();
-
-            authoritiesSet.add(authority);
+            UserModel search;
 
             String username = inputMap.get("username");
             String password = inputMap.get("password");
             String name = inputMap.get("name");
             String gender = inputMap.get("gender");
 
+            try {
+                search = userDAO.getUserByUsername(username);
+
+            } catch (NoQueryResultException e){
+
+                LOGGER.debug("Username is available^_^");
+                search = null;
+
+            } finally{
+
+                LOGGER.debug("Check that the finally block do not get skipped");
+            }
+
+            LOGGER.debug("Check that search result is: " + search);
+            if(search != null){
+
+                return false;
+            }
+
+            LOGGER.debug("create a new authrities");
+            UserAuthorityModel authority = new UserAuthorityModel(null, NORMAL_AUTHORITY, null);
+          
+            Set<UserAuthorityModel> authoritiesSet = new HashSet<UserAuthorityModel>();
+
+            authoritiesSet.add(authority);
+
+            LOGGER.debug("Create a user model\n" + inputMap.toString());
             UserModel newUser = new UserModel(null, username, password, name, null, gender, true, null);
 
             authority.setUserModel(newUser);
+            newUser.setAuthorities(authoritiesSet);
+
+            LOGGER.debug("start inserting!!");
+            userDAO.registration(newUser);
+
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             throw new InsertErrorException("Registration failed");
