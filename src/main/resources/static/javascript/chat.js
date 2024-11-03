@@ -1,6 +1,9 @@
-function profile_click(route) {
-    if (document.getElementById('profile-dropdown')) {
-        document.getElementById('profile-dropdown').remove();
+function profile_click() {
+    const dropdown = document.getElementById('profile-dropdown');
+
+    if (dropdown) {
+        dropdown.remove();
+
     } else {
         const profile_dropdown = document.createElement("div");
         profile_dropdown.id = 'profile-dropdown';
@@ -9,11 +12,11 @@ function profile_click(route) {
         const profile = document.createElement('a');
         const logout = document.createElement('a');
 
-        profile.href = route + "/profile";
+        profile.href = "/Capstone/profile";
         profile.id = "profile-link";
         profile.innerHTML = "Profile";
 
-        logout.href = route + "/logout";
+        logout.href = "/Capstone/logout";
         logout.id = "logout-link";
         logout.innerHTML = "Logout";
 

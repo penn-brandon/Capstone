@@ -355,44 +355,46 @@
 </head>
 
 <body>
-<nav>
-    <div class="nav-content">
-        <div class="nav-img">
-            <img src="${pageContext.request.contextPath}/images/logo.svg" alt="Logo"/>
-            <span class="nav-logo">BLURB</span>
-        </div>
-        <div class="profile-div" id="profile-div">
-            <button class="profile" id="profile" onclick="profile_click()">
-                <img src="${pageContext.request.contextPath}/images/user.svg" alt="Profile"/>
-            </button>
-        </div>
-    </div>
-</nav>
+    <div class="container">
+        <nav>
+            <div class="nav-content">
+                <div class="nav-img">
+                    <img src="${pageContext.request.contextPath}/images/logo.svg" alt="Logo"/>
+                    <span class="nav-logo">BLURB</span>
+                </div>
+                <div class="profile-div" id="profile-div">
+                    <button class="profile" id="profile" onclick="profile_click()">
+                        <img src="${pageContext.request.contextPath}/images/user.svg" alt="Profile"/>
+                    </button>
+                </div>
+            </div>
+        </nav>
 
-<div class="chats">
-    <p>Channels</p>
-    <div class="channels-list" id="channels-list">
-        <p>Default Channel</p>
-    </div>
-</div>
-<div class="current-chat" id="current-chat">
-</div>
-<div class="chat-box">
-    <label>
-        <textarea class="chat-send" id="chat-send"></textarea>
-    </label>
-    <button id="send-button" onclick="sendMessage()">
-        <img src="${pageContext.request.contextPath}/images/send.svg" class="chat-send-icon" alt="Send">
-    </button>
-</div>
+        <div class="chats">
+            <p>Channels</p>
+            <div class="channels-list" id="channels-list">
+                <p>Default Channel</p>
+            </div>
+        </div>
+        <div class="current-chat" id="current-chat">
+        </div>
+        <div class="chat-box">
+            <label>
+                <textarea class="chat-send" id="chat-send"></textarea>
+            </label>
+            <div id="send-button" onclick="sendMessage()">
+                <img src="${pageContext.request.contextPath}/images/send.svg" class="chat-send-icon" alt="Send">
+            </div>
+        </div>
 
-<footer>
-    <div class="footer-div">
-        <p class="footer-copyright">
-            Copyright of Cool Dudes &copy;2024. All Rights Reserved.
-        </p>
+        <footer>
+            <div class="footer-div">
+                <p class="footer-copyright">
+                    Copyright of Cool Dudes &copy;2024. All Rights Reserved.
+                </p>
+            </div>
+        </footer>
     </div>
-</footer>
 </body>
 
 </html>

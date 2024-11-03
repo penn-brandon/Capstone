@@ -11,11 +11,17 @@ body {
     background-color: #CAF0F8;
 }
 
+.container {
+    margin-left: auto;
+    margin-right: auto;
+    width: 1050px;
+}
+
 /* Navigation Bar */
 nav {
     margin-top: 25px;
-    margin-left: 2.5%;
-    width: 95%;
+    margin-left: 25px;
+    width: 1000px;
     height: 100px;
     background-color: #48CAE4;
     font-size: 20px;
@@ -23,13 +29,10 @@ nav {
     box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
 }
 
-.nav-content {
-    width: 200px;
-}
-
 .nav-img {
     width: 200px;
     height: 100px;
+    float: left;
 }
 
 .nav-img > img {
@@ -47,13 +50,18 @@ nav {
 
 /* CHAT NAVBAR */
 
+.profile-div {
+    float: right;
+    width: 100px;
+    height: 100px;
+}
+
 .profile {
     margin-top: 25px;
     height: 50px;
     width: 50px;
     border-radius: 10px;
     border: none;
-    float: right;
 }
 
 .profile:hover {
@@ -61,10 +69,13 @@ nav {
 }
 
 .profile-dropdown {
-    top: 85px;
     width: 150px;
     text-align: center;
-    z-index: 99 !important;
+    position: relative;
+    z-index: 5;
+    margin-top: 5px;
+    right: 100px;
+    clear: both;
 }
 
 .profile-dropdown > a {
@@ -80,34 +91,18 @@ nav {
     background-color: orange;
 }
 
-.profile-div {
-    margin-right: 10px;
-    float: right;
-    width: 100px;
-    height: 100px;
-}
-
-
-/* Chats list */
-.connections-nav {
-    margin-top: 150px;
-    width: 95%;
-    margin-left: 2.5%;
-    margin-right: 2.5%;
-}
-
 .chats {
     padding: 10px;
-    position: absolute;
     background-color: orange;
     text-align: center;
-    width: 20%;
-    height: 71%;
+    width: 200px;
+    height: 610px;
     border-radius: 10px;
-    margin-right: 10px;
     z-index: 2;
-    left: 2.5%;
-    top: 150px;
+    margin-left: 25px;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    float:left;
 }
 
 .channels-list > p {
@@ -135,16 +130,16 @@ span {
 
 /* CHAT Messages */
 .current-chat {
-    position: absolute;
-    top: 150px;
+    float:left;
+    margin-top: 25px;
+    margin-left: 10px;
     background-color: rgb(146, 170, 212);
     border: none;
     border-radius: 10px;
-    width: 70%;
-    height: 65%;
-    z-index: 5;
-    right: 2.5%;
-    overflow: scroll;
+    width: 770px;
+    height: 550px;
+    z-index: 1;
+    overflow-y: scroll;
 }
 
 .chat-row {
@@ -177,29 +172,21 @@ span {
 
 /* CHAT BOX */
 
-.chat-box {
-    position: absolute;
-    right: 2.5%;
-    bottom: 7.5%;
-    width: 70%;
-}
-
-
 .chat-send {
-    position: absolute;
-    bottom: 15px;
-    left: 0;
-    width: 85%;
+    float: left;
+    margin-left: 10px;
+    margin-top: 10px;
+    width: 700px;
     height: 60px;
     resize: none;
 }
 
 .chat-send-icon {
-    position: absolute;
-    bottom: 15px;
+    float: left;
     height: 60px;
     width: 60px;
-    right: 0;
+    margin-left: 10px;
+    margin-top: 10px;
     background-color: red;
     border-radius: 10px;
 }
@@ -209,13 +196,12 @@ span {
 }
 
 /* FOOTER */
-footer {
+.footer-div {
+    clear: both;
     height: 50px;
-    position: fixed;
-    width: 50%;
-    left: 25%;
-    right: 25%;
-    bottom: 2.5%;
+    width: 80%;
+    margin-left: 10%;
+    margin-right: 10%;
     background-color: #48CAE4;
     border-radius: 10px;
     box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
@@ -225,4 +211,3 @@ footer {
     margin-top: 15px;
     text-align: center;
 }
-

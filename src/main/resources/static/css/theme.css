@@ -49,12 +49,11 @@ nav {
 
 .main {
     width: 100%;
-    margin-top: 175px;
+    margin-top: 50px;
 }
 
 
 .signup-form {
-    top: 225px;
     width: 450px;
     text-align: center;
     margin-left: auto;
@@ -119,12 +118,12 @@ nav {
 }
 
 /* FOOTER */
-footer {
-    height: 50px;
+.footer-div {
     position: fixed;
-    width: 50%;
-    left: 25%;
-    right: 25%;
+    height: 50px;
+    width: 80%;
+    left: 10%;
+    right: 10%;
     bottom: 2.5%;
     background-color: #48CAE4;
     border-radius: 10px;
