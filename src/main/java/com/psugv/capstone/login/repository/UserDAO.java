@@ -52,21 +52,26 @@ public class UserDAO implements IUserDAO {
         }
         return true;
     }
-/*
-    @Override
-    public UserAuthorityModel getAuthority(String authorityName){
 
-        UserAuthorityModel authority;
+    @Override
+    public void createChatRoomName(Integer userId){
 
         try{
-            authority = entityManager.createQuery("from authorities where authorityName = :authorityName", UserAuthorityModel.class)
-                    .setParameter("authorityName", authorityName).getSingleResult();
+            String sql = "CREATE TABLE " + userId.toString() + "_ChatRoomName ( " +
+                    "chat_room_name_id SERIAL PRIMARY KEY NOT NULL," +
+                    "chat_room_id INT NOT NULL," +
+                    "admin BOOLEAN NOT NULL," +
+                    "chat_room_name TEXT NOT NULL," +
+                    "last_modified DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP," +
+                    "FOREIGN KEY (chat_room_id) REFERENCES ChatRoom (chat_room_id));";
+            LOGGER.debug(sql);
+
+            entityManager.createNativeQuery(sql).executeUpdate();
 
         } catch (NoResultException e) {
 
-            LOGGER.error("Fail to load authority by user name!!!", e);
-            throw new NoQueryResultException("Cannot find given authrities name.");
+            LOGGER.error(e.getMessage(), e);
+            throw new NoQueryResultException("Fail to create chat room name name!!!");
         }
-        return authority;
-    }*/
+    }
 }

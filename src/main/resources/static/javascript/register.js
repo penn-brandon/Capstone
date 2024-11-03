@@ -17,9 +17,15 @@ async function register() {
                 "gender": gender
             })
         });
-        if (response.redirected) {
-            window.location.href = response.url; // Redirect to the new URL
+        console.log("checK response");
+
+        if (!response.ok) {
+
+            console.log("ERROR: " + response.status);
         }
+        const json = await response.json();
+        console.log(json);
+        window.location.href = json["redirectUrl"];
     }
 }
 

@@ -93,7 +93,7 @@ public class ChatController {
         }
     }
 
-    @GetMapping(path = "/loadMessage")
+    @GetMapping(path = "/loadMessage", produces = "application/json")
     public @ResponseBody List<Message> loadHistoryMessage(@SessionAttribute("chatRoomName") ChatRoomName chatRoomName) {
 
         List<Message> result;

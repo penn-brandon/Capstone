@@ -17,32 +17,7 @@
 
     <script src="${pageContext.request.contextPath}/javascript/theme.js"></script>
     <!--<script src="${pageContext.request.contextPath}/javascript/register.js"></script>
-    -->
-    <script defer>
-        async function register() {
-            const username = document.getElementById("user").value;
-            const password = document.getElementById("password").value;
-            const name = document.getElementById("name").value;
-            const gender = document.getElementById("gender").value;
-
-            if (username !== "" && password !== "" && name !== "" && gender !== "") {
-                // RUN QUERY HERE
-                console.log("WOW");
-                const response =  fetch('/Capstone/register', {
-                    method: 'POST',
-                    headers: {"Content-Type": "application/json"},
-                    body: JSON.stringify({
-                        "username": username,
-                        "password": password,
-                        "name": name,
-                        "gender": gender
-                    })
-                });
-                console.log(response);
-            }
-        }
-
-    </script>
+-->
 </head>
 
 <body>
@@ -62,8 +37,8 @@
         <p>This is a cool chat app</p>
         <div class="signup-form-box">
             <p>Create Your Account</p>
-            <form id="signup-form-form">
-                <div class="signup-form-box-content">
+            <form id="signup-form-form" action="${pageContext.request.contextPath}/register" method="post">
+                <div class="signup-form-box-content" >
                     <label for="user"></label>
                     <input type="text" name="username" placeholder="Username"
                            class="submit-input" id="user"
@@ -84,7 +59,7 @@
                         <option value="other">Other</option>
                     </select>
                 </div>
-                <button class="submit-form" id="submit-button" onclick="register()">
+                <button type="submit" class="submit-form" id="submit-button">
                     Submit
                 </button>
             </form>

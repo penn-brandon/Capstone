@@ -80,6 +80,10 @@ public class UserLoginService implements ILoginService {
             LOGGER.debug("start inserting!!");
             userDAO.registration(newUser);
 
+            search = userDAO.getUserByUsername(username);
+
+            userDAO.createChatRoomName(search.getId());
+
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             throw new InsertErrorException("Registration failed");
