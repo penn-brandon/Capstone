@@ -14,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,12 +82,11 @@ public class ChatController {
                 LOGGER.error("Chat room name not found for chat room ID " + chatRoomID + ", and user ID " + userModel.getId());
 
                 return "redirect:/error";
-
             }
-
             model.addAttribute("chatRoomName", result);
 
             return "redirect:/loadMessage";
+
         } catch (NoQueryResultException e) {
 
             return "redirect:/error";
@@ -117,10 +117,20 @@ public class ChatController {
     }
 
     @GetMapping(path = "/searchUsers", produces = "application/json")
-    public @ResponseBody List<UserModel> searchUser(@RequestBody String input) {
+    public @ResponseBody List<UserModel> searchUser(@RequestParam String username) {
 
-        List<UserModel> result = chatService.searchUser(input);
+        List<UserModel> result = chatService.searchUser(username);
 
         return result;
+    }
+
+    @PostMapping(path = "/createNewChatRoom", consumes = "application/json")
+    public String createNewChatRoom(@RequestBody Map<String, String> inputMap, @SessionAttribute("userModel") UserModel userModel, Model model) {
+
+        ChatRoomName newchatRoomName = chatService.createChatRoom(inputMap, userModel);
+
+        model.addAttribute("chatRoomName", newchatRoomName);
+
+        return "redirect:/loadMessage";
     }
 }

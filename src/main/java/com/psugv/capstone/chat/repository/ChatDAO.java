@@ -140,11 +140,13 @@ public class ChatDAO implements IChatDAO {
 
         List<UserModel> result;
         try{
-            result = entityManager.createQuery("from user where username like '%chu%'", UserModel.class).getResultList();
+
+            String sql = "from user where username like '%" + input + "%'";
+            result = entityManager.createQuery(sql, UserModel.class).getResultList();
 
         } catch(Exception e){
 
-            LOGGER.warn("No match result!", e.getMessage());
+            LOGGER.error(e.getMessage(), e);
             return null;
         }
         return result;
