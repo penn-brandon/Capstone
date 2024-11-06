@@ -84,13 +84,12 @@ public class ChatServer {
         }
     }
 
-    public synchronized static void removeFromOnlineUserPool(Integer userId, MessageListener listener) {
+    public synchronized static void removeFromOnlineUserPool(Integer userId) {
 
         if (ONLINE_USER_POOL.get(userId) == null) {
 
             return;
         }
-
         Integer roomId = ONLINE_USER_POOL.get(userId);
 
         ConcurrentHashMap<Integer, MessageListener> temp = ONLINE_LISTENER_POOL.get(roomId);
@@ -101,8 +100,7 @@ public class ChatServer {
 
             ONLINE_LISTENER_POOL.remove(roomId);
         }
-
-        ONLINE_USER_POOL.remove(roomId);
+        ONLINE_USER_POOL.remove(userId);
     }
 
     public static Boolean sentMessage(String message, Integer userId, Integer chatRoomId, String name) {

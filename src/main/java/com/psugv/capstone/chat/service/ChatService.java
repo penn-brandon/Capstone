@@ -164,4 +164,9 @@ public class ChatService implements IChatService {
         }
         return crn;
     }
+
+    public void deselectChatRoom (UserModel userModel){
+
+        ChatServer.removeFromOnlineUserPool(userModel.getId());
+    }
 }

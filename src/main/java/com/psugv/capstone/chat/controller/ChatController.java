@@ -43,6 +43,8 @@ public class ChatController {
         UserModel userModel = loginService.getUserByUsername(username);
         model.addAttribute("userModel", userModel);
 
+        chatService.deselectChatRoom(userModel);
+
         return "/main/chat";
     }
 
