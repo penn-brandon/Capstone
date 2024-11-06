@@ -10,12 +10,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.HashMap;
 import java.util.Map;
 
 @Controller
@@ -65,36 +63,46 @@ public class LoginController {
             return "redirect:/index";
         }
     */
-    @PostMapping(path = "/register", consumes = "application/json")
+    @PostMapping(path = "/register")
     /**
      * Key: username, value: input username.
      * Key: password, value: input password.
      * Key: name, value: name displayed in the chat.
      * Key: gender, value: drop down list, should only have have male, female, and other.
      */
-    public @ResponseBody String registerToApp(@RequestBody Map<String, String> inputMap) {
+    public String registerToApp(@RequestParam String username,
+                                @RequestParam String password,
+                                @RequestParam String name,
+                                @RequestParam String gender) {
 
         LOGGER.info("registerToApp() called");
-        LOGGER.debug(inputMap.toString());
         boolean result = false;
 
-        URI redirectUri;
+        Map<String, String> map = new HashMap<>();
+
+        map.put("username", username);
+        map.put("password", password);
+        map.put("name", name);
+        map.put("gender", gender);
+
+        LOGGER.debug(map.toString());
 
         try {
-            result = loginService.registration(inputMap);
+            result = loginService.registration(map);
+            map.put("result", String.valueOf(result));
 
         } catch (InsertErrorException e) {
 
             LOGGER.error(e.getMessage());
-            return String.valueOf(result);
+            return "redirect:/signup";
         }
         if(!result) {
 
             LOGGER.debug("Registration failed");
-            return String.valueOf(result);
+            return "redirect:/signup";
         }
 
         LOGGER.info("register succeed^_^");
-        return String.valueOf(result);
+        return "redirect:/login";
     }
 }

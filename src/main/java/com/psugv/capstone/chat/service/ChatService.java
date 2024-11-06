@@ -9,6 +9,7 @@ import com.psugv.capstone.exception.NoQueryResultException;
 import com.psugv.capstone.login.model.UserModel;
 import com.psugv.capstone.util.ChatServer;
 import com.psugv.capstone.util.MessageListener;
+import com.psugv.capstone.util.Utility;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional
@@ -100,5 +103,65 @@ public class ChatService implements IChatService {
             return null;
         }
         return result;
+    }
+
+    @Override
+    public ChatRoomName createChatRoom (Map<String, String> inputMap, UserModel userModel){
+
+        Integer aitaID = Integer.parseInt(inputMap.get("id"));
+
+        Integer jibunnId = userModel.getId();
+
+        List<ChatRoomName> aiteChatRoomList = chatDAO.getAllChatroomName(aitaID);
+
+        List<ChatRoomName> jibunnChatRoomList = chatDAO.getAllChatroomName(jibunnId);
+
+        List<Integer> chatRoomComparison;
+
+        if(aiteChatRoomList.size() == 0 || jibunnChatRoomList.size() == 0){
+
+            LOGGER.debug("One user has no ChaRroomName");
+            chatRoomComparison = new LinkedList<>();
+
+        } else {
+
+            List<Integer> aiteChatRoomID = new LinkedList<>();
+
+            for(ChatRoomName chatRoom : aiteChatRoomList){
+
+                aiteChatRoomID.add(chatRoom.getChatRoom().getId());
+            }
+
+            List<Integer> jibunnChatRoomID = new LinkedList<>();
+
+            for(ChatRoomName chatRoom : jibunnChatRoomList){
+
+                jibunnChatRoomID.add(chatRoom.getChatRoom().getId());
+            }
+            chatRoomComparison = Utility.commonIdComparator(aiteChatRoomID, jibunnChatRoomID);
+        }
+        ChatRoomName crn = null;
+
+        if(!chatRoomComparison.isEmpty()){
+
+            for (int i = 0; i < chatRoomComparison.size(); i++){
+
+                ChatRoom cr = chatDAO.findChatRoom(chatRoomComparison.get(i));
+
+                if(!cr.getJoinable()){
+
+                    crn = selectChatRoom(cr.getId().toString(), userModel);
+                }
+            }
+        }
+        if(crn == null){
+
+            /*
+            Create new chat room and chatroomnames for two users.
+            Then select the chatroomname for this user.
+             */
+            crn = selectChatRoom(cr.getId().toString(), userModel);
+        }
+        return crn;
     }
 }

@@ -35,8 +35,8 @@
         <p>This is a cool chat app</p>
         <div class="signup-form-box">
             <p>Create Your Account</p>
-            <form id="signup-form-form">
-                <div class="signup-form-box-content">
+            <form id="signup-form-form" action="${pageContext.request.contextPath}/register" method="post">
+                <div class="signup-form-box-content" >
                     <label for="user"></label>
                     <input type="text" name="username" placeholder="Username"
                            class="submit-input" id="user"
@@ -57,7 +57,7 @@
                         <option value="other">Other</option>
                     </select>
                 </div>
-                <button class="submit-form" id="submit-button" onclick="register()">
+                <button type="submit" class="submit-form" id="submit-button">
                     Submit
                 </button>
             </form>
