@@ -29,11 +29,11 @@ public class ChatRoomName {
     public ChatRoomName() {
     }
 
-    public ChatRoomName(Boolean admin, ChatRoom chatRoom, String chatRoomName, Integer id, Date lastModified) {
+    public ChatRoomName(Integer id, Boolean admin, ChatRoom chatRoom, String chatRoomName, Date lastModified) {
+        this.id = id;
         this.admin = admin;
         this.chatRoom = chatRoom;
         this.chatRoomName = chatRoomName;
-        this.id = id;
         this.lastModified = lastModified;
     }
 

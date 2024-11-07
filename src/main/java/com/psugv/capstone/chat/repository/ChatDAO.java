@@ -140,7 +140,6 @@ public class ChatDAO implements IChatDAO {
 
         List<UserModel> result;
         try{
-
             String sql = "from user where username like '%" + input + "%'";
             result = entityManager.createQuery(sql, UserModel.class).getResultList();
 
@@ -150,5 +149,45 @@ public class ChatDAO implements IChatDAO {
             return null;
         }
         return result;
+    }
+
+    public void updateChatRoomName(ChatRoomName chatRoomName){
+
+        try{
+            chatRoomName.setLastModified(new Date());
+            entityManager.merge(chatRoomName);
+
+        } catch(Exception e){
+
+            LOGGER.error(e.getMessage(), e);
+        }
+    }
+
+    public ChatRoom createNewChatRoom(){
+
+        ChatRoom chatRoom = new ChatRoom(null, false);
+
+        try{
+            entityManager.persist(chatRoom);
+            entityManager.flush();
+
+        } catch(Exception e){
+
+            LOGGER.error(e.getMessage(), e);
+        }
+        return chatRoom;
+    }
+
+    public void insertNewChatRoomName(ChatRoom chatRoom, Integer userId, String name){
+
+        String sql = "insert into " + userId + CHAT_ROOM_NAME_POSTFIX + " (chat_room_id, admin, chat_room_name, last_modified) value (" + chatRoom.getId() + ",False," + name + ", CURRENT_TIMESTAMP);";
+
+        try{
+            entityManager.createNativeQuery(sql).executeUpdate();
+
+        } catch(Exception e){
+
+            LOGGER.error(e.getMessage(), e);
+        }
     }
 }

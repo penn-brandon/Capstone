@@ -17,8 +17,13 @@ public interface IChatDAO {
 
     ChatRoomName findChatRoomName(Integer userId, Integer chatRoomId);
 
-    public boolean insertMessage(String message, UserModel userModel, String chatRoomId);
+    boolean insertMessage(String message, UserModel userModel, String chatRoomId);
 
-    public List<UserModel> blurrySearchUsername(String input);
+    List<UserModel> blurrySearchUsername(String input);
 
+    void updateChatRoomName(ChatRoomName chatRoomName);
+
+    ChatRoom createNewChatRoom();
+
+     void insertNewChatRoomName(ChatRoom chatRoom, Integer userId, String name);
 }
