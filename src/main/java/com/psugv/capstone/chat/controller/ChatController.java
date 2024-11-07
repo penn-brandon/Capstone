@@ -43,6 +43,8 @@ public class ChatController {
         UserModel userModel = loginService.getUserByUsername(username);
         model.addAttribute("userModel", userModel);
 
+        chatService.deselectChatRoom(userModel);
+
         return "/main/chat";
     }
 
@@ -124,6 +126,11 @@ public class ChatController {
         return result;
     }
 
+    /**
+     * @param inputMap key: id, value: user id
+     *                 key: name, value: name of user
+     *                 key username, value username
+     */
     @PostMapping(path = "/createNewChatRoom", consumes = "application/json")
     public String createNewChatRoom(@RequestBody Map<String, String> inputMap, @SessionAttribute("userModel") UserModel userModel, Model model) {
 

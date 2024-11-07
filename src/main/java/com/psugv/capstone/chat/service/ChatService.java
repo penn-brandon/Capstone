@@ -62,6 +62,8 @@ public class ChatService implements IChatService {
 
         ChatRoomName crn = chatDAO.findChatRoomName(userModel.getId(), chatRoomId);
 
+        chatDAO.updateChatRoomName(crn);
+
         if (cr == null || crn == null) {
 
             throw new NoQueryResultException("No such chat room or chat room name!!!");
@@ -106,7 +108,7 @@ public class ChatService implements IChatService {
     }
 
     @Override
-    public ChatRoomName createChatRoom (Map<String, String> inputMap, UserModel userModel){
+    public synchronized ChatRoomName createChatRoom (Map<String, String> inputMap, UserModel userModel){
 
         Integer aitaID = Integer.parseInt(inputMap.get("id"));
 
@@ -118,7 +120,7 @@ public class ChatService implements IChatService {
 
         List<Integer> chatRoomComparison;
 
-        if(aiteChatRoomList.size() == 0 || jibunnChatRoomList.size() == 0){
+        if(aiteChatRoomList.isEmpty() || jibunnChatRoomList.isEmpty()){
 
             LOGGER.debug("One user has no ChaRroomName");
             chatRoomComparison = new LinkedList<>();
@@ -156,12 +158,20 @@ public class ChatService implements IChatService {
         }
         if(crn == null){
 
-            /*
-            Create new chat room and chatroomnames for two users.
-            Then select the chatroomname for this user.
-             */
+            ChatRoom cr = chatDAO.createNewChatRoom();
+
+            chatDAO.insertNewChatRoomName(cr, aitaID, userModel.getName());
+
+            chatDAO.insertNewChatRoomName(cr, jibunnId, inputMap.get("name"));
+
             crn = selectChatRoom(cr.getId().toString(), userModel);
         }
         return crn;
+    }
+
+    @Override
+    public void deselectChatRoom (UserModel userModel){
+
+        ChatServer.removeFromOnlineUserPool(userModel.getId());
     }
 }

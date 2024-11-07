@@ -20,4 +20,6 @@ public interface IChatService {
     public List<UserModel> searchUser(String input);
 
     public ChatRoomName createChatRoom(Map<String, String> inputMap, UserModel userModel);
+
+    public void deselectChatRoom (UserModel userModel);
 }
