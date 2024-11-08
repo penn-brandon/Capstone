@@ -17,7 +17,7 @@ async function register() {
                 "gender": gender
             })
         });
-        console.log("checK response");
+        console.log("check response");
 
         if (!response.ok) {
 

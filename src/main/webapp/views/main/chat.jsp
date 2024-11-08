@@ -258,16 +258,13 @@
 
         async function getMessages(chatroom) {
             try {
-                console.log("ARROWHEAD" + chatroom.toString());
                 const response = await fetch('/Capstone/select', {
                     method: 'GET',
-                    headers: {"Content-Type": "application/json", "chatRoomID": chatroom.toString()}
+                    headers: {"chatRoomID": chatroom.toString()}
                 });
                 if (!response.ok) {
                     console.log("ERROR: " + response.status);
                 }
-                console.log("SHAKE");
-                console.log(response);
                 const json = await response.json();
                 let messages = [];
 

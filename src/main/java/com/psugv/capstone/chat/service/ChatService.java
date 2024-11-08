@@ -41,7 +41,7 @@ public class ChatService implements IChatService {
     @Override
     public Boolean sendMessage(String message, UserModel userModel, String chatRoomId) {
 
-        LOGGER.debug("User: " + userModel.getName() + ", chat room: " + chatRoomId + ", send message: " + message);
+        LOGGER.debug("User: {}, chat room: {}, send message: {}", userModel.getName(), chatRoomId, message);
         boolean insertion = chatDAO.insertMessage(message, userModel, chatRoomId);
 
         boolean sendToServer = ChatServer.sentMessage(message, userModel.getId(), Integer.parseInt(chatRoomId), userModel.getName());
@@ -146,11 +146,11 @@ public class ChatService implements IChatService {
 
         if(!chatRoomComparison.isEmpty()){
 
-            for (int i = 0; i < chatRoomComparison.size(); i++){
+            for (Integer integer : chatRoomComparison) {
 
-                ChatRoom cr = chatDAO.findChatRoom(chatRoomComparison.get(i));
+                ChatRoom cr = chatDAO.findChatRoom(integer);
 
-                if(!cr.getJoinable()){
+                if (!cr.getJoinable()) {
 
                     crn = selectChatRoom(cr.getId().toString(), userModel);
                 }

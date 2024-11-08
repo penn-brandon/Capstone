@@ -124,13 +124,13 @@ public class ChatDAO implements IChatDAO {
                     "value (\"" + message + "\",\"" + formattedDate + "\"," + userModel.getId() + ",\"" + userModel.getName() + "\");");
 
             int result = query.executeUpdate();
-            LOGGER.debug(result + " rows inserted");
+            LOGGER.debug("{} rows inserted", result);
 
             return true;
 
         } catch (Exception e) {
 
-            LOGGER.error("Cannot insert message" + message, e);
+            LOGGER.error("Cannot insert message {}", message, e);
 
             throw new InsertErrorException("Cannot insert message" + message);
         }

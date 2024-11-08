@@ -1,8 +1,12 @@
 package com.psugv.capstone.chat.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.stereotype.Component;
 
+@Setter
+@Getter
 @Entity(name = "chatroom")
 @Table(name = "chatroom")
 @Component("chatroom")
@@ -23,19 +27,4 @@ public class ChatRoom {
         this.joinable = joinable;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Boolean getJoinable() {
-        return joinable;
-    }
-
-    public void setJoinable(Boolean joinable) {
-        this.joinable = joinable;
-    }
 }

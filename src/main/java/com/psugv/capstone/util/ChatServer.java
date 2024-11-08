@@ -50,7 +50,7 @@ public class ChatServer {
 
         ONLINE_USER_POOL.put(userId, chatRoomId);
 
-        LOGGER.debug("Establising new listener!!");
+        LOGGER.debug("Establishing new listener!!");
         if (tempListener == null) {
 
             tempListener = new MessageListener(listener);
@@ -110,10 +110,10 @@ public class ChatServer {
 
             if (ONLINE_LISTENER_POOL.containsKey(chatRoomId)) {
 
-                LOGGER.debug("Existing users are listening in the chat room " + chatRoomId);
+                LOGGER.debug("Existing users are listening in the chat room {}", chatRoomId);
                 ConcurrentHashMap<Integer, MessageListener> listenerMap = ONLINE_LISTENER_POOL.get(chatRoomId);
 
-                LOGGER.debug("Size of Listener pool of this chat room is " + listenerMap.size());
+                LOGGER.debug("Size of Listener pool of this chat room is {}", listenerMap.size());
                 for (Map.Entry<Integer, MessageListener> entry : listenerMap.entrySet()) {
 
                     MessageListener listener = entry.getValue();
@@ -122,7 +122,7 @@ public class ChatServer {
 
                         continue;
                     }
-                    LOGGER.debug("Sent message to the listener of " + listener.getUser().getUsername());
+                    LOGGER.debug("Sent message to the listener of {}", listener.getUser().getUsername());
                     listener.setMessage(message, name);
                 }
             }

@@ -3,6 +3,7 @@ package com.psugv.capstone.util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.lang.NonNull;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.simp.config.ChannelRegistration;
@@ -41,7 +42,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         LOGGER.debug("Use Interceptors to see where the message goes");
         registration.interceptors(new ChannelInterceptor() {
             @Override
-            public Message<?> preSend(Message<?> message, MessageChannel channel) {
+            public Message<?> preSend(@NonNull Message<?> message,@NonNull MessageChannel channel) {
                 LOGGER.debug("Tracking outbound message: {}", message);
                 return message;
             }

@@ -93,7 +93,7 @@ public class CreateDBEnvironment {
 
             File f = new File(".");
 
-            LOGGER.error("Root file path of the project is : " + f.getAbsolutePath(), e);
+            LOGGER.error("Root file path of the project is : {}", f.getAbsolutePath(), e);
         }
     }
 }

@@ -8,7 +8,7 @@ public interface IUserDAO {
 
     boolean registration(UserModel user);
 
-    public void createChatRoomName(Integer userId);
+    void createChatRoomName(Integer userId);
 
-    //public boolean registrateAuthority(UserAuthorityModel authority);
+    //public boolean registrationAuthority(UserAuthorityModel authority);
 }

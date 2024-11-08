@@ -3,10 +3,14 @@ package com.psugv.capstone.chat.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.psugv.capstone.login.model.UserModel;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
+@Setter
+@Getter
 @Entity(name = "message")
 @Component("message")
 public class Message {
@@ -41,51 +45,4 @@ public class Message {
         this.time = time == null ? new Date() : time;
     }
 
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public Date getTime() {
-        return time;
-    }
-
-    public void setTime(Date time) {
-        this.time = time;
-    }
-
-    public String getSender() {
-        return sender;
-    }
-
-    public void setSender(String sender) {
-        this.sender = sender;
-    }
-
-    public UserModel getUserModel() {
-        return userModel;
-    }
-
-    public void setUserModel(UserModel userModel) {
-        this.userModel = userModel;
-    }
-
-    public Integer getSenderId() {
-        return senderId;
-    }
-
-    public void setSenderId(Integer senderId) {
-        this.senderId = senderId;
-    }
 }

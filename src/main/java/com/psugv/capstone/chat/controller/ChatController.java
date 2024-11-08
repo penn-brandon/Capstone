@@ -14,7 +14,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,8 +37,8 @@ public class ChatController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
 
-        LOGGER.trace("Storing user to session: " + username);
-        LOGGER.trace("Storing user to session: " + authentication.getCredentials());
+        LOGGER.trace("Storing user to session: {}", username);
+        LOGGER.trace("Storing user to session: {}", authentication.getCredentials());
         UserModel userModel = loginService.getUserByUsername(username);
         model.addAttribute("userModel", userModel);
 
@@ -51,15 +50,14 @@ public class ChatController {
     /**
      * @param inputMap key: message, value: message send by user
      *                 key: room, value: chat room ID
-     * @return
      */
     @PostMapping(path = "/send", consumes = "application/json")
     public @ResponseBody String sendMessage(@RequestBody Map<String, String> inputMap, @SessionAttribute UserModel userModel) {
 
         if (inputMap.get("message") == null || inputMap.get("message").isEmpty() || inputMap.get("room") == null || inputMap.get("room").isEmpty()) {
 
-            LOGGER.debug("message: " + inputMap.get("message"));
-            LOGGER.debug("room: " + inputMap.get("room"));
+            LOGGER.debug("message: {}", inputMap.get("message"));
+            LOGGER.debug("room: {}", inputMap.get("room"));
 
             return "MESSAGE SENDING FAILURE";
         }
@@ -74,14 +72,14 @@ public class ChatController {
 
         ChatRoomName result;
 
-        LOGGER.debug("Incoming chat room ID is: " + chatRoomID);
+        LOGGER.debug("Incoming chat room ID is: {}", chatRoomID);
 
         try {
             result = chatService.selectChatRoom(chatRoomID, userModel);
 
             if (result == null) {
 
-                LOGGER.error("Chat room name not found for chat room ID " + chatRoomID + ", and user ID " + userModel.getId());
+                LOGGER.error("Chat room name not found for chat room ID {}, and user ID {}", chatRoomID, userModel.getId());
 
                 return "redirect:/error";
             }
@@ -121,9 +119,7 @@ public class ChatController {
     @GetMapping(path = "/searchUsers", produces = "application/json")
     public @ResponseBody List<UserModel> searchUser(@RequestParam String username) {
 
-        List<UserModel> result = chatService.searchUser(username);
-
-        return result;
+        return chatService.searchUser(username);
     }
 
     /**

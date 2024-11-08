@@ -25,5 +25,5 @@ public interface IChatDAO {
 
     ChatRoom createNewChatRoom();
 
-     void insertNewChatRoomName(ChatRoom chatRoom, Integer userId, String name);
+    void insertNewChatRoomName(ChatRoom chatRoom, Integer userId, String name);
 }
