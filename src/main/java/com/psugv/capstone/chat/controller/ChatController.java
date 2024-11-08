@@ -108,7 +108,7 @@ public class ChatController {
 
             return new ArrayList<>();
         }
-        LOGGER.debug("MESSAGE LENGTH" + result.size());
+        LOGGER.debug("MESSAGE LENGTH {}", result.size());
         return result;
     }
 

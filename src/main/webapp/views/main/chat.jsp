@@ -289,10 +289,6 @@
         // INDEX LIST
         // ID = 0, CONTENT = 1, SENDER = 2, TIME = 3
 
-        // <div>
-        //   <div>
-        //     <p>
-
         function displayMessages(messages) {
             const current_chat = document.getElementById("current-chat");
 
@@ -402,9 +398,7 @@
             } else {
                 let chat_room_created_id = response.json();
 
-                //TODO
                 console.log(chat_room_created_id);
-
 
                 let chat_rooms = await getChatRooms();
                 await displayChatRooms(chat_rooms);
