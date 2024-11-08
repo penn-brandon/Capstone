@@ -3,11 +3,16 @@ package com.psugv.capstone.login.controller;
 
 import com.psugv.capstone.exception.InsertErrorException;
 import com.psugv.capstone.login.service.ILoginService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -52,7 +57,7 @@ public class LoginController {
     }
 
 
-    /*
+
         @GetMapping(path="/logout")
         public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -62,7 +67,7 @@ public class LoginController {
             }
             return "redirect:/index";
         }
-    */
+
     @PostMapping(path = "/register")
     /**
      * Key: username, value: input username.

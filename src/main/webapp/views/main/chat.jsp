@@ -180,8 +180,6 @@
                 const json = await response.json();
                 let chat_rooms = [];
 
-                console.log("FRIES");
-                console.log(json);
                 for (let i = 0; i < json.length; i++) {
                     let curChatRoom = [];
                     curChatRoom.push(Object.values(json)[i][1]); // id
@@ -219,8 +217,6 @@
 
                     // Loads new Messages when you click the channel name
                     new_chat.addEventListener('click', async () => {
-                        //console.log(chat_rooms[i][0]);
-                        //console.log(chat_rooms);
                         let messages = await getMessages(chat_rooms[i][0]);
                         displayMessages(messages);
                         chat_id = chat_rooms[i][0];
@@ -254,10 +250,8 @@
 
             chat_room_div.append(chat_room_plus);
 
-            chat_room_plus.addEventListener('onclick', () => {
-               // TODO
-               // JOIN CHATROOM CODE
-               // OR CREATE NEW CHATROOM
+            chat_room_plus.addEventListener('click', async () => {
+                let chatRoomName = getChatRoomNameFromUser();
             });
 
         }
@@ -348,7 +342,100 @@
 
         }
 
+        // This creates a text input field for the user to input new chat room name
+        function getChatRoomNameFromUser() {
+            let chatRoomName = null;
+            const chat_room_div = document.getElementById("channels-list");
 
+            const cancel_chat_room_name = document.createElement('img');
+            cancel_chat_room_name.src = "${pageContext.request.contextPath}/images/close.svg";
+            cancel_chat_room_name.style.float = "right";
+
+            const chat_room_name = document.createElement('p');
+            chat_room_name.textContent = "New Chat Name"
+
+            const text_area = document.createElement('textarea');
+            text_area.style.resize = 'none';
+
+            const submit_button = document.createElement('button');
+            submit_button.textContent = "Submit";
+
+            const new_chat = document.createElement('p');
+
+            new_chat.appendChild(cancel_chat_room_name);
+            new_chat.appendChild(chat_room_name);
+            new_chat.appendChild(text_area);
+            new_chat.appendChild(submit_button);
+
+
+            chat_room_div.appendChild(new_chat);
+
+            cancel_chat_room_name.addEventListener('click', () => {
+                chat_room_div.removeChild(new_chat);
+            });
+
+            new_chat.addEventListener("keydown", function(event) {
+                if (event.key === "Enter") {
+                    event.preventDefault();
+                    submit_button.click();
+                }
+            });
+            submit_button.addEventListener("click", async () => {
+                chatRoomName = text_area.value;
+                console.log(chatRoomName);
+                if (chatRoomName !== null){
+                    chat_room_div.removeChild(new_chat);
+                    await addChatRoom(chatRoomName);
+                }
+            });
+
+
+        }
+
+        async function addChatRoom(chatRoom) {
+            const response = await fetch('/Capstone/createNewChatRoom', {
+                method: 'POST',
+                headers: {"Content-Type": "application/json", "chatRoomName": chatRoom.toString()}
+            });
+            if (!response.ok) {
+                console.log("ERROR: " + response.status);
+            } else {
+                let chat_room_created_id = response.json();
+
+                //TODO
+                console.log(chat_room_created_id);
+
+
+                let chat_rooms = await getChatRooms();
+                await displayChatRooms(chat_rooms);
+
+                const chat_room_div = document.getElementById("channels-list");
+
+                const chat_room_name = document.createElement('span');
+                chat_room_name.textContent = chatRoom //NAME
+
+                const lastModifiedDate = document.createElement('span');
+                lastModifiedDate.textContent = (
+                    date.getMonth() + 1 + "/" +
+                    date.getDate() + " " +
+                    date.getHours() + ":" +
+                    date.getMinutes()).toString(); //DATE
+
+                const new_chat = document.createElement('p');
+                new_chat.appendChild(chat_room_name);
+                new_chat.appendChild(lastModifiedDate);
+
+
+                // Loads new Messages when you click the channel name
+                new_chat.addEventListener('click', async () => {
+                    let messages = await getMessages(chat_room_created_id);
+                    displayMessages(messages);
+                    chat_id = chat_room_created_id;
+                });
+
+                chat_room_div.appendChild(new_chat);
+            }
+        }
     </script>
 
 </head>
