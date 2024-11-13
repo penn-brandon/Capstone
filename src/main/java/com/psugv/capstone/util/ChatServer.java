@@ -5,6 +5,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -114,6 +116,9 @@ public class ChatServer {
                 ConcurrentHashMap<Integer, MessageListener> listenerMap = ONLINE_LISTENER_POOL.get(chatRoomId);
 
                 LOGGER.debug("Size of Listener pool of this chat room is {}", listenerMap.size());
+
+                List<Thread> threads = new LinkedList<>();
+
                 for (Map.Entry<Integer, MessageListener> entry : listenerMap.entrySet()) {
 
                     MessageListener listener = entry.getValue();
@@ -123,7 +128,18 @@ public class ChatServer {
                         continue;
                     }
                     LOGGER.debug("Sent message to the listener of {}", listener.getUser().getUsername());
-                    listener.setMessage(message, name);
+                    Thread thread = new Thread(new Runnable() {
+
+                        public void run() {
+
+                            listener.setMessage(message, name);
+                        }
+                    });
+                    threads.add(thread);
+                }
+                for (Thread thread : threads) {
+                    
+                    thread.start();
                 }
             }
         } catch (Exception e) {

@@ -1,24 +1,5 @@
 use capstone;
 
-insert into authorities (user_id,
-                         authorityName)
-values (1,
-        'NORMAL');
-
-insert into authorities (user_id,
-                         authorityName)
-values (2,
-        'NORMAL');
-
-insert into authorities (user_id,
-                         authorityName)
-values (3,
-        'NORMAL');
-insert into authorities (user_id,
-                         authorityName)
-values (4,
-        'NORMAL');
-
 insert into user(name,
                  gender,
                  username,
@@ -62,6 +43,25 @@ values ('George the Monster',
         'purdue',
         '1234',
         TRUE);
+
+insert into authorities (user_id,
+                         authorityName)
+values (1,
+        'NORMAL');
+
+insert into authorities (user_id,
+                         authorityName)
+values (2,
+        'NORMAL');
+
+insert into authorities (user_id,
+                         authorityName)
+values (3,
+        'NORMAL');
+insert into authorities (user_id,
+                         authorityName)
+values (4,
+        'NORMAL');
 
 insert into chatroom(joinable)
 values (FALSE);
