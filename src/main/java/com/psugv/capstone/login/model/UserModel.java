@@ -39,9 +39,11 @@ public class UserModel implements Serializable {
     @Setter
     private String name;
 
+    @Setter
     @Getter
     private String gender;
 
+    @Setter
     @Getter
     @JsonIgnore
     @OneToMany(mappedBy = "userModel", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -52,7 +54,6 @@ public class UserModel implements Serializable {
     private Boolean isEnable;
 
     public UserModel(Integer id, String username, String password, String name, Date date, String gender, Boolean isEnable, Set<UserAuthorityModel> authorities) {
-
         this.id = id;
         this.username = username;
         this.password = password;
@@ -70,10 +71,6 @@ public class UserModel implements Serializable {
         return date_of_creation;
     }
 
-    public void setAuthorities(Set<UserAuthorityModel> authorities) {
-        this.authorities = authorities;
-    }
-
     public Boolean getEnable() {
         return isEnable;
     }
@@ -82,13 +79,8 @@ public class UserModel implements Serializable {
         isEnable = enable;
     }
 
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
     @Override
     public boolean equals(Object object) {
-
         UserModel user = (UserModel) object;
         return Objects.equals(this.id, user.id) && this.username.equals(user.username);
     }

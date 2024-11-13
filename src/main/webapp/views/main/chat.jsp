@@ -15,7 +15,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Anta&display=swap" rel="stylesheet">
 
-    <script defer src="${pageContext.request.contextPath}/javascript/theme.js"></script>
     <script defer src="${pageContext.request.contextPath}/javascript/chat.js"></script>
 
     <script src="${pageContext.request.contextPath}/javascript/sockjs.min.js"></script>
@@ -181,8 +180,6 @@
                 const json = await response.json();
                 let chat_rooms = [];
 
-                console.log("FRIES");
-                console.log(json);
                 for (let i = 0; i < json.length; i++) {
                     let curChatRoom = [];
                     curChatRoom.push(Object.values(json)[i][1]); // id
@@ -220,8 +217,6 @@
 
                     // Loads new Messages when you click the channel name
                     new_chat.addEventListener('click', async () => {
-                        //console.log(chat_rooms[i][0]);
-                        //console.log(chat_rooms);
                         let messages = await getMessages(chat_rooms[i][0]);
                         displayMessages(messages);
                         chat_id = chat_rooms[i][0];
@@ -255,26 +250,21 @@
 
             chat_room_div.append(chat_room_plus);
 
-            chat_room_plus.addEventListener('onclick', () => {
-               // TODO
-               // JOIN CHATROOM CODE
-               // OR CREATE NEW CHATROOM
+            chat_room_plus.addEventListener('click', async () => {
+                let chatRoomName = getChatRoomNameFromUser();
             });
 
         }
 
         async function getMessages(chatroom) {
             try {
-                console.log("ARROWHEAD" + chatroom.toString());
                 const response = await fetch('/Capstone/select', {
                     method: 'GET',
-                    headers: {"Content-Type": "application/json", "chatRoomID": chatroom.toString()}
+                    headers: {"chatRoomID": chatroom.toString()}
                 });
                 if (!response.ok) {
                     console.log("ERROR: " + response.status);
                 }
-                console.log("SHAKE");
-                console.log(response);
                 const json = await response.json();
                 let messages = [];
 
@@ -295,10 +285,6 @@
 
         // INDEX LIST
         // ID = 0, CONTENT = 1, SENDER = 2, TIME = 3
-
-        // <div>
-        //   <div>
-        //     <p>
 
         function displayMessages(messages) {
             const current_chat = document.getElementById("current-chat");
@@ -349,50 +335,143 @@
 
         }
 
+        // This creates a text input field for the user to input new chat room name
+        function getChatRoomNameFromUser() {
+            let chatRoomName = null;
+            const chat_room_div = document.getElementById("channels-list");
 
+            const cancel_chat_room_name = document.createElement('img');
+            cancel_chat_room_name.src = "${pageContext.request.contextPath}/images/close.svg";
+            cancel_chat_room_name.style.float = "right";
+
+            const chat_room_name = document.createElement('p');
+            chat_room_name.textContent = "New Chat Name"
+
+            const text_area = document.createElement('textarea');
+            text_area.style.resize = 'none';
+
+            const submit_button = document.createElement('button');
+            submit_button.textContent = "Submit";
+
+            const new_chat = document.createElement('p');
+
+            new_chat.appendChild(cancel_chat_room_name);
+            new_chat.appendChild(chat_room_name);
+            new_chat.appendChild(text_area);
+            new_chat.appendChild(submit_button);
+
+
+            chat_room_div.appendChild(new_chat);
+
+            cancel_chat_room_name.addEventListener('click', () => {
+                chat_room_div.removeChild(new_chat);
+            });
+
+            new_chat.addEventListener("keydown", function(event) {
+                if (event.key === "Enter") {
+                    event.preventDefault();
+                    submit_button.click();
+                }
+            });
+            submit_button.addEventListener("click", async () => {
+                chatRoomName = text_area.value;
+                console.log(chatRoomName);
+                if (chatRoomName !== null){
+                    chat_room_div.removeChild(new_chat);
+                    await addChatRoom(chatRoomName);
+                }
+            });
+
+
+        }
+
+        async function addChatRoom(chatRoom) {
+            const response = await fetch('/Capstone/createNewChatRoom', {
+                method: 'POST',
+                headers: {"Content-Type": "application/json", "chatRoomName": chatRoom.toString()}
+            });
+            if (!response.ok) {
+                console.log("ERROR: " + response.status);
+            } else {
+                let chat_room_created_id = response.json();
+
+                console.log(chat_room_created_id);
+
+                let chat_rooms = await getChatRooms();
+                await displayChatRooms(chat_rooms);
+
+                const chat_room_div = document.getElementById("channels-list");
+
+                const chat_room_name = document.createElement('span');
+                chat_room_name.textContent = chatRoom //NAME
+
+                const lastModifiedDate = document.createElement('span');
+                lastModifiedDate.textContent = (
+                    date.getMonth() + 1 + "/" +
+                    date.getDate() + " " +
+                    date.getHours() + ":" +
+                    date.getMinutes()).toString(); //DATE
+
+                const new_chat = document.createElement('p');
+                new_chat.appendChild(chat_room_name);
+                new_chat.appendChild(lastModifiedDate);
+
+
+                // Loads new Messages when you click the channel name
+                new_chat.addEventListener('click', async () => {
+                    let messages = await getMessages(chat_room_created_id);
+                    displayMessages(messages);
+                    chat_id = chat_room_created_id;
+                });
+
+                chat_room_div.appendChild(new_chat);
+            }
+        }
     </script>
 
 </head>
 
 <body>
-<nav>
-    <div class="nav-content">
-        <div class="nav-img">
-            <img src="${pageContext.request.contextPath}/images/logo.svg" alt="Logo"/>
-            <span class="nav-logo">BLURB</span>
-        </div>
-        <div class="profile-div" id="profile-div">
-            <button class="profile" id="profile" onclick="profile_click()">
-                <img src="${pageContext.request.contextPath}/images/user.svg" alt="Profile"/>
-            </button>
-        </div>
-    </div>
-</nav>
+    <div class="container">
+        <nav>
+            <div class="nav-content">
+                <div class="nav-img">
+                    <img src="${pageContext.request.contextPath}/images/logo.svg" alt="Logo"/>
+                    <span class="nav-logo">BLURB</span>
+                </div>
+                <div class="profile-div" id="profile-div">
+                    <button class="profile" id="profile" onclick="profile_click()">
+                        <img src="${pageContext.request.contextPath}/images/user.svg" alt="Profile"/>
+                    </button>
+                </div>
+            </div>
+        </nav>
 
-<div class="chats">
-    <p>Channels</p>
-    <div class="channels-list" id="channels-list">
-        <p>Default Channel</p>
-    </div>
-</div>
-<div class="current-chat" id="current-chat">
-</div>
-<div class="chat-box">
-    <label>
-        <textarea class="chat-send" id="chat-send"></textarea>
-    </label>
-    <button id="send-button" onclick="sendMessage()">
-        <img src="${pageContext.request.contextPath}/images/send.svg" class="chat-send-icon" alt="Send">
-    </button>
-</div>
+        <div class="chats">
+            <p>Channels</p>
+            <div class="channels-list" id="channels-list">
+                <p>Default Channel</p>
+            </div>
+        </div>
+        <div class="current-chat" id="current-chat">
+        </div>
+        <div class="chat-box">
+            <label>
+                <textarea class="chat-send" id="chat-send"></textarea>
+            </label>
+            <div id="send-button" onclick="sendMessage()">
+                <img src="${pageContext.request.contextPath}/images/send.svg" class="chat-send-icon" alt="Send">
+            </div>
+        </div>
 
-<footer>
-    <div class="footer-div">
-        <p class="footer-copyright">
-            Copyright of Cool Dudes &copy;2024. All Rights Reserved.
-        </p>
+        <footer>
+            <div class="footer-div">
+                <p class="footer-copyright">
+                    Copyright of Cool Dudes &copy;2024. All Rights Reserved.
+                </p>
+            </div>
+        </footer>
     </div>
-</footer>
 </body>
 
 </html>

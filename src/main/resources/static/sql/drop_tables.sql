@@ -1,4 +1,5 @@
 use capstone;
+
 drop table if exists capstone.`1_ChatRoomName`;
 drop table if exists capstone.`2_ChatRoomName`;
 drop table if exists capstone.`3_ChatRoomName`;
@@ -12,3 +13,7 @@ drop table IF EXISTS capstone.ChatRoomToUser;
 drop table IF EXISTS capstone.ChatRoom;
 drop table IF EXISTS capstone.authorities;
 drop table IF EXISTS capstone.user;
+
+#drop database if exists capstone;
+#create database if not exists capstone;
+

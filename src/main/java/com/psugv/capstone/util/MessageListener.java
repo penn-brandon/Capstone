@@ -61,7 +61,7 @@ public class MessageListener {
     public void destroy() {
 
         LOGGER.info("Listening stop");
-        LOGGER.trace(this + " !!Ceassed!!");
+        LOGGER.trace("{} !!Ceased!!", this);
         listening = false;
         user = null;
         room = null;
@@ -79,7 +79,7 @@ public class MessageListener {
             LOGGER.trace(this.toString());
             this.room = listener.getRoom();
             this.roomName = listener.getRoomName();
-            LOGGER.debug("messagingTemplate is null in update method? " + (messagingTemplate == null));
+            LOGGER.debug("messagingTemplate is null in update method? {}", messagingTemplate == null);
         }
     }
 
@@ -89,7 +89,7 @@ public class MessageListener {
 
         synchronized (this) {
 
-            LOGGER.debug("Message: " + this.message + " synchronized, set message field and notify it.");
+            LOGGER.debug("Message: {} synchronized, set message field and notify it.", this.message);
             this.message = message;
             this.senderName = name;
             this.notify();
@@ -108,7 +108,7 @@ public class MessageListener {
                         LOGGER.debug("Message object wait!!");
                         this.wait();
                     }
-                    LOGGER.debug("Message received: " + message + "sender is " + this.senderName);
+                    LOGGER.debug("Message received: {} sender is {}", message, this.senderName);
                     LOGGER.trace("sending message out!!");
                     sendUpdateToSocket(message, senderName);
 

@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -22,18 +23,18 @@ public class WebSecurityConfig {
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
 
         http.authorizeHttpRequests((requests) -> requests.requestMatchers("/css/**", "/images/**", "/javascript/**", "/sql/**", "/views/**").permitAll()
-                .requestMatchers("/", "/login", "/signup", "/index", "/error", "/register").permitAll()
+                .requestMatchers("/", "/login", "/signup", "/index", "/error", "/register", "logout").permitAll()
                 .requestMatchers("/chat", "/send", "/select", "/loadMessage", "/loadAllChatRoomName").authenticated()
                 .requestMatchers("/listening/**", "/controller/**", "/capstone").permitAll().anyRequest().authenticated());
 
         http.httpBasic(Customizer.withDefaults());
 
-        http.csrf((csrf) -> csrf.disable());
+        http.csrf(AbstractHttpConfigurer::disable);
 
-/*
+
         http.logout(logout -> logout
                         .logoutSuccessUrl("/index").permitAll());
-*/
+
 
         http.formLogin(form -> form.loginPage("/login").permitAll().defaultSuccessUrl("/chat", true).failureUrl("/login?failed").permitAll());
 

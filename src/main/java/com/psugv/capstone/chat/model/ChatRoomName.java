@@ -1,10 +1,14 @@
 package com.psugv.capstone.chat.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
+@Setter
+@Getter
 @Entity(name = "chatRoomName")
 @Component("chatRoomName")
 public class ChatRoomName {
@@ -34,46 +38,6 @@ public class ChatRoomName {
         this.admin = admin;
         this.chatRoom = chatRoom;
         this.chatRoomName = chatRoomName;
-        this.lastModified = lastModified;
-    }
-
-    public String getChatRoomName() {
-        return chatRoomName;
-    }
-
-    public void setChatRoomName(String chatRoomName) {
-        this.chatRoomName = chatRoomName;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public ChatRoom getChatRoom() {
-        return chatRoom;
-    }
-
-    public void setChatRoom(ChatRoom chatRoom) {
-        this.chatRoom = chatRoom;
-    }
-
-    public Boolean getAdmin() {
-        return admin;
-    }
-
-    public void setAdmin(Boolean admin) {
-        this.admin = admin;
-    }
-
-    public Date getLastModified() {
-        return lastModified;
-    }
-
-    public void setLastModified(Date lastModified) {
         this.lastModified = lastModified;
     }
 

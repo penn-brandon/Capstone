@@ -1,6 +1,5 @@
 .main {
-    position: absolute;
-    top: 20%;
+    margin-top: 150px;
     margin-left: 10%;
 }
 
@@ -11,7 +10,6 @@
 .main > a {
     text-decoration: none;
 }
-
 
 .nav-login-login {
     padding: 10px;
