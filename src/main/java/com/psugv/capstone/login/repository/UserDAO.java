@@ -40,17 +40,18 @@ public class UserDAO implements IUserDAO {
     }
 
     @Override
-    public boolean registration(UserModel user) {
+    public UserModel registration(UserModel user) {
 
         try {
             entityManager.persist(user);
+            entityManager.flush();
 
         } catch (Exception e) {
 
             LOGGER.error("Fail to register user!!!", e);
             throw new InsertErrorException("Registration failure!!!");
         }
-        return true;
+        return user;
     }
 
     @Override
@@ -73,5 +74,21 @@ public class UserDAO implements IUserDAO {
             LOGGER.error(e.getMessage(), e);
             throw new NoQueryResultException("Fail to create chat room name name!!!");
         }
+    }
+
+    @Override
+    public UserModel findUserById(Integer userId){
+
+        UserModel userModel;
+
+        try {
+            userModel = entityManager.createQuery("from user where user_id = :userId", UserModel.class).setParameter(userId, userId).getSingleResult();
+
+        } catch (Exception e) {
+
+            LOGGER.error("Fail to register user!!!", e);
+            throw new InsertErrorException("Registration failure!!!");
+        }
+        return userModel;
     }
 }

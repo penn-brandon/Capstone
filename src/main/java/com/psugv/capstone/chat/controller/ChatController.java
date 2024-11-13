@@ -148,12 +148,12 @@ public class ChatController {
      *                 key chatroom, value chatroom id
      */
     @PostMapping(path = "/addUserToChatRoom", consumes = "application/json")
-    public String addUserToChatRoom(@RequestBody Map<String, String> inputMap, @SessionAttribute("userModel") UserModel userModel, Model model) {
+    public @ResponseBody ChatRoomName addUserToChatRoom(@RequestBody Map<String, String> inputMap, @SessionAttribute("userModel") UserModel userModel, Model model) {
 
-        ChatRoomName newchatRoomName = chatService.createChatRoom(inputMap, userModel);
+        ChatRoomName newchatRoomName = chatService.addUserToChatRoom(inputMap, userModel);
 
         model.addAttribute("chatRoomName", newchatRoomName);
 
-        return "redirect:/loadMessage";
+        return newchatRoomName;
     }
 }
