@@ -2,6 +2,7 @@ package com.psugv.capstone.chat.repository;
 
 import com.psugv.capstone.chat.model.ChatRoom;
 import com.psugv.capstone.chat.model.ChatRoomName;
+import com.psugv.capstone.chat.model.ChatRoomToUser;
 import com.psugv.capstone.chat.model.Message;
 import com.psugv.capstone.login.model.UserModel;
 
@@ -26,4 +27,10 @@ public interface IChatDAO {
     ChatRoom createNewChatRoom();
 
     void insertNewChatRoomName(ChatRoom chatRoom, Integer userId, String name);
+
+    void insertChatRoomToUser(ChatRoomToUser chatRoomToUser);
+
+    List<ChatRoomToUser> findChatRoomToUserByChatRoom(Integer chatRoomId);
+
+    List<ChatRoomToUser> findChatRoomToUserByUserID(Integer userId);
 }

@@ -21,5 +21,7 @@ public interface IChatService {
 
     ChatRoomName createChatRoom(Map<String, String> inputMap, UserModel userModel);
 
-    void deselectChatRoom(UserModel userModel);
+    void deselectChatRoom (UserModel userModel);
+
+    ChatRoomName addUserToChatRoom(Map<String, String> inputMap, UserModel userModel);
 }

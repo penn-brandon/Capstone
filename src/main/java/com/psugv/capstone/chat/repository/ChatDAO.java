@@ -2,6 +2,7 @@ package com.psugv.capstone.chat.repository;
 
 import com.psugv.capstone.chat.model.ChatRoom;
 import com.psugv.capstone.chat.model.ChatRoomName;
+import com.psugv.capstone.chat.model.ChatRoomToUser;
 import com.psugv.capstone.chat.model.Message;
 import com.psugv.capstone.exception.InsertErrorException;
 import com.psugv.capstone.login.model.UserModel;
@@ -136,6 +137,7 @@ public class ChatDAO implements IChatDAO {
         }
     }
 
+    @Override
     public List<UserModel> blurrySearchUsername(String input){
 
         List<UserModel> result;
@@ -151,10 +153,10 @@ public class ChatDAO implements IChatDAO {
         return result;
     }
 
+    @Override
     public void updateChatRoomName(ChatRoomName chatRoomName){
 
         try{
-            chatRoomName.setLastModified(new Date());
             entityManager.merge(chatRoomName);
 
         } catch(Exception e){
@@ -163,6 +165,7 @@ public class ChatDAO implements IChatDAO {
         }
     }
 
+    @Override
     public ChatRoom createNewChatRoom(){
 
         ChatRoom chatRoom = new ChatRoom(null, false);
@@ -178,6 +181,7 @@ public class ChatDAO implements IChatDAO {
         return chatRoom;
     }
 
+    @Override
     public void insertNewChatRoomName(ChatRoom chatRoom, Integer userId, String name){
 
         String sql = "insert into " + userId + CHAT_ROOM_NAME_POSTFIX + " (chat_room_id, admin, chat_room_name, last_modified) value (" + chatRoom.getId() + ",False," + name + ", CURRENT_TIMESTAMP);";
@@ -189,5 +193,49 @@ public class ChatDAO implements IChatDAO {
 
             LOGGER.error(e.getMessage(), e);
         }
+    }
+
+    @Override
+    public void insertChatRoomToUser(ChatRoomToUser chatRoomToUser){
+
+        try{
+            entityManager.persist(chatRoomToUser);
+
+        } catch(Exception e){
+
+            LOGGER.error(e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public List<ChatRoomToUser> findChatRoomToUserByChatRoom(Integer chatRoomId){
+
+        List<ChatRoomToUser> result;
+
+        try{
+            result = (List<ChatRoomToUser>) entityManager.createQuery("from ChatRoomToUser where chat_room_id = :chatRoomId").setParameter("chatRoomId", chatRoomId).getResultList();
+
+        } catch(Exception e){
+
+            LOGGER.error(e.getMessage(), e);
+            return null;
+        }
+        return result;
+    }
+
+    @Override
+    public List<ChatRoomToUser> findChatRoomToUserByUserID(Integer userId){
+
+        List<ChatRoomToUser> result;
+
+        try{
+            result = (List<ChatRoomToUser>) entityManager.createQuery("from ChatRoomToUser where user_id = :userId").setParameter("userId", userId).getResultList();
+
+        } catch(Exception e){
+
+            LOGGER.error(e.getMessage(), e);
+            return null;
+        }
+        return result;
     }
 }

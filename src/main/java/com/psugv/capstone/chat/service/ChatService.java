@@ -2,11 +2,13 @@ package com.psugv.capstone.chat.service;
 
 import com.psugv.capstone.chat.model.ChatRoom;
 import com.psugv.capstone.chat.model.ChatRoomName;
+import com.psugv.capstone.chat.model.ChatRoomToUser;
 import com.psugv.capstone.chat.model.Message;
 import com.psugv.capstone.chat.repository.IChatDAO;
 import com.psugv.capstone.exception.InsertErrorException;
 import com.psugv.capstone.exception.NoQueryResultException;
 import com.psugv.capstone.login.model.UserModel;
+import com.psugv.capstone.login.repository.IUserDAO;
 import com.psugv.capstone.util.ChatServer;
 import com.psugv.capstone.util.MessageListener;
 import com.psugv.capstone.util.Utility;
@@ -18,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +34,9 @@ public class ChatService implements IChatService {
 
     @Autowired
     IChatDAO chatDAO;
+
+    @Autowired
+    IUserDAO userDAO;
 
     @Autowired
     private MessageListener messageListener;
@@ -61,6 +67,8 @@ public class ChatService implements IChatService {
         ChatRoom cr = chatDAO.findChatRoom(chatRoomId);
 
         ChatRoomName crn = chatDAO.findChatRoomName(userModel.getId(), chatRoomId);
+
+        crn.setLastModified(new Date());
 
         chatDAO.updateChatRoomName(crn);
 
@@ -114,45 +122,37 @@ public class ChatService implements IChatService {
 
         Integer jibunnId = userModel.getId();
 
-        List<ChatRoomName> aiteChatRoomList = chatDAO.getAllChatroomName(aitaID);
+        List<ChatRoomToUser> aitaIDChatRoomToUser = chatDAO.findChatRoomToUserByUserID(aitaID);
 
-        List<ChatRoomName> jibunnChatRoomList = chatDAO.getAllChatroomName(jibunnId);
+        List<ChatRoomToUser> jibunnIdChatRoomToUser = chatDAO.findChatRoomToUserByUserID(jibunnId);
 
-        List<Integer> chatRoomComparison;
+        List<Integer> aitaChatRoomIDList = new LinkedList<>();
 
-        if(aiteChatRoomList.isEmpty() || jibunnChatRoomList.isEmpty()){
+        for(ChatRoomToUser aita : aitaIDChatRoomToUser){
 
-            LOGGER.debug("One user has no ChaRroomName");
-            chatRoomComparison = new LinkedList<>();
-
-        } else {
-
-            List<Integer> aiteChatRoomID = new LinkedList<>();
-
-            for(ChatRoomName chatRoom : aiteChatRoomList){
-
-                aiteChatRoomID.add(chatRoom.getChatRoom().getId());
-            }
-
-            List<Integer> jibunnChatRoomID = new LinkedList<>();
-
-            for(ChatRoomName chatRoom : jibunnChatRoomList){
-
-                jibunnChatRoomID.add(chatRoom.getChatRoom().getId());
-            }
-            chatRoomComparison = Utility.commonIdComparator(aiteChatRoomID, jibunnChatRoomID);
+            aitaChatRoomIDList.add(aita.getChatRoom().getId());
         }
+
+        List<Integer> jibunnChatRoomIDList = new LinkedList<>();
+
+        for(ChatRoomToUser jibunn : jibunnIdChatRoomToUser){
+
+            jibunnChatRoomIDList.add(jibunn.getChatRoom().getId());
+        }
+
+        List<Integer> cummonChatRoomID = Utility.commonIdComparator(aitaChatRoomIDList, jibunnChatRoomIDList);
+
         ChatRoomName crn = null;
 
-        if(!chatRoomComparison.isEmpty()){
+        if(!cummonChatRoomID.isEmpty()){
 
-            for (Integer integer : chatRoomComparison) {
+            for (Integer integer : cummonChatRoomID) {
 
-                ChatRoom cr = chatDAO.findChatRoom(integer);
+                List<ChatRoomToUser>  crtuList = chatDAO.findChatRoomToUserByChatRoom(integer);
 
-                if (!cr.getJoinable()) {
+                if (crtuList.size() == 2) {
 
-                    crn = selectChatRoom(cr.getId().toString(), userModel);
+                    crn = selectChatRoom(integer.toString(), userModel);
                 }
             }
         }
@@ -162,10 +162,21 @@ public class ChatService implements IChatService {
 
             chatDAO.insertNewChatRoomName(cr, aitaID, userModel.getName());
 
+            UserModel aite = userDAO.findUserById(aitaID);
+
+            ChatRoomToUser aiteRow = new ChatRoomToUser(null, aite, cr);
+
+            chatDAO.insertChatRoomToUser(aiteRow);
+
             chatDAO.insertNewChatRoomName(cr, jibunnId, inputMap.get("name"));
+
+            ChatRoomToUser jibunnRow = new ChatRoomToUser(null, userModel, cr);
+
+            chatDAO.insertChatRoomToUser(jibunnRow);
 
             crn = selectChatRoom(cr.getId().toString(), userModel);
         }
+
         return crn;
     }
 
@@ -173,5 +184,61 @@ public class ChatService implements IChatService {
     public void deselectChatRoom (UserModel userModel){
 
         ChatServer.removeFromOnlineUserPool(userModel.getId());
+    }
+
+    @Override
+    public ChatRoomName addUserToChatRoom(Map<String, String> inputMap, UserModel userModel){
+
+        Integer chatRoomId = Integer.parseInt(inputMap.get("chatroom"));
+
+        UserModel aite = userDAO.findUserById(Integer.parseInt(inputMap.get("id")));
+
+        ChatRoom chatRoom = chatDAO.findChatRoom(chatRoomId);
+
+        ChatRoomToUser crtu = new ChatRoomToUser(null, aite, chatRoom);
+
+        chatDAO.insertChatRoomToUser(crtu);
+
+        List<ChatRoomToUser> chatRoomIdChatRoomToUser = chatDAO.findChatRoomToUserByChatRoom(chatRoom.getId());
+
+        List<UserModel> userList = new LinkedList<>();
+
+        for (ChatRoomToUser temp: chatRoomIdChatRoomToUser){
+
+            userList.add(userDAO.findUserById(temp.getUserModel().getId()));
+        }
+
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < 3; i++){
+
+            sb.append(userList.get(i).getName());
+            sb.append(", ");
+        }
+
+        sb.append("and " );
+
+        sb.append(userList.size() - 3);
+
+        sb.append(" people");
+
+        String newName = sb.toString();
+
+        chatDAO.insertNewChatRoomName(chatRoom, aite.getId(), newName);
+
+        for(UserModel um: userList){
+
+            if(um.getId().equals(aite.getId())){
+
+                continue;
+            }
+
+            ChatRoomName tempCRN = chatDAO.findChatRoomName(um.getId(), chatRoomId);
+
+            tempCRN.setChatRoomName(newName);
+
+            chatDAO.updateChatRoomName(tempCRN);
+        }
+        return chatDAO.findChatRoomName(userModel.getId(), chatRoomId);
     }
 }

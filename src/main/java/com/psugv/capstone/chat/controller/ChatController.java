@@ -136,4 +136,20 @@ public class ChatController {
 
         return newchatRoomName;
     }
+
+    /**
+     * @param inputMap key: id, value: user id
+     *                 key: name, value: name of user
+     *                 key username, value username
+     *                 key chatroom, value chatroom id
+     */
+    @PostMapping(path = "/addUserToChatRoom", consumes = "application/json")
+    public @ResponseBody ChatRoomName addUserToChatRoom(@RequestBody Map<String, String> inputMap, @SessionAttribute("userModel") UserModel userModel, Model model) {
+
+        ChatRoomName newchatRoomName = chatService.addUserToChatRoom(inputMap, userModel);
+
+        model.addAttribute("chatRoomName", newchatRoomName);
+
+        return newchatRoomName;
+    }
 }

@@ -78,9 +78,7 @@ public class UserLoginService implements ILoginService {
             newUser.setAuthorities(authoritiesSet);
 
             LOGGER.debug("start inserting!!");
-            userDAO.registration(newUser);
-
-            search = userDAO.getUserByUsername(username);
+            search = userDAO.registration(newUser);
 
             userDAO.createChatRoomName(search.getId());
 

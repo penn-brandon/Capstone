@@ -1,12 +1,5 @@
 use capstone;
 
-create table authorities
-(
-    authority_id  int auto_increment primary key not null,
-    user_id       int                            not null,
-    authorityName varchar(255)                   not null
-);
-
 create table user
 (
     user_id          int auto_increment primary key not null,
@@ -18,8 +11,25 @@ create table user
     is_Enable        bool                           not null default true
 );
 
+create table authorities
+(
+    authority_id  int auto_increment primary key not null,
+    user_id       int                            not null,
+    authorityName varchar(255)                   not null,
+    FOREIGN KEY (user_id) REFERENCES user (user_id)
+);
+
 CREATE TABLE ChatRoom
 (
     chat_room_id int auto_increment primary key not null,
-    joinable     TINYINT(1)                     NOT NULL DEFAULT 0
+    joinable     Bool                     NOT NULL
+);
+
+CREATE TABLE ChatRoomToUser
+(
+    id int auto_increment primary key not null,
+    user_id int not null,
+    chat_room_id int not null,
+    FOREIGN KEY (user_id) REFERENCES user (user_id),
+    FOREIGN KEY (chat_room_id) REFERENCES ChatRoom (chat_room_id)
 );

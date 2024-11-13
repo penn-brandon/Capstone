@@ -6,9 +6,9 @@ public interface IUserDAO {
 
     UserModel getUserByUsername(String username);
 
-    boolean registration(UserModel user);
+    UserModel registration(UserModel user);
 
     void createChatRoomName(Integer userId);
-
-    //public boolean registrationAuthority(UserAuthorityModel authority);
+  
+    UserModel findUserById(Integer userId);
 }
