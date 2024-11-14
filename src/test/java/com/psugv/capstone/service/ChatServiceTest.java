@@ -1,5 +1,6 @@
 package com.psugv.capstone.service;
 
+import com.psugv.capstone.chat.model.ChatRoomName;
 import com.psugv.capstone.chat.repository.IChatDAO;
 import com.psugv.capstone.chat.service.IChatService;
 import com.psugv.capstone.login.model.UserModel;
@@ -11,6 +12,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -27,6 +31,8 @@ public class ChatServiceTest {
 
     @Autowired
     private IChatDAO chatDAO;
+    @Autowired
+    private ChatRoomName chatRoomName;
 
     @BeforeEach
     void setUp() throws Exception {
@@ -88,4 +94,63 @@ public class ChatServiceTest {
         LOGGER.info("analyzeSendUpdate is done");
     }
 
+    @Test
+    public void analyzeSearchUser() {
+
+        assertEquals(1, chatService.searchUser("rob").size());
+    }
+
+    @Test
+    public void analyzeCreateChatRoom() {
+
+        UserModel userModel = userDAO.findUserById(1);
+
+        Map<String, String> map = new HashMap<>();
+
+        map.put("id", "2");
+
+        map.put("username", "robot");
+
+        map.put("name", "Bob the builder");
+
+        ChatRoomName crn = chatService.createChatRoom(map, userModel);
+
+        assertEquals(1, crn.getChatRoom().getId());
+
+        map.put("id", "4");
+
+        map.put("username", "purdue");
+
+        map.put("name", "George the Monster");
+
+        crn = chatService.createChatRoom(map, userModel);
+
+        assertEquals(5, crn.getChatRoom().getId());
+    }
+
+    @Test
+    public void analyzeDeselectChatRoom() {
+
+        chatService.deselectChatRoom(userDAO.getUserByUsername("weichuan"));
+    }
+
+    @Test
+    public void analyzeAddUserToChatRoom() {
+
+        UserModel userModel = userDAO.findUserById(1);
+
+        Map<String, String> map = new HashMap<>();
+
+        map.put("id", "2");
+
+        map.put("username", "robot");
+
+        map.put("name", "Bob the builde");
+
+        map.put("chatroom", "5");
+
+        ChatRoomName chatRoomName = chatService.addUserToChatRoom(map, userModel);
+
+        assertEquals(5, chatRoomName.getChatRoom().getId());
+    }
 }

@@ -82,7 +82,7 @@ public class UserDAO implements IUserDAO {
         UserModel userModel;
 
         try {
-            userModel = entityManager.createQuery("from user where user_id = :userId", UserModel.class).setParameter(userId, userId).getSingleResult();
+            userModel = entityManager.createQuery("from user where id = :userId;", UserModel.class).setParameter("userId", userId).getSingleResult();
 
         } catch (Exception e) {
 
