@@ -47,10 +47,23 @@ public class LoginDAOTest {
         UserModel newUser = new UserModel(null, "AAAAAAAAAAAAA", "1234", "TESTAAA", null, "Male", true, null);
 
         authority.setUserModel(newUser);
+
         newUser.setAuthorities(authoritiesSet);
 
         UserModel search = userDAO.registration(newUser);
 
         assertEquals(search.getId(), 5);
+    }
+
+    @Test
+    public void analyzeCreateChatRoomName (){
+
+        userDAO.createChatRoomName(100);
+    }
+
+    @Test
+    public void analyzeFindUserById(){
+
+        userDAO.findUserById(2);
     }
 }
