@@ -63,7 +63,7 @@ public class ChatService implements IChatService {
     public ChatRoomName selectChatRoom(String chatRoomID, UserModel userModel) {
 
         int chatRoomId = Integer.parseInt(chatRoomID);
-        LOGGER.debug("Find chat room id: ", chatRoomId);
+        LOGGER.debug("Find chat room id: " + chatRoomId);
 
         ChatRoom cr = chatDAO.findChatRoom(chatRoomId);
 
@@ -74,9 +74,7 @@ public class ChatService implements IChatService {
             throw new NoQueryResultException("No such chat room or chat room name!!!");
         }
 
-        crn.setLastModified(new Date());
-
-        chatDAO.updateChatRoomName(crn);
+        chatDAO.updateChatRoomName(crn, userModel);
 
         LOGGER.info("Create new listener for new chat room");
         MessageListener ml = new MessageListener(cr, crn, userModel, messagingTemplate);
@@ -90,6 +88,7 @@ public class ChatService implements IChatService {
     @Override
     public List<Message> loadHistoryMessage (Integer chatRoomID) {
 
+        LOGGER.debug("load history message service");
         return chatDAO.loadHistoryMessage(chatRoomID);
     }
 
@@ -238,7 +237,7 @@ public class ChatService implements IChatService {
 
             tempCRN.setChatRoomName(newName);
 
-            chatDAO.updateChatRoomName(tempCRN);
+            chatDAO.updateChatRoomName(tempCRN, um);
         }
         return chatDAO.findChatRoomName(userModel.getId(), chatRoomId);
     }
