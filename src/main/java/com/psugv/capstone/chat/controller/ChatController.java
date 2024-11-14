@@ -117,8 +117,9 @@ public class ChatController {
     }
 
     @PostMapping(path = "/searchUsers", produces = "application/json")
-    public @ResponseBody List<UserModel> searchUser(@RequestParam String username) {
+    public @ResponseBody List<UserModel> searchUser(@RequestHeader String username) {
 
+        LOGGER.debug("Search user controller");
         return chatService.searchUser(username);
     }
 

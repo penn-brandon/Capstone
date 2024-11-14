@@ -347,51 +347,47 @@
         // This creates a text input field for the user to input new chat room name
         function getUsernameFromUser() {
             let username = null;
-            const chat_room_div = document.getElementById("channels-list");
+            if (document.getElementById("search_username") == null){
+                const chat_room_div = document.getElementById("channels-list");
 
-            const cancel_username = document.createElement('img');
-            cancel_username.src = "${pageContext.request.contextPath}/images/close.svg";
-            cancel_username.style.float = "right";
+                const cancel_username = document.createElement('img');
+                cancel_username.src = "${pageContext.request.contextPath}/images/close.svg";
+                cancel_username.style.float = "right";
 
-            const search_user_title = document.createElement('p');
-            search_user_title.textContent = "Search Users"
+                const search_user_title = document.createElement('p');
+                search_user_title.textContent = "Search Users"
 
-            const text_area = document.createElement('textarea');
-            text_area.style.resize = 'none';
+                const text_area = document.createElement('textarea');
+                text_area.style.resize = 'none';
 
-            const submit_button = document.createElement('button');
-            submit_button.textContent = "Submit";
+                const new_username = document.createElement('p');
+                new_username.id = "search_username";
 
-            const new_chat = document.createElement('p');
+                new_username.appendChild(cancel_username);
+                new_username.appendChild(search_user_title);
+                new_username.appendChild(text_area);
 
-            new_chat.appendChild(cancel_username);
-            new_chat.appendChild(search_user_title);
-            new_chat.appendChild(text_area);
-            new_chat.appendChild(submit_button);
+                chat_room_div.appendChild(new_username);
 
+                cancel_username.addEventListener('click', () => {
+                    chat_room_div.removeChild(new_username);
+                });
 
-            chat_room_div.appendChild(new_chat);
+                text_area.addEventListener("input", async () => {
+                    username = text_area.value;
+                    if (username !== null){
+                        let username_list = await searchUser(username);
 
-            cancel_username.addEventListener('click', () => {
-                chat_room_div.removeChild(new_chat);
-            });
+                        const user_div = document.createElement('div');
 
-            new_chat.addEventListener("keydown", function(event) {
-                if (event.key === "Enter") {
-                    event.preventDefault();
-                    submit_button.click();
-                }
-            });
-            submit_button.addEventListener("click", async () => {
-                username = text_area.value;
-                console.log(username);
-                if (username !== null){
-                    let username_list = await searchUser(username);
-                    console.log(username_list);
-                }
-            });
-
-
+                        chat_room_div.append(user_div);
+                        // shows the current queried results
+                        for (let i = 0; i < username_list.length; i++) {
+                            //TODO
+                        }
+                    }
+                });
+            }
         }
 
 
@@ -400,8 +396,21 @@
         async function searchUser(username) {
             const response = await fetch('/Capstone/searchUsers', {
                 method: 'POST',
-                headers: {"Content-Type": "application/json", "username": username.toString()}
+                headers: {"username": username.toString()}
             });
+            if (!response.ok) {
+                console.log("ERROR: " + response.status);
+                return;
+            }
+            const json = await response.json();
+            let usernames = [];
+
+            for (let i = 0; i < json.length; i++) {
+                let curUsername = [];
+                curUsername.push(json[i].username);
+                usernames.push(curUsername);
+            }
+            return usernames;
 
         }
 
