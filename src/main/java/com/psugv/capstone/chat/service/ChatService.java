@@ -63,19 +63,20 @@ public class ChatService implements IChatService {
     public ChatRoomName selectChatRoom(String chatRoomID, UserModel userModel) {
 
         int chatRoomId = Integer.parseInt(chatRoomID);
+        LOGGER.debug("Find chat room id: ", chatRoomId);
 
         ChatRoom cr = chatDAO.findChatRoom(chatRoomId);
 
         ChatRoomName crn = chatDAO.findChatRoomName(userModel.getId(), chatRoomId);
 
-        crn.setLastModified(new Date());
-
-        chatDAO.updateChatRoomName(crn);
-
         if (cr == null || crn == null) {
 
             throw new NoQueryResultException("No such chat room or chat room name!!!");
         }
+
+        crn.setLastModified(new Date());
+
+        chatDAO.updateChatRoomName(crn);
 
         LOGGER.info("Create new listener for new chat room");
         MessageListener ml = new MessageListener(cr, crn, userModel, messagingTemplate);
