@@ -154,10 +154,20 @@ public class ChatDAO implements IChatDAO {
     }
 
     @Override
-    public void updateChatRoomName(ChatRoomName chatRoomName){
+    public void updateChatRoomName(ChatRoomName chatRoomName, UserModel userModel){
 
+        LOGGER.debug("Update chat room name DAO");
+        String sql = "update " + userModel.getId() + CHAT_ROOM_NAME_POSTFIX +
+                " set admin=" + chatRoomName.getAdmin() +
+                ",chat_room_id=" + chatRoomName.getChatRoom().getId() +
+                ",chat_room_name=\"" + chatRoomName.getChatRoomName() + "\"" +
+                ",last_modified=CURRENT_TIMESTAMP " +
+                "where chat_room_name_id=" + chatRoomName.getId() +";";
         try{
-            entityManager.merge(chatRoomName);
+            LOGGER.debug("SQL string: " + sql);
+            Query query = entityManager.createNativeQuery(sql);
+
+            query.executeUpdate();
 
         } catch(Exception e){
 

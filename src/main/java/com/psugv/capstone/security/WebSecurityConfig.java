@@ -24,7 +24,7 @@ public class WebSecurityConfig {
 
         http.authorizeHttpRequests((requests) -> requests.requestMatchers("/css/**", "/images/**", "/javascript/**", "/sql/**", "/views/**").permitAll()
                 .requestMatchers("/", "/login", "/signup", "/index", "/error", "/register", "logout").permitAll()
-                .requestMatchers("/chat", "/send", "/select", "/loadMessage", "/loadAllChatRoomName","/searchUsers").authenticated()
+                .requestMatchers("/chat", "/send", "/select", "/loadMessage", "/loadAllChatRoomName","/searchUsers","/createNewChatRoom","/addUserToChatRoom").authenticated()
                 .requestMatchers("/listening/**", "/controller/**", "/capstone").permitAll().anyRequest().authenticated());
 
         http.httpBasic(Customizer.withDefaults());
