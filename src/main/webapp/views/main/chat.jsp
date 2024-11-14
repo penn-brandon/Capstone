@@ -111,6 +111,8 @@
             });
         }
 
+
+        // sends message by using post request with message:message and room:chat_id
         async function sendMessage() {
             const message = document.getElementById('chat-send').value;
             document.getElementById('chat-send').value = "";
@@ -171,6 +173,7 @@
             }
         }
 
+        // loads all chat rooms that a given user is a part of - helper function to displayChatRooms()
         async function getChatRooms() {
             try {
                 const response = await fetch('/Capstone/loadAllChatRoomName', {method: 'GET'});
@@ -194,6 +197,8 @@
             }
         }
 
+
+        // displays all the chat rooms visually on the page
         async function displayChatRooms(chat_rooms) {
             const chat_room_div = document.getElementById("channels-list");
 
@@ -216,6 +221,7 @@
 
 
                     // Loads new Messages when you click the channel name
+                    // chat_rooms[i][0] is the chat room id
                     new_chat.addEventListener('click', async () => {
                         let messages = await getMessages(chat_rooms[i][0]);
                         displayMessages(messages);
@@ -224,7 +230,8 @@
 
                     chat_room_div.appendChild(new_chat);
                 }
-            } else {
+            }
+            else {
                 let chat_room_name = document.createElement('span');
                 chat_room_name.textContent = "None";
 
@@ -242,16 +249,17 @@
                 chat_room_div.appendChild(new_chat);
             }
 
-            // Creates Add To ChatRoom button at the end of channels list
+            // Creates Seach User button at the end of channels list
 
-            let chat_room_plus = document.createElement('button');
-            chat_room_plus.id = "chat-room-plus";
-            chat_room_plus.innerHTML = "+";
+            let user_search = document.createElement('button');
+            user_search.id = "chat-room-plus";
+            user_search.innerHTML = '\u{2315}';
+            user_search.style.fontSize = "30px";
 
-            chat_room_div.append(chat_room_plus);
+            chat_room_div.append(user_search);
 
-            chat_room_plus.addEventListener('click', async () => {
-                let chatRoomName = getChatRoomNameFromUser();
+            user_search.addEventListener('click', async () => {
+                let chatRoomName = getUsernameFromUser();
             });
 
         }
@@ -264,6 +272,7 @@
                 });
                 if (!response.ok) {
                     console.log("ERROR: " + response.status);
+                    return;
                 }
                 const json = await response.json();
                 let messages = [];
@@ -336,16 +345,16 @@
         }
 
         // This creates a text input field for the user to input new chat room name
-        function getChatRoomNameFromUser() {
-            let chatRoomName = null;
+        function getUsernameFromUser() {
+            let username = null;
             const chat_room_div = document.getElementById("channels-list");
 
-            const cancel_chat_room_name = document.createElement('img');
-            cancel_chat_room_name.src = "${pageContext.request.contextPath}/images/close.svg";
-            cancel_chat_room_name.style.float = "right";
+            const cancel_username = document.createElement('img');
+            cancel_username.src = "${pageContext.request.contextPath}/images/close.svg";
+            cancel_username.style.float = "right";
 
-            const chat_room_name = document.createElement('p');
-            chat_room_name.textContent = "New Chat Name"
+            const search_user_title = document.createElement('p');
+            search_user_title.textContent = "Search Users"
 
             const text_area = document.createElement('textarea');
             text_area.style.resize = 'none';
@@ -355,15 +364,15 @@
 
             const new_chat = document.createElement('p');
 
-            new_chat.appendChild(cancel_chat_room_name);
-            new_chat.appendChild(chat_room_name);
+            new_chat.appendChild(cancel_username);
+            new_chat.appendChild(search_user_title);
             new_chat.appendChild(text_area);
             new_chat.appendChild(submit_button);
 
 
             chat_room_div.appendChild(new_chat);
 
-            cancel_chat_room_name.addEventListener('click', () => {
+            cancel_username.addEventListener('click', () => {
                 chat_room_div.removeChild(new_chat);
             });
 
@@ -374,16 +383,28 @@
                 }
             });
             submit_button.addEventListener("click", async () => {
-                chatRoomName = text_area.value;
-                console.log(chatRoomName);
-                if (chatRoomName !== null){
-                    chat_room_div.removeChild(new_chat);
-                    await addChatRoom(chatRoomName);
+                username = text_area.value;
+                console.log(username);
+                if (username !== null){
+                    let username_list = await searchUser(username);
+                    console.log(username_list);
                 }
             });
 
 
         }
+
+
+
+        // first need to search for user then with their username send to create new chatroom
+        async function searchUser(username) {
+            const response = await fetch('/Capstone/searchUsers', {
+                method: 'POST',
+                headers: {"Content-Type": "application/json", "username": username.toString()}
+            });
+
+        }
+
 
         async function addChatRoom(chatRoom) {
             const response = await fetch('/Capstone/createNewChatRoom', {

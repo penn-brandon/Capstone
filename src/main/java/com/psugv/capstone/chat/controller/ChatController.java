@@ -116,7 +116,7 @@ public class ChatController {
         return chatService.getAllChatRoomName(userModel);
     }
 
-    @GetMapping(path = "/searchUsers", produces = "application/json")
+    @PostMapping(path = "/searchUsers", produces = "application/json")
     public @ResponseBody List<UserModel> searchUser(@RequestParam String username) {
 
         return chatService.searchUser(username);
