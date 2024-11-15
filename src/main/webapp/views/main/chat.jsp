@@ -401,7 +401,7 @@
 
         async function createNewChatRoom(searched_user){
             const response = await fetch('/Capstone/createNewChatRoom', {
-                headers:{},
+                headers:{"Content-Type":"application/json"},
                 method:'POST',
                 body: JSON.stringify({"username": searched_user.toString()})
             });
