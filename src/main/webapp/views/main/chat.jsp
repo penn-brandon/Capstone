@@ -375,7 +375,6 @@
                     username = text_area.value;
                     if (username !== null && username.length > 2){
                         let username_list = await searchUser(username);
-                        console.log(username_list);
 
                         const user_div = document.createElement('div');
                         user_div.id = "search-user-div";
