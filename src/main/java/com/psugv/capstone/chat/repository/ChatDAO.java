@@ -180,12 +180,15 @@ public class ChatDAO implements IChatDAO {
 
         ChatRoom chatRoom = new ChatRoom(null, false);
 
+
         try{
+            LOGGER.debug("Store the chatroom");
             entityManager.persist(chatRoom);
             entityManager.flush();
 
         } catch(Exception e){
 
+            LOGGER.error("Fail to create new chat room!!!!!!!");
             LOGGER.error(e.getMessage(), e);
         }
         return chatRoom;
@@ -194,7 +197,8 @@ public class ChatDAO implements IChatDAO {
     @Override
     public void insertNewChatRoomName(ChatRoom chatRoom, Integer userId, String name){
 
-        String sql = "insert into " + userId + CHAT_ROOM_NAME_POSTFIX + " (chat_room_id, admin, chat_room_name, last_modified) value (" + chatRoom.getId() + ",False," + name + ", CURRENT_TIMESTAMP);";
+        String sql = "insert into " + userId + CHAT_ROOM_NAME_POSTFIX + " (chat_room_id, admin, chat_room_name, last_modified) value (" + chatRoom.getId() + ",False,\"" + name + "\", CURRENT_TIMESTAMP);";
+        LOGGER.debug("Insert new chat room name sql: " + sql);
 
         try{
             entityManager.createNativeQuery(sql).executeUpdate();
@@ -223,7 +227,11 @@ public class ChatDAO implements IChatDAO {
         List<ChatRoomToUser> result;
 
         try{
-            result = (List<ChatRoomToUser>) entityManager.createQuery("from ChatRoomToUser where chat_room_id = :chatRoomId").setParameter("chatRoomId", chatRoomId).getResultList();
+            Query query = entityManager.createNativeQuery("select * from chatRoomToUser where chat_room_id = ?", ChatRoomToUser.class);
+
+            query.setParameter(1, chatRoomId);
+
+            result = query.getResultList();
 
         } catch(Exception e){
 
@@ -239,7 +247,11 @@ public class ChatDAO implements IChatDAO {
         List<ChatRoomToUser> result;
 
         try{
-            result = (List<ChatRoomToUser>) entityManager.createQuery("from ChatRoomToUser where user_id = :userId").setParameter("userId", userId).getResultList();
+            Query query = entityManager.createNativeQuery("select * from chatRoomToUser where user_id = ?", ChatRoomToUser.class);
+
+            query.setParameter(1, userId);
+
+            result = query.getResultList();
 
         } catch(Exception e){
 

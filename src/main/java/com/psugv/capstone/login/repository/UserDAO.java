@@ -82,11 +82,14 @@ public class UserDAO implements IUserDAO {
         UserModel userModel;
 
         try {
-            userModel = entityManager.createQuery("from user where user_id = :userId", UserModel.class).setParameter(userId, userId).getSingleResult();
+            Query query = entityManager.createNativeQuery("select * from user where user_id = ?", UserModel.class);
+            query.setParameter(1, userId.toString());
+
+            userModel = (UserModel) query.getSingleResult();
 
         } catch (Exception e) {
 
-            LOGGER.error("Fail to register user!!!", e);
+            LOGGER.error("Fail to find user by Id!!!", e);
             throw new InsertErrorException("Registration failure!!!");
         }
         return userModel;

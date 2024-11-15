@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -122,25 +122,38 @@ public class ChatService implements IChatService {
 
         Integer jibunnId = userModel.getId();
 
-        List<ChatRoomToUser> aitaIDChatRoomToUser = chatDAO.findChatRoomToUserByUserID(aitaID);
+        List<ChatRoomToUser> aitaIDChatRoomToUser = new ArrayList<>(chatDAO.findChatRoomToUserByUserID(aitaID));
 
-        List<ChatRoomToUser> jibunnIdChatRoomToUser = chatDAO.findChatRoomToUserByUserID(jibunnId);
+        List<ChatRoomToUser> jibunnIdChatRoomToUser = new ArrayList<>(chatDAO.findChatRoomToUserByUserID(jibunnId));
 
-        List<Integer> aitaChatRoomIDList = new LinkedList<>();
+        List<Integer> cummonChatRoomID;
 
-        for(ChatRoomToUser aita : aitaIDChatRoomToUser){
+        if(aitaIDChatRoomToUser == null || jibunnIdChatRoomToUser == null || aitaIDChatRoomToUser.isEmpty() || jibunnIdChatRoomToUser.isEmpty()){
 
-            aitaChatRoomIDList.add(aita.getChatRoom().getId());
+            cummonChatRoomID = new LinkedList<>();
+
+        } else {
+
+            List<Integer> aitaChatRoomIDList = new LinkedList<>();
+
+            for (int i =0 ; i < aitaIDChatRoomToUser.size(); i++) {
+
+                ChatRoomToUser aita = aitaIDChatRoomToUser.get(i);
+
+                aitaChatRoomIDList.add(aita.getChatRoom().getId());
+            }
+
+            List<Integer> jibunnChatRoomIDList = new LinkedList<>();
+
+            for (int i = 0; i < jibunnIdChatRoomToUser.size(); i++) {
+
+                ChatRoomToUser jibunn = jibunnIdChatRoomToUser.get(i);
+
+                jibunnChatRoomIDList.add(jibunn.getChatRoom().getId());
+            }
+
+            cummonChatRoomID = Utility.commonIdComparator(aitaChatRoomIDList, jibunnChatRoomIDList);
         }
-
-        List<Integer> jibunnChatRoomIDList = new LinkedList<>();
-
-        for(ChatRoomToUser jibunn : jibunnIdChatRoomToUser){
-
-            jibunnChatRoomIDList.add(jibunn.getChatRoom().getId());
-        }
-
-        List<Integer> cummonChatRoomID = Utility.commonIdComparator(aitaChatRoomIDList, jibunnChatRoomIDList);
 
         ChatRoomName crn = null;
 
@@ -194,6 +207,7 @@ public class ChatService implements IChatService {
         UserModel aite = userDAO.findUserById(Integer.parseInt(inputMap.get("id")));
 
         ChatRoom chatRoom = chatDAO.findChatRoom(chatRoomId);
+        LOGGER.debug("Chaech chat room id: " + chatRoomId);
 
         ChatRoomToUser crtu = new ChatRoomToUser(null, aite, chatRoom);
 
@@ -224,6 +238,7 @@ public class ChatService implements IChatService {
 
         String newName = sb.toString();
 
+        LOGGER.debug("insert for new comer");
         chatDAO.insertNewChatRoomName(chatRoom, aite.getId(), newName);
 
         for(UserModel um: userList){
@@ -233,8 +248,11 @@ public class ChatService implements IChatService {
                 continue;
             }
 
+            LOGGER.debug("current user is: " + um.getId());
+            LOGGER.debug("current chat room is: " + chatRoomId);
             ChatRoomName tempCRN = chatDAO.findChatRoomName(um.getId(), chatRoomId);
 
+            LOGGER.debug("tempCRN is null? " + (tempCRN == null));
             tempCRN.setChatRoomName(newName);
 
             chatDAO.updateChatRoomName(tempCRN, um);
