@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 public class ChatRoom {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "chat_room_id")
     private Integer id;
 
