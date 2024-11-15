@@ -382,6 +382,9 @@
                         chat_room_div.append(user_div);
                         // shows the current queried results
                         for (let i = 0; i < username_list.length; i++) {
+                            if (username_list[i].toString() === `${sessionScope.userModel.getUsername()}`){
+                                continue;
+                            }
                             const user_p = document.createElement('p');
                             user_p.innerHTML = username_list[i];
                             user_p.className = 'searched_username';

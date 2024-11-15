@@ -134,7 +134,7 @@ public class ChatController {
         ChatRoomName newchatRoomName = chatService.createChatRoom(inputMap, userModel);
 
         model.addAttribute("chatRoomName", newchatRoomName);
-
+        LOGGER.debug("THIS IS  A CHEESEBURGER");
         return newchatRoomName;
     }
 
