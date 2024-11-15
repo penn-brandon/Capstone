@@ -375,7 +375,8 @@
                         chat_room_div.append(user_div);
                         // shows the current queried results
                         for (let i = 0; i < username_list.length; i++) {
-                            //TODO
+                            const user_p = document.createElement('p');
+                            user_p.innerHTML = username_list[i].username;
                         }
                     }
                 });
