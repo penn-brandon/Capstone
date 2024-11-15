@@ -373,7 +373,7 @@
                         document.getElementById("search-user-div").remove();
                     }
                     username = text_area.value;
-                    if (username !== null){
+                    if (username !== null && username.length > 2){
                         let username_list = await searchUser(username);
                         console.log(username_list);
 
