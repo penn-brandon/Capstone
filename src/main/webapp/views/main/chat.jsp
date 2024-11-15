@@ -398,10 +398,11 @@
 
         async function createNewChatRoom(searched_user){
             const response = await fetch('/Capstone/createNewChatRoom', {
-                method: 'POST',
-                headers: {"username": searched_user.toString()}
+                headers:{},
+                method:'POST',
+                body: JSON.stringify({"username": searched_user.toString()})
             });
-            console.log("RESPONSE " + response);
+            console.log("RESPONSE " + response.text);
             if (!response.ok) {
                 console.log("ERROR: " + response.status);
             }
