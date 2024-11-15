@@ -389,7 +389,8 @@
                             user_div.append(user_p);
 
                             user_p.addEventListener('onclick', async () => {
-                                
+                                //TODO 
+                                /*addChatRoom()*/
                             })
                         }
                     }
