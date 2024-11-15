@@ -390,7 +390,7 @@
 
                             user_p.addEventListener('onclick', async () => {
                                 //TODO 
-                                /*addChatRoom()*/
+                                //createNewChatRoom(username_list[i],`${sessionScope.userModel.getName()}`.toString());
                             })
                         }
                     }
@@ -398,7 +398,9 @@
             }
         }
 
+        async function createNewChatRoom(user){
 
+        }
 
         // first need to search for user then with their username send to create new chatroom
         async function searchUser(username) {
