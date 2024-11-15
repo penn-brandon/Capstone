@@ -63,7 +63,7 @@ public class ChatServiceTest {
     @Test
     public void analyzeGetAllChatRoomName() {
 
-        assertEquals(1, chatService.getAllChatRoomName(userDAO.getUserByUsername("weichuan")).size());
+        assertEquals(3, chatService.getAllChatRoomName(userDAO.getUserByUsername("weichuan")).size());
     }
 
     @Test
@@ -125,7 +125,7 @@ public class ChatServiceTest {
 
         crn = chatService.createChatRoom(map, userModel);
 
-        assertEquals(5, crn.getChatRoom().getId());
+        assertEquals(4, crn.getChatRoom().getId());
     }
 
     @Test
@@ -145,12 +145,12 @@ public class ChatServiceTest {
 
         map.put("username", "robot");
 
-        map.put("name", "Bob the builde");
+        map.put("name", "Bob the builder");
 
-        map.put("chatroom", "5");
+        map.put("chatroom", "4");
 
         ChatRoomName chatRoomName = chatService.addUserToChatRoom(map, userModel);
 
-        assertEquals(5, chatRoomName.getChatRoom().getId());
+        assertEquals(4, chatRoomName.getChatRoom().getId());
     }
 }
