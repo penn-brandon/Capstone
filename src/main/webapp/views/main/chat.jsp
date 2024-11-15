@@ -363,20 +363,34 @@
 
                 cancel_username.addEventListener('click', () => {
                     chat_room_div.removeChild(new_username);
+                    if (document.getElementById(("search-user-div"))){
+                        document.getElementById("search-user-div").remove();
+                    }
                 });
 
                 text_area.addEventListener("input", async () => {
+                    if (document.getElementById("search-user-div")){
+                        document.getElementById("search-user-div").remove();
+                    }
                     username = text_area.value;
                     if (username !== null){
                         let username_list = await searchUser(username);
+                        console.log(username_list);
 
                         const user_div = document.createElement('div');
+                        user_div.id = "search-user-div";
 
                         chat_room_div.append(user_div);
                         // shows the current queried results
                         for (let i = 0; i < username_list.length; i++) {
                             const user_p = document.createElement('p');
-                            user_p.innerHTML = username_list[i].username;
+                            user_p.innerHTML = username_list[i];
+                            user_p.className = 'searched_username';
+                            user_div.append(user_p);
+
+                            user_p.addEventListener('onclick', async () => {
+                                
+                            })
                         }
                     }
                 });

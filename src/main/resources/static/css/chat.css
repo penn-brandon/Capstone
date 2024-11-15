@@ -91,6 +91,8 @@ nav {
     background-color: orange;
 }
 
+/* This is left side chat-rooms section */
+
 .chats {
     padding: 10px;
     background-color: orange;
@@ -128,7 +130,29 @@ span {
     cursor: pointer;
 }
 
-/* CHAT Messages */
+/* Search Box - for user search */
+#search-user-div {
+    height: 100px;
+    overflow-y:scroll;
+    background-color: orange;
+    width: auto;
+    border-radius: 10px;
+}
+
+.searched_username {
+    padding: 5px 10px;
+    background-color: orange;
+    border: none;
+    border-bottom: 1px black solid;
+    box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
+    border-radius: 10px;
+}
+.searched_username:hover {
+    cursor: pointer;
+}
+
+
+/* CHAT Messages - middle section of page */
 .current-chat {
     float:left;
     margin-top: 25px;
