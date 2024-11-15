@@ -388,7 +388,7 @@
                             user_p.className = 'searched_username';
                             user_div.append(user_p);
 
-                            user_p.addEventListener('onclick', async () => {
+                            user_p.addEventListener('click', async () => {
                                 await createNewChatRoom(username_list[i]);
                             })
                         }
@@ -402,10 +402,11 @@
                 method: 'POST',
                 headers: {"username": searched_user.toString()}
             });
+            console.log("RESPONSE " + response);
             if (!response.ok) {
                 console.log("ERROR: " + response.status);
             }
-            console.log(response);
+
         }
 
         // first need to search for user then with their username send to create new chatroom
