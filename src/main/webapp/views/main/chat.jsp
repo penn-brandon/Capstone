@@ -44,21 +44,13 @@
             var stompClient = Stomp.over(socket);
 
             let userName = `${sessionScope.userModel.getUsername()}`;
-            console.log("JS socket set up");
-            console.log("listening to /listening/" + userName);
 
             stompClient.connect({}, function (frame) {
 
                 //console.log('Connected: ' + frame);
                 stompClient.subscribe("/listening/" + userName, function (message) {
 
-                    console.log("Will I gtt the message? To get or not to get, that's the question");
-                    console.log("message data type: " + typeof (message));
-
                     const resultMap = JSON.parse(message.body);
-
-                    console.log("message: " + resultMap.message);
-                    console.log("sender: " + resultMap.senderName);
 
                     try {
                         const current_chat = document.getElementById("current-chat");
