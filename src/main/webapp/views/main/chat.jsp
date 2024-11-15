@@ -389,8 +389,7 @@
                             user_div.append(user_p);
 
                             user_p.addEventListener('onclick', async () => {
-                                //TODO 
-                                //createNewChatRoom(username_list[i],`${sessionScope.userModel.getName()}`.toString());
+                                await createNewChatRoom(username_list[i]);
                             })
                         }
                     }
@@ -398,8 +397,15 @@
             }
         }
 
-        async function createNewChatRoom(user){
-
+        async function createNewChatRoom(searched_user){
+            const response = await fetch('/Capstone/createNewChatRoom', {
+                method: 'POST',
+                headers: {"username": searched_user.toString()}
+            });
+            if (!response.ok) {
+                console.log("ERROR: " + response.status);
+            }
+            console.log(response);
         }
 
         // first need to search for user then with their username send to create new chatroom
