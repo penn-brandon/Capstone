@@ -387,7 +387,7 @@
                                 continue;
                             }
                             const user_p = document.createElement('p');
-                            user_p.innerHTML = username_list[i];
+                            user_p.innerHTML = username_list[i][1];
                             user_p.className = 'searched_username';
                             user_div.append(user_p);
 
