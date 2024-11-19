@@ -22,7 +22,7 @@ public interface IChatDAO {
 
     List<UserModel> blurrySearchUsername(String input);
 
-    void updateChatRoomName(ChatRoomName chatRoomName, UserModel userModel);
+    void updateChatRoomName(UserModel userModel, Boolean admin, Integer chatRoomId, String name, Integer id);
 
     ChatRoom createNewChatRoom();
 
@@ -33,4 +33,6 @@ public interface IChatDAO {
     List<ChatRoomToUser> findChatRoomToUserByChatRoom(Integer chatRoomId);
 
     List<ChatRoomToUser> findChatRoomToUserByUserID(Integer userId);
+
+    void deleteChatRoomName(Integer chatRoomNameId, Integer userId);
 }

@@ -7,26 +7,35 @@ import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
-@Setter
-@Getter
-@Entity(name = "chatRoomName")
+
+@Entity
 @Component("chatRoomName")
 public class ChatRoomName {
 
+    @Setter
+    @Getter
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "chat_room_name_id")
     private Integer id;
 
-    @Column(name = "chat_room_name")
+    @Setter
+    @Getter
+    @Column(name = "chat_room_name", columnDefinition = "TEXT")
     private String chatRoomName;
 
+    @Setter
+    @Getter
     @OneToOne
     @JoinColumn(name = "chat_room_id", referencedColumnName = "chat_room_id")
     private ChatRoom chatRoom;
 
+    @Setter
+    @Getter
     private Boolean admin;
 
+    @Setter
+    @Getter
     @Column(name = "last_modified")
     private Date lastModified;
 

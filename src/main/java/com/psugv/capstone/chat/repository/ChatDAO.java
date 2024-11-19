@@ -11,6 +11,7 @@ import jakarta.persistence.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 import java.text.SimpleDateFormat;
@@ -23,8 +24,18 @@ public class ChatDAO implements IChatDAO {
     private static final Logger LOGGER = LoggerFactory.getLogger(ChatDAO.class);
     private static final String CHAT_ROOM_NAME_POSTFIX = "_chatroomname";
     private static final String MESSAGE_POSTFIX = "_message";
+
     @Autowired
     EntityManager entityManager;
+
+    @Value("${spring.datasource.url}")
+    private String URL;
+
+    @Value("${spring.datasource.username}")
+    private String username;
+
+    @Value("${spring.datasource.password}")
+    private String password;
 
     @Override
     public List<ChatRoomName> getAllChatroomName(Integer userId) {
@@ -125,7 +136,7 @@ public class ChatDAO implements IChatDAO {
                     "value (\"" + message + "\",\"" + formattedDate + "\"," + userModel.getId() + ",\"" + userModel.getName() + "\");");
 
             int result = query.executeUpdate();
-            LOGGER.debug("{} rows inserted", result);
+            LOGGER.debug("rows inserted", result);
 
             return true;
 
@@ -154,24 +165,48 @@ public class ChatDAO implements IChatDAO {
     }
 
     @Override
-    public void updateChatRoomName(ChatRoomName chatRoomName, UserModel userModel){
+    public void updateChatRoomName(UserModel userModel, Boolean admin, Integer chatRoomId, String name, Integer id){
 
         LOGGER.debug("Update chat room name DAO");
-        String sql = "update " + userModel.getId() + CHAT_ROOM_NAME_POSTFIX +
-                " set admin=" + chatRoomName.getAdmin() +
+/*
+        String sql = "update `" + userModel.getId() + CHAT_ROOM_NAME_POSTFIX +
+                "` set admin=" + chatRoomName.getAdmin() +
                 ",chat_room_id=" + chatRoomName.getChatRoom().getId() +
-                ",chat_room_name=\"" + chatRoomName.getChatRoomName() + "\"" +
+                ",chat_room_name=\'" + name + "\'" +
                 ",last_modified=CURRENT_TIMESTAMP " +
                 "where chat_room_name_id=" + chatRoomName.getId() +";";
-        try{
-            LOGGER.debug("SQL string: " + sql);
+
+        String sql = "update " + userModel.getId() + CHAT_ROOM_NAME_POSTFIX +
+                " set admin=false,chat_room_id=" + chatRoomName.getChatRoom().getId() +
+                ",chat_room_name='" + name +
+                "',last_modified=CURRENT_TIMESTAMP " +
+                "where chat_room_name_id=" + chatRoomName.getId() + ";";
+ */
+        String tableName = userModel.getId() + CHAT_ROOM_NAME_POSTFIX;
+
+        String sql = "update `" + tableName +
+                "` set admin = ?" +
+                ", chat_room_id = ?" +
+                ", chat_room_name = ?" +
+                ", last_modified = CURRENT_TIMESTAMP " +
+                "where chat_room_name_id = ?";
+
+        LOGGER.debug("SQL string: " + sql);
+
+        try {
             Query query = entityManager.createNativeQuery(sql);
+
+            query.setParameter(1, admin);
+            query.setParameter(2, chatRoomId);
+            query.setParameter(3, name);
+            query.setParameter(4, id);
 
             query.executeUpdate();
 
-        } catch(Exception e){
+        } catch (Exception e){
 
             LOGGER.error(e.getMessage(), e);
+            throw new RuntimeException("fail to update chat room name");
         }
     }
 
@@ -179,7 +214,6 @@ public class ChatDAO implements IChatDAO {
     public ChatRoom createNewChatRoom(){
 
         ChatRoom chatRoom = new ChatRoom(null, false);
-
 
         try{
             LOGGER.debug("Store the chatroom");
@@ -259,5 +293,24 @@ public class ChatDAO implements IChatDAO {
             return null;
         }
         return result;
+    }
+
+    @Override
+    public void deleteChatRoomName(Integer chatRoomNameId, Integer userId){
+
+        String sql = "delete from " + userId + CHAT_ROOM_NAME_POSTFIX+ " where chat_room_name_id = ?";
+
+        try{
+            Query query = entityManager.createNativeQuery(sql);
+
+            query.setParameter(1, chatRoomNameId);
+
+            query.executeUpdate();
+
+        } catch (Exception e){
+
+            LOGGER.error(e.getMessage(), e);
+            throw new RuntimeException("fail to delete chat room name");
+        }
     }
 }

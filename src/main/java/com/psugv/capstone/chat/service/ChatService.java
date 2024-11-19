@@ -73,8 +73,7 @@ public class ChatService implements IChatService {
 
             throw new NoQueryResultException("No such chat room or chat room name!!!");
         }
-
-        chatDAO.updateChatRoomName(crn, userModel);
+        chatDAO.updateChatRoomName(userModel, crn.getAdmin(), crn.getChatRoom().getId(), crn.getChatRoomName(), crn.getId());
 
         LOGGER.info("Create new listener for new chat room");
         MessageListener ml = new MessageListener(cr, crn, userModel, messagingTemplate);
@@ -247,15 +246,19 @@ public class ChatService implements IChatService {
 
                 continue;
             }
-
             LOGGER.debug("current user is: " + um.getId());
             LOGGER.debug("current chat room is: " + chatRoomId);
             ChatRoomName tempCRN = chatDAO.findChatRoomName(um.getId(), chatRoomId);
 
             LOGGER.debug("tempCRN is null? " + (tempCRN == null));
-            tempCRN.setChatRoomName(newName);
+            if(tempCRN == null) {
 
-            chatDAO.updateChatRoomName(tempCRN, um);
+                LOGGER.debug("tempCRN null: " + (tempCRN == null));
+                throw new RuntimeException("tempCRN is null");
+            }
+            chatDAO.deleteChatRoomName(tempCRN.getId(), um.getId());
+
+            chatDAO.insertNewChatRoomName(tempCRN.getChatRoom(), um.getId(), newName);
         }
         return chatDAO.findChatRoomName(userModel.getId(), chatRoomId);
     }
