@@ -77,7 +77,7 @@ public class ChatDAOTest {
 
         UserModel um = userDAO.findUserById(1);
 
-        chatDAO.updateChatRoomName(crn, um);
+        chatDAO.updateChatRoomName(um, crn.getAdmin(), crn.getChatRoom().getId(), crn.getChatRoomName(), crn.getId());
     }
 
     @Test

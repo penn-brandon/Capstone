@@ -141,6 +141,18 @@ public class ChatServiceTest {
 
         Map<String, String> map = new HashMap<>();
 
+        map.put("id", "4");
+
+        map.put("username", "purdue");
+
+        map.put("name", "George the Monster");
+
+        map.put("chatroom", "1");
+
+        ChatRoomName chatRoomName = chatService.addUserToChatRoom(map, userModel);
+
+        assertEquals(1, chatRoomName.getChatRoom().getId());
+
         map.put("id", "2");
 
         map.put("username", "robot");
@@ -149,7 +161,7 @@ public class ChatServiceTest {
 
         map.put("chatroom", "4");
 
-        ChatRoomName chatRoomName = chatService.addUserToChatRoom(map, userModel);
+        chatRoomName = chatService.addUserToChatRoom(map, userModel);
 
         assertEquals(4, chatRoomName.getChatRoom().getId());
     }
