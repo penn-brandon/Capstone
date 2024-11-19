@@ -375,6 +375,7 @@
                     username = text_area.value;
                     if (username !== null && username.length > 2){
                         let username_list = await searchUser(username);
+                        console.log(username_list);
 
                         const user_div = document.createElement('div');
                         user_div.id = "search-user-div";
@@ -403,7 +404,10 @@
             const response = await fetch('/Capstone/createNewChatRoom', {
                 headers:{"Content-Type":"application/json"},
                 method:'POST',
-                body: JSON.stringify({"username": searched_user.toString()})
+                body: JSON.stringify({
+
+                    "username": searched_user.toString()
+                })
             });
             console.log("RESPONSE " + response.text);
             if (!response.ok) {
@@ -419,16 +423,17 @@
                 headers: {"username": username.toString()}
             });
             if (!response.ok) {
-                console.log("ERROR: " + response.status);
+                console.log("ERROR: " + response[1]);
                 return;
             }
-            const json = await response.json();
+            const json = JSON.parse(await response.json());
             let usernames = [];
-
+            console.log(json);
             for (let i = 0; i < json.length; i++) {
-                let curUsername = [];
-                curUsername.push(json[i].username);
-                usernames.push(curUsername);
+                let cur = [];
+                cur.push(json[i].id);
+                cur.push(json[i].username);
+                usernames.push(cur);
             }
             return usernames;
 
