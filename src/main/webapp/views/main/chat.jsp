@@ -375,7 +375,6 @@
                     username = text_area.value;
                     if (username !== null && username.length > 2){
                         let username_list = await searchUser(username);
-                        console.log(username_list);
 
                         const user_div = document.createElement('div');
                         user_div.id = "search-user-div";
@@ -392,7 +391,7 @@
                             user_div.append(user_p);
 
                             user_p.addEventListener('click', async () => {
-                                await createNewChatRoom(username_list[i]);
+                                await createNewChatRoom(username_list[i][0],username_list[i][1]);
                             })
                         }
                     }
@@ -400,15 +399,15 @@
             }
         }
 
-        async function createNewChatRoom(searched_user){
+        async function createNewChatRoom(searched_id,searched_username){
             const response = await fetch('/Capstone/createNewChatRoom', {
                 headers:{"Content-Type":"application/json"},
                 method:'POST',
                 body: JSON.stringify({
-                    "username": searched_user.toString()
+                    "username": searched_username.toString(),
+                    "id": searched_id.toString()
                 })
             });
-            console.log("RESPONSE " + response.text);
             if (!response.ok) {
                 console.log("ERROR: " + response.status);
             }
@@ -438,17 +437,22 @@
         }
 
 
-        async function addChatRoom(chatRoom) {
-            const response = await fetch('/Capstone/createNewChatRoom', {
+        async function addUserToChatRoom(chat_room_id, username, user_id, name) {
+            const response = await fetch('/Capstone/addUserToChatRoom', {
                 method: 'POST',
-                headers: {"Content-Type": "application/json", "chatRoomName": chatRoom.toString()}
+                headers: {
+                    "Content-Type": "application/json",
+                    "chatroom": chat_room_id.toString(),
+                    "id": user_id.toString(),
+                    "username": username.toString(),
+                    "name":name.toString()
+                }
             });
             if (!response.ok) {
                 console.log("ERROR: " + response.status);
-            } else {
+            }
+            /*else {
                 let chat_room_created_id = response.json();
-
-                console.log(chat_room_created_id);
 
                 let chat_rooms = await getChatRooms();
                 await displayChatRooms(chat_rooms);
@@ -478,8 +482,11 @@
                 });
 
                 chat_room_div.appendChild(new_chat);
-            }
+            }*/
+            
         }
+
+
     </script>
 
 </head>

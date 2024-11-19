@@ -145,7 +145,7 @@ public class ChatController {
      *                 key chatroom, value chatroom id
      */
     @PostMapping(path = "/addUserToChatRoom", consumes = "application/json")
-    public @ResponseBody ChatRoomName addUserToChatRoom(@RequestBody Map<String, String> inputMap, @SessionAttribute("userModel") UserModel userModel, Model model) {
+    public @ResponseBody ChatRoomName addUserToChatRoom(@RequestHeader Map<String, String> inputMap, @SessionAttribute("userModel") UserModel userModel, Model model) {
 
         ChatRoomName newchatRoomName = chatService.addUserToChatRoom(inputMap, userModel);
 
