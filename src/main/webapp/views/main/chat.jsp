@@ -396,12 +396,12 @@
                                 continue;
                             }
                             const user_p = document.createElement('p');
-                            user_p.innerHTML = username_list[i][0];
+                            user_p.innerHTML = username_list[i][1];
                             user_p.className = 'searched_username';
                             user_div.append(user_p);
 
                             user_p.addEventListener('click', async () => {
-                                await createNewChatRoom(username_list[i]);
+                                await createNewChatRoom(username_list[i][0],username_list[i][1]);
                             })
                         }
                     }
@@ -409,7 +409,7 @@
             }
         }
 
-        async function createNewChatRoom(searched_user){
+        async function createNewChatRoom(searched_id,searched_username){
             const response = await fetch('/Capstone/createNewChatRoom', {
                 headers:{"Content-Type":"application/json"},
                 method:'POST',
@@ -417,8 +417,8 @@
                     "username": searched_user[0].toString(),
                     "id": searched_user[2].toString(),
                     "name": searched_user[1].toString()})
+
             });
-            console.log("RESPONSE " + response.text);
             if (!response.ok) {
                 console.log("ERROR: " + response.status);
             }
@@ -448,40 +448,45 @@
         }
 
         // first need to search for user then with their username send to create new chatroom
-        async function searchUser(username) {
+        async function searchUser(input) {
             const response = await fetch('/Capstone/searchUsers', {
                 method: 'POST',
-                headers: {"username": username.toString()}
+                headers: {"username": input.toString()}
             });
+
             if (!response.ok) {
-                console.log("ERROR: " + response.status);
+                console.log("ERROR: " + response[1]);
                 return;
             }
-            const json = await response.json();
+            const json = JSON.parse(await response.text());
             let usernames = [];
-
             for (let i = 0; i < json.length; i++) {
                 let curUsername = [];
                 curUsername.push(json[i].username);
                 curUsername.push(json[i].name);
                 curUsername.push(json[i].id);
                 usernames.push(curUsername);
+
             }
             return usernames;
         }
 
 
-        async function addChatRoom(chatRoom) {
+
+        async function addUserToChatRoom(chat_room_id, username, user_id, name) {
             const response = await fetch('/Capstone/addUserToChatRoom', {
                 method: 'POST',
-                headers: {"Content-Type": "application/json", "chatRoomName": chatRoom.toString()}
+                headers: {
+                    "Content-Type": "application/json",
+                    "chatroom": chat_room_id.toString(),
+                    "id": user_id.toString()
+                }
             });
             if (!response.ok) {
                 console.log("ERROR: " + response.status);
-            } else {
+            }
+            /*else {
                 let chat_room_created_id = response.json();
-
-                console.log(chat_room_created_id);
 
                 let chat_rooms = await getChatRooms();
                 await displayChatRooms(chat_rooms);
@@ -511,8 +516,11 @@
                 });
 
                 chat_room_div.appendChild(new_chat);
-            }
+            }*/
+
         }
+
+
     </script>
 
 </head>
