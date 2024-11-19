@@ -153,6 +153,22 @@ span {
 
 
 /* CHAT Messages - middle section of page */
+
+#add_user_to_chat {
+    text-align: center;
+    height: 40px;
+    width: 40px;
+    float:right;
+    background-color: #48CAE4;
+    border: none;
+    border-radius: 10px;
+    margin-right: 10px;
+    margin-top: 10px;
+}
+#add_user_to_chat:hover {
+    cursor: pointer;
+}
+
 .current-chat {
     float:left;
     margin-top: 25px;

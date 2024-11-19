@@ -29,6 +29,7 @@
         window.onload = async () => {
             let chat_rooms = await getChatRooms();
             await displayChatRooms(chat_rooms);
+            sessionStorage.setItem("chat_id",null);
 
             let send_message_enter = document.getElementById('chat-send');
             send_message_enter.addEventListener("keypress", function (event) {
@@ -113,6 +114,9 @@
             const message = document.getElementById('chat-send').value;
             document.getElementById('chat-send').value = "";
 
+            const chat_id = sessionStorage.getItem("chat_id");
+            // Simple way to store the current chat the user is in
+
             if (chat_id !== null) {
                 try {
                     const response = await fetch('/Capstone/send', {
@@ -181,7 +185,6 @@
 
                 for (let i = 0; i < json.length; i++) {
                     let curChatRoom = [];
-
                     chatroomSet.add(Object.values(json)[i][1]);
                     curChatRoom.push(Object.values(json)[i][1]); // id
                     curChatRoom.push(Object.values(json)[i][3]); // name
@@ -223,7 +226,7 @@
                     new_chat.addEventListener('click', async () => {
                         let messages = await getMessages(chat_rooms[i][0]);
                         displayMessages(messages);
-                        chat_id = chat_rooms[i][0];
+                        sessionStorage.setItem("chat_id",chat_rooms[i][0]);
                     });
 
                     chat_room_div.appendChild(new_chat);
@@ -253,6 +256,7 @@
             user_search.id = "chat-room-plus";
             user_search.innerHTML = '\u{2315}';
             user_search.style.fontSize = "30px";
+            user_search.title = "Search for Users to Create a New Chatroom With";
 
             chat_room_div.append(user_search);
 
@@ -304,6 +308,22 @@
             while (current_chat.firstChild) {
                 current_chat.removeChild(current_chat.lastChild);
             }
+
+            // creates button to add another user to chat
+            const add_user_to_chat = document.createElement('button');
+            add_user_to_chat.id = "add_user_to_chat";
+            add_user_to_chat.innerHTML = "+";
+            add_user_to_chat.title = "Add Another User to your Chat";
+            current_chat.appendChild(add_user_to_chat);
+
+            add_user_to_chat.addEventListener("click", ()=> {
+                // RUNS FUNCTION TO ADD USER TO CHATROOM
+                const chat_id = sessionStorage.getItem("chat_id");
+                if(chat_id !== null){
+                    // TODO
+                    //add_user_to_chat(chat_id,);
+                }
+            });
 
             if (messages !== 0) {
                 for (let i = messages.length - 1; i >= 0; i--) {
@@ -396,12 +416,12 @@
                                 continue;
                             }
                             const user_p = document.createElement('p');
-                            user_p.innerHTML = username_list[i][0];
+                            user_p.innerHTML = username_list[i][1];
                             user_p.className = 'searched_username';
                             user_div.append(user_p);
 
                             user_p.addEventListener('click', async () => {
-                                await createNewChatRoom(username_list[i]);
+                                await createNewChatRoom(username_list[i][0],username_list[i][1]);
                             })
                         }
                     }
@@ -409,7 +429,7 @@
             }
         }
 
-        async function createNewChatRoom(searched_user){
+        async function createNewChatRoom(searched_id,searched_username){
             const response = await fetch('/Capstone/createNewChatRoom', {
                 headers:{"Content-Type":"application/json"},
                 method:'POST',
@@ -417,8 +437,8 @@
                     "username": searched_user[0].toString(),
                     "id": searched_user[2].toString(),
                     "name": searched_user[1].toString()})
+
             });
-            console.log("RESPONSE " + response.text);
             if (!response.ok) {
                 console.log("ERROR: " + response.status);
             }
@@ -448,73 +468,47 @@
         }
 
         // first need to search for user then with their username send to create new chatroom
-        async function searchUser(username) {
+        async function searchUser(input) {
             const response = await fetch('/Capstone/searchUsers', {
                 method: 'POST',
-                headers: {"username": username.toString()}
+                headers: {"username": input.toString()}
             });
+
             if (!response.ok) {
-                console.log("ERROR: " + response.status);
+                console.log("ERROR: " + response[1]);
                 return;
             }
-            const json = await response.json();
+            const json = JSON.parse(await response.text());
             let usernames = [];
-
             for (let i = 0; i < json.length; i++) {
                 let curUsername = [];
                 curUsername.push(json[i].username);
                 curUsername.push(json[i].name);
                 curUsername.push(json[i].id);
                 usernames.push(curUsername);
+
             }
             return usernames;
         }
 
-        /*
-        Should be working.
-         */
-        async function addChatRoom(chatRoom) {
+
+
+        async function addUserToChatRoom(chat_room_id, username, user_id, name) {
+
             const response = await fetch('/Capstone/addUserToChatRoom', {
                 method: 'POST',
-                headers: {"Content-Type": "application/json", "chatRoomName": chatRoom.toString()}
+                headers: {
+                    "Content-Type": "application/json",
+                    "chatroom": chat_room_id.toString(),
+                    "id": user_id.toString()
+                }
             });
             if (!response.ok) {
                 console.log("ERROR: " + response.status);
-            } else {
-                let chat_room_created_id = response.json();
-
-                console.log(chat_room_created_id);
-
-                let chat_rooms = await getChatRooms();
-                await displayChatRooms(chat_rooms);
-
-                const chat_room_div = document.getElementById("channels-list");
-
-                const chat_room_name = document.createElement('span');
-                chat_room_name.textContent = chatRoom //NAME
-
-                const lastModifiedDate = document.createElement('span');
-                lastModifiedDate.textContent = (
-                    date.getMonth() + 1 + "/" +
-                    date.getDate() + " " +
-                    date.getHours() + ":" +
-                    date.getMinutes()).toString(); //DATE
-
-                const new_chat = document.createElement('p');
-                new_chat.appendChild(chat_room_name);
-                new_chat.appendChild(lastModifiedDate);
-
-
-                // Loads new Messages when you click the channel name
-                new_chat.addEventListener('click', async () => {
-                    let messages = await getMessages(chat_room_created_id);
-                    displayMessages(messages);
-                    chat_id = chat_room_created_id;
-                });
-
-                chat_room_div.appendChild(new_chat);
             }
         }
+
+
     </script>
 
 </head>
