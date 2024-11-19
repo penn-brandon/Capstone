@@ -117,6 +117,10 @@ public class ChatService implements IChatService {
     @Override
     public synchronized ChatRoomName createChatRoom (Map<String, String> inputMap, UserModel userModel){
 
+        LOGGER.debug("Create new chat room");
+        /*
+        Getting both user id to compare if there is existing chat room.
+         */
         Integer aitaID = Integer.parseInt(inputMap.get("id"));
 
         Integer jibunnId = userModel.getId();
@@ -150,12 +154,15 @@ public class ChatService implements IChatService {
 
                 jibunnChatRoomIDList.add(jibunn.getChatRoom().getId());
             }
-
             cummonChatRoomID = Utility.commonIdComparator(aitaChatRoomIDList, jibunnChatRoomIDList);
         }
 
         ChatRoomName crn = null;
 
+        /*
+        there is common chat room, check is it's specific for two people.
+         */
+        LOGGER.debug("Check common chat room");
         if(!cummonChatRoomID.isEmpty()){
 
             for (Integer integer : cummonChatRoomID) {
@@ -168,9 +175,12 @@ public class ChatService implements IChatService {
                 }
             }
         }
+        LOGGER.debug("create new chat room and new chat room name for both.");
         if(crn == null){
 
             ChatRoom cr = chatDAO.createNewChatRoom();
+
+            chatDAO.createNemMessage(cr.getId());
 
             chatDAO.insertNewChatRoomName(cr, aitaID, userModel.getName());
 

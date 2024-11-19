@@ -21,10 +21,14 @@
     <script src="${pageContext.request.contextPath}/javascript/stomp.min.js"></script>
 
     <script defer>
+
+        const chatroomSet = new Set();
+
+        let chat_id = null;
+
         window.onload = async () => {
             let chat_rooms = await getChatRooms();
             await displayChatRooms(chat_rooms);
-            var chat_id = null;
 
             let send_message_enter = document.getElementById('chat-send');
             send_message_enter.addEventListener("keypress", function (event) {
@@ -177,6 +181,8 @@
 
                 for (let i = 0; i < json.length; i++) {
                     let curChatRoom = [];
+
+                    chatroomSet.add(Object.values(json)[i][1]);
                     curChatRoom.push(Object.values(json)[i][1]); // id
                     curChatRoom.push(Object.values(json)[i][3]); // name
                     let date = Object.values(json)[i][4] // date
@@ -266,8 +272,12 @@
                     console.log("ERROR: " + response.status);
                     return;
                 }
+                console.log("response: " + response.toString);
                 const json = await response.json();
+
                 let messages = [];
+
+                console.log("typeof result is: " + typeof json);
 
                 for (let i = 0; i < json.length; i++) {
                     let curMessage = [];
@@ -386,7 +396,7 @@
                                 continue;
                             }
                             const user_p = document.createElement('p');
-                            user_p.innerHTML = username_list[i];
+                            user_p.innerHTML = username_list[i][0];
                             user_p.className = 'searched_username';
                             user_div.append(user_p);
 
@@ -403,13 +413,38 @@
             const response = await fetch('/Capstone/createNewChatRoom', {
                 headers:{"Content-Type":"application/json"},
                 method:'POST',
-                body: JSON.stringify({"username": searched_user.toString()})
+                body: JSON.stringify({
+                    "username": searched_user[0].toString(),
+                    "id": searched_user[2].toString(),
+                    "name": searched_user[1].toString()})
             });
             console.log("RESPONSE " + response.text);
             if (!response.ok) {
                 console.log("ERROR: " + response.status);
             }
+            let chat_room_name = await response.json();
+            console.log(chat_room_name);
 
+            const chatroom = chat_room_name["chatRoom"]["id"];
+
+            let chat_rooms = await getChatRooms();
+            await displayChatRooms(chat_rooms);
+
+            let messages = await getMessages(chatroom);
+            console.log("Message lenght: " + messages.length)
+            if(messages.length !== 0){
+
+                displayMessages(messages);
+            }
+            chat_id = chatroom;
+
+            let send_message_enter = document.getElementById('chat-send');
+            send_message_enter.addEventListener("keypress", function (event) {
+                if (event.key === "Enter") {
+                    event.preventDefault();
+                    document.getElementById('send-button').click();
+                }
+            });
         }
 
         // first need to search for user then with their username send to create new chatroom
@@ -428,15 +463,16 @@
             for (let i = 0; i < json.length; i++) {
                 let curUsername = [];
                 curUsername.push(json[i].username);
+                curUsername.push(json[i].name);
+                curUsername.push(json[i].id);
                 usernames.push(curUsername);
             }
             return usernames;
-
         }
 
 
         async function addChatRoom(chatRoom) {
-            const response = await fetch('/Capstone/createNewChatRoom', {
+            const response = await fetch('/Capstone/addUserToChatRoom', {
                 method: 'POST',
                 headers: {"Content-Type": "application/json", "chatRoomName": chatRoom.toString()}
             });

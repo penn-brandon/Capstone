@@ -61,16 +61,16 @@ public class ChatDAO implements IChatDAO {
     @Override
     public List<Message> loadHistoryMessage(Integer chatroomId) {
 
+        LOGGER.debug("Leading history messages");
         List<Message> result;
 
         StringBuilder sql = new StringBuilder().append("select * from ").append(chatroomId).append(MESSAGE_POSTFIX).append(" order by time desc");
-
-        LOGGER.debug(sql.toString());
 
         try {
             Query query = entityManager.createNativeQuery(sql.toString(), Message.class);
 
             result = (List<Message>) query.getResultList();
+            LOGGER.debug("history message is empty? " + result.isEmpty());
 
         } catch (Exception e) {
 
@@ -311,6 +311,29 @@ public class ChatDAO implements IChatDAO {
 
             LOGGER.error(e.getMessage(), e);
             throw new RuntimeException("fail to delete chat room name");
+        }
+    }
+
+    public void createNemMessage(Integer chatRoomId){
+
+        String sql = "create table " +  chatRoomId + MESSAGE_POSTFIX +
+                " (message_id SERIAL primary key not null," +
+                " time DATETIME not null DEFAULT CURRENT_TIMESTAMP," +
+                " content varchar(225) not null," +
+                " senderId int not null," +
+                " sender varchar(225) not null," +
+                "  FOREIGN KEY (senderId) REFERENCES User (user_id));";
+        LOGGER.debug("SQL: " + sql);
+
+        try{
+            Query query = entityManager.createNativeQuery(sql);
+
+            query.executeUpdate();
+
+        } catch (Exception e){
+
+            LOGGER.error(e.getMessage(), e);
+            throw new RuntimeException("fail to create Nem Message table");
         }
     }
 }
