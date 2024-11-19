@@ -405,7 +405,6 @@
                 headers:{"Content-Type":"application/json"},
                 method:'POST',
                 body: JSON.stringify({
-
                     "username": searched_user.toString()
                 })
             });
@@ -413,30 +412,29 @@
             if (!response.ok) {
                 console.log("ERROR: " + response.status);
             }
-
         }
 
         // first need to search for user then with their username send to create new chatroom
-        async function searchUser(username) {
+        async function searchUser(input) {
             const response = await fetch('/Capstone/searchUsers', {
                 method: 'POST',
-                headers: {"username": username.toString()}
+                headers: {"username": input.toString()}
             });
+
             if (!response.ok) {
                 console.log("ERROR: " + response[1]);
                 return;
             }
-            const json = JSON.parse(await response.json());
+            const json = JSON.parse(await response.text());
             let usernames = [];
-            console.log(json);
             for (let i = 0; i < json.length; i++) {
                 let cur = [];
                 cur.push(json[i].id);
                 cur.push(json[i].username);
+                cur.push(json[i].name)
                 usernames.push(cur);
             }
             return usernames;
-
         }
 
 
