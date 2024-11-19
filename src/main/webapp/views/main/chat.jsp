@@ -494,6 +494,7 @@
 
 
         async function addUserToChatRoom(chat_room_id, username, user_id, name) {
+
             const response = await fetch('/Capstone/addUserToChatRoom', {
                 method: 'POST',
                 headers: {
