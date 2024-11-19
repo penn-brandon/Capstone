@@ -24,7 +24,7 @@
         window.onload = async () => {
             let chat_rooms = await getChatRooms();
             await displayChatRooms(chat_rooms);
-            var chat_id = null;
+            sessionStorage.setItem("chat_id",null);
 
             let send_message_enter = document.getElementById('chat-send');
             send_message_enter.addEventListener("keypress", function (event) {
@@ -108,6 +108,9 @@
         async function sendMessage() {
             const message = document.getElementById('chat-send').value;
             document.getElementById('chat-send').value = "";
+
+            const chat_id = sessionStorage.getItem("chat_id");
+            // Simple way to store the current chat the user is in
 
             if (chat_id !== null) {
                 try {
@@ -217,7 +220,7 @@
                     new_chat.addEventListener('click', async () => {
                         let messages = await getMessages(chat_rooms[i][0]);
                         displayMessages(messages);
-                        chat_id = chat_rooms[i][0];
+                        sessionStorage.setItem("chat_id",chat_rooms[i][0]);
                     });
 
                     chat_room_div.appendChild(new_chat);
@@ -294,6 +297,21 @@
             while (current_chat.firstChild) {
                 current_chat.removeChild(current_chat.lastChild);
             }
+
+            // creates button to add another user to chat
+            const add_user_to_chat = document.createElement('button');
+            add_user_to_chat.id = "add_user_to_chat";
+            add_user_to_chat.innerHTML = "+";
+            add_user_to_chat.title = "Add Another User to your Chat";
+            current_chat.appendChild(add_user_to_chat);
+
+            add_user_to_chat.addEventListener("click", ()=> {
+                // RUNS FUNCTION TO ADD USER TO CHATROOM
+                const chat_id = sessionStorage.getItem("chat_id");
+                if(chat_id !== null){
+                    add_user_to_chat(chat_id,);
+                }
+            });
 
             if (messages !== 0) {
                 for (let i = messages.length - 1; i >= 0; i--) {
@@ -449,39 +467,6 @@
             if (!response.ok) {
                 console.log("ERROR: " + response.status);
             }
-            /*else {
-                let chat_room_created_id = response.json();
-
-                let chat_rooms = await getChatRooms();
-                await displayChatRooms(chat_rooms);
-
-                const chat_room_div = document.getElementById("channels-list");
-
-                const chat_room_name = document.createElement('span');
-                chat_room_name.textContent = chatRoom //NAME
-
-                const lastModifiedDate = document.createElement('span');
-                lastModifiedDate.textContent = (
-                    date.getMonth() + 1 + "/" +
-                    date.getDate() + " " +
-                    date.getHours() + ":" +
-                    date.getMinutes()).toString(); //DATE
-
-                const new_chat = document.createElement('p');
-                new_chat.appendChild(chat_room_name);
-                new_chat.appendChild(lastModifiedDate);
-
-
-                // Loads new Messages when you click the channel name
-                new_chat.addEventListener('click', async () => {
-                    let messages = await getMessages(chat_room_created_id);
-                    displayMessages(messages);
-                    chat_id = chat_room_created_id;
-                });
-
-                chat_room_div.appendChild(new_chat);
-            }*/
-
         }
 
 
