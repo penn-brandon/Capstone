@@ -35,4 +35,6 @@ public interface IChatDAO {
     List<ChatRoomToUser> findChatRoomToUserByUserID(Integer userId);
 
     void deleteChatRoomName(Integer chatRoomNameId, Integer userId);
+
+    void createNemMessage(Integer chatRoomId);
 }
