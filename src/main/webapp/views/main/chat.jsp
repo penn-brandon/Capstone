@@ -443,9 +443,7 @@
                 headers: {
                     "Content-Type": "application/json",
                     "chatroom": chat_room_id.toString(),
-                    "id": user_id.toString(),
-                    "username": username.toString(),
-                    "name":name.toString()
+                    "id": user_id.toString()
                 }
             });
             if (!response.ok) {
@@ -483,7 +481,7 @@
 
                 chat_room_div.appendChild(new_chat);
             }*/
-            
+
         }
 
 
