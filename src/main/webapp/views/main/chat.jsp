@@ -185,7 +185,6 @@
 
                 for (let i = 0; i < json.length; i++) {
                     let curChatRoom = [];
-
                     chatroomSet.add(Object.values(json)[i][1]);
                     curChatRoom.push(Object.values(json)[i][1]); // id
                     curChatRoom.push(Object.values(json)[i][3]); // name
@@ -257,6 +256,7 @@
             user_search.id = "chat-room-plus";
             user_search.innerHTML = '\u{2315}';
             user_search.style.fontSize = "30px";
+            user_search.title = "Search for Users to Create a New Chatroom With";
 
             chat_room_div.append(user_search);
 
@@ -320,7 +320,8 @@
                 // RUNS FUNCTION TO ADD USER TO CHATROOM
                 const chat_id = sessionStorage.getItem("chat_id");
                 if(chat_id !== null){
-                    add_user_to_chat(chat_id,);
+                    // TODO
+                    //add_user_to_chat(chat_id,);
                 }
             });
 
