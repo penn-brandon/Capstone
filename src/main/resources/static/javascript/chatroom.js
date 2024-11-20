@@ -229,5 +229,28 @@ async function addUserToChatRoom(chat_room_id, username, user_id, name) {
     if (!response.ok) {
         console.log("ERROR: " + response.status);
     }
+    let chat_room_name = await response.json();
+    console.log(chat_room_name);
+
+    const chatroom = chat_room_name["chatRoom"]["id"];
+
+    let chat_rooms = await getChatRooms();
+    await displayChatRooms(chat_rooms);
+
+    let messages = await getMessages(chatroom);
+    console.log("Message length: " + messages.length)
+    if(messages.length !== 0){
+
+        displayMessages(messages);
+    }
+    chat_id = chatroom;
+
+    let send_message_enter = document.getElementById('chat-send');
+    send_message_enter.addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            document.getElementById('send-button').click();
+        }
+    });
 }
 

@@ -215,6 +215,18 @@ public class ChatService implements IChatService {
 
         UserModel aite = userDAO.findUserById(Integer.parseInt(inputMap.get("id")));
 
+        /*
+        Check if user is in the chat room already.
+         */
+        ChatRoomName crn = null;
+
+        crn = chatDAO.findChatRoomName(aite.getId(), chatRoomId);
+
+        if(crn != null){
+
+            return crn;
+        }
+
         ChatRoom chatRoom = chatDAO.findChatRoom(chatRoomId);
         LOGGER.debug("Chaech chat room id: " + chatRoomId);
 
