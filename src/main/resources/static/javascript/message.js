@@ -104,7 +104,10 @@ function addAnotherUserToChat(current_chat){
     add_user_to_chat.addEventListener("click", ()=> {
         // RUNS FUNCTION TO ADD USER TO CHATROOM
         const chat_id = sessionStorage.getItem("chat_id");
-        if(chat_id !== null){
+        if (document.getElementById('addUserToExistingChat_div')){
+            document.getElementById('addUserToExistingChat_div').remove();
+        }
+        if(chat_id !== null ){
             const add_user_input = document.createElement('div');
             add_user_input.className = "addUserToExistingChat";
             add_user_input.id = "addUserToExistingChat_div"
@@ -152,7 +155,8 @@ function addAnotherUserToChat(current_chat){
                         user_div.append(user_p);
 
                         user_p.addEventListener('click', async () => {
-                            //await createNewChatRoom(username_list[i]);
+                            await addUserToChatRoom(sessionStorage.getItem('chat_id'),username_list[i][0],username_list[i][2],username_list[i][1]);
+                            document.getElementById("add-search-user-div").remove();
                         })
                     }
                 }
