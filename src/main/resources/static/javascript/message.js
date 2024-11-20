@@ -156,7 +156,7 @@ function addAnotherUserToChat(current_chat){
 
                         user_p.addEventListener('click', async () => {
                             await addUserToChatRoom(sessionStorage.getItem('chat_id'),username_list[i][0],username_list[i][2],username_list[i][1]);
-                            document.getElementById("add-search-user-div").remove();
+                            document.getElementById("addUserToExistingChat_div").remove();
                         })
                     }
                 }
