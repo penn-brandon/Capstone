@@ -115,11 +115,6 @@ function addAnotherUserToChat(current_chat){
             cancel_user_input.src = sessionStorage.getItem('path') + "/images/close.svg";
             cancel_user_input.style.float = "right";
 
-            cancel_user_input.addEventListener('click', ()=>{
-                document.getElementById("addUserToExistingChat_div").remove();
-            });
-
-
             const text_area = document.createElement('textarea');
             text_area.style.resize = 'none';
 
@@ -127,6 +122,41 @@ function addAnotherUserToChat(current_chat){
             add_user_input.appendChild(cancel_user_input);
             add_user_input.appendChild(text_area);
             add_user_to_chat.insertAdjacentElement("afterend",add_user_input);
+
+            // Functions for input and button clicks
+            cancel_user_input.addEventListener('click', ()=>{
+                document.getElementById("addUserToExistingChat_div").remove();
+            });
+
+            text_area.addEventListener("input", async () => {
+                if (document.getElementById("add-search-user-div")){
+                    document.getElementById("add-search-user-div").remove();
+                }
+                let username = text_area.value;
+                if (username !== null && username.length > 2){
+                    let username_list = await searchUser(username);
+
+                    const user_div = document.createElement('div');
+                    user_div.id = "add-search-user-div";
+
+                    const outer_div = document.getElementById('addUserToExistingChat_div');
+                    outer_div.append(user_div);
+                    // shows the current queried results
+                    for (let i = 0; i < username_list.length; i++) {
+                        if (username_list[i][0].toString() === sessionStorage.getItem('username').toString()){
+                            continue;
+                        }
+                        const user_p = document.createElement('p');
+                        user_p.innerHTML = username_list[i][0];
+                        user_p.className = 'add_searched_username';
+                        user_div.append(user_p);
+
+                        user_p.addEventListener('click', async () => {
+                            //await createNewChatRoom(username_list[i]);
+                        })
+                    }
+                }
+            });
         }
     });
 }

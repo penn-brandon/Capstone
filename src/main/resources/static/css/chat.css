@@ -172,7 +172,7 @@ span {
 /* different element than the one above  - this adds another user to your already existing chatroom */
 .addUserToExistingChat {
     clear: both;
-    background-color: red;
+    background-color: #48CAE4;
     width: 150px;
     padding: 10px;
     border-radius: 10px;
@@ -191,6 +191,19 @@ span {
 .addUserToExistingChat > img:hover {
     cursor: pointer;
 }
+
+.add_searched_username {
+    padding: 5px 10px;
+    background-color: #48CAE4;
+    border: none;
+    border-bottom: 1px black solid;
+    box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
+    border-radius: 10px;
+}
+.add_searched_username:hover {
+    cursor: pointer;
+}
+
 
 
 .current-chat {
