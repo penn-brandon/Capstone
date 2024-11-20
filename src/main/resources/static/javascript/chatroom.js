@@ -137,7 +137,7 @@ function getUsernameFromUser() {
                 chat_room_div.append(user_div);
                 // shows the current queried results
                 for (let i = 0; i < username_list.length; i++) {
-                    if (username_list[i][0].toString() === `${sessionScope.userModel.getUsername()}`){
+                    if (username_list[i][0].toString() === sessionStorage.getItem('username').toString()){
                         continue;
                     }
                     const user_p = document.createElement('p');

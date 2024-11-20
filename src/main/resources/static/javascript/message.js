@@ -93,14 +93,7 @@ async function getMessages(chatroom) {
     }
 }
 
-function displayMessages(messages) {
-    const current_chat = document.getElementById("current-chat");
-
-    // Removes all old messages in current-chat
-    while (current_chat.firstChild) {
-        current_chat.removeChild(current_chat.lastChild);
-    }
-
+function addAnotherUserToChat(current_chat){
     // creates button to add another user to chat
     const add_user_to_chat = document.createElement('button');
     add_user_to_chat.id = "add_user_to_chat";
@@ -114,6 +107,7 @@ function displayMessages(messages) {
         if(chat_id !== null){
             const add_user_input = document.createElement('div');
             add_user_input.className = "addUserToExistingChat";
+            add_user_input.id = "addUserToExistingChat_div"
             const user_input_title = document.createElement('p');
             user_input_title.innerHTML = "Add User";
             user_input_title.style.float = "left";
@@ -121,22 +115,31 @@ function displayMessages(messages) {
             cancel_user_input.src = sessionStorage.getItem('path') + "/images/close.svg";
             cancel_user_input.style.float = "right";
 
+            cancel_user_input.addEventListener('click', ()=>{
+                document.getElementById("addUserToExistingChat_div").remove();
+            });
+
 
             const text_area = document.createElement('textarea');
             text_area.style.resize = 'none';
 
-            const search_user = document.createElement('p');
-            search_user.id = "search_user";
-
-            search_user.appendChild(user_input_title);
-            search_user.appendChild(cancel_user_input);
-            search_user.appendChild(text_area);
-
-            add_user_input.appendChild(search_user);
+            add_user_input.appendChild(user_input_title);
+            add_user_input.appendChild(cancel_user_input);
+            add_user_input.appendChild(text_area);
             add_user_to_chat.insertAdjacentElement("afterend",add_user_input);
-            //add_user_to_chat(chat_id,);
         }
     });
+}
+
+function displayMessages(messages) {
+    const current_chat = document.getElementById("current-chat");
+
+    // Removes all old messages in current-chat
+    while (current_chat.firstChild) {
+        current_chat.removeChild(current_chat.lastChild);
+    }
+
+    addAnotherUserToChat(current_chat);
 
     if (messages !== 0) {
         for (let i = messages.length - 1; i >= 0; i--) {

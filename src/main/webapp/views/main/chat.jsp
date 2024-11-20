@@ -23,7 +23,6 @@
     <script defer src="${pageContext.request.contextPath}/javascript/message.js"></script>
     <script defer src="${pageContext.request.contextPath}/javascript/chatroom.js"></script>
     <script defer>
-
         const chatroomSet = new Set();
         let chat_id = null;
         window.onload = async () => {
@@ -43,7 +42,6 @@
             });
             startListener();
         }
-
         function startListener() {
 
             var socket = new SockJS('http://localhost:8080/Capstone/capstone');
@@ -110,9 +108,6 @@
                 });
             });
         }
-
-        // INDEX LIST
-        // ID = 0, CONTENT = 1, SENDER = 2, TIME = 3
     </script>
 
 

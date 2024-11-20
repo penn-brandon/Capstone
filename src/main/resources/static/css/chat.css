@@ -182,12 +182,15 @@ span {
     margin-top: 10px;
 }
 .addUserToExistingChat > p {
-    width: 145px;
+    width: 100px;
 }
 .addUserToExistingChat > textarea {
-    width: 125px;
+    margin-top: 5px;
+    width: 140px;
 }
-
+.addUserToExistingChat > img:hover {
+    cursor: pointer;
+}
 
 
 .current-chat {
