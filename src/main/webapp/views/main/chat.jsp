@@ -412,16 +412,16 @@
                         chat_room_div.append(user_div);
                         // shows the current queried results
                         for (let i = 0; i < username_list.length; i++) {
-                            if (username_list[i].toString() === `${sessionScope.userModel.getUsername()}`){
+                            if (username_list[i][0].toString() === `${sessionScope.userModel.getUsername()}`){
                                 continue;
                             }
                             const user_p = document.createElement('p');
-                            user_p.innerHTML = username_list[i][1];
+                            user_p.innerHTML = username_list[i][0];
                             user_p.className = 'searched_username';
                             user_div.append(user_p);
 
                             user_p.addEventListener('click', async () => {
-                                await createNewChatRoom(username_list[i][0],username_list[i][1]);
+                                await createNewChatRoom(username_list[i]);
                             })
                         }
                     }
@@ -429,7 +429,7 @@
             }
         }
 
-        async function createNewChatRoom(searched_id,searched_username){
+        async function createNewChatRoom(searched_user){
             const response = await fetch('/Capstone/createNewChatRoom', {
                 headers:{"Content-Type":"application/json"},
                 method:'POST',
