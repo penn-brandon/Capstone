@@ -14,7 +14,11 @@ async function getChatRooms() {
             curChatRoom.push(Object.values(json)[i][1]); // id
             curChatRoom.push(Object.values(json)[i][3]); // name
             let date = Object.values(json)[i][4] // date
-            curChatRoom.push(new Date(date).getDay() + "/" + new Date(date).getMonth()); //date
+            console.log("THIS IS THE DATE");
+            console.log(date);
+            console.log(new Date(date));
+            console.log(new Date(date).getMonth());
+            curChatRoom.push(new Date(date).getMonth() + 1 + "/" + new Date(date).getDate()); //date
             chat_rooms.push(curChatRoom);
         }
         return chat_rooms;
@@ -35,6 +39,7 @@ async function displayChatRooms(chat_rooms) {
 
     if (chat_rooms.length > 0) {
         for (let i = 0; i < chat_rooms.length; i++) {
+            console.log(chat_rooms[i]);
             let chat_room_name = document.createElement('span');
             chat_room_name.textContent = chat_rooms[i][1]; //NAME
 
