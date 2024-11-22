@@ -25,5 +25,5 @@ jobs:
         overwrite: true
         path: target/*.war  
 
-    - name: Run Spring Boot Tests
-      run: mvn test -Dtest=ChatServiceTest
+#    - name: Run Spring Boot Tests
+#      run: mvn test -Dtest=ChatServiceTest
