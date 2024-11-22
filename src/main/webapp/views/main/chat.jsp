@@ -41,12 +41,12 @@
                 }
             });
             startListener();
-
+            const refresh_icon_img = document.getElementById('chats-refresh-icon-img')
             const refresh_icon = document.getElementById('chats-refresh-icon');
             refresh_icon.addEventListener('click', async () => {
                 let chat_rooms = await getChatRooms();
                 await displayChatRooms(chat_rooms);
-                refresh_icon.animate([{transform:"rotate(0deg)"},{transform:"rotate(180deg)"},{transform:"rotate(360deg)"}], {duration: 1000, iterations: 1});
+                refresh_icon_img.animate([{transform:"rotate(0deg)"},{transform:"rotate(180deg)"},{transform:"rotate(360deg)"}], {duration: 1000, iterations: 1});
             });
 
         }
@@ -139,7 +139,7 @@
             <div class="chats-title">
                 <p class="chats-title-title">Channels</p>
                 <a id="chats-refresh-icon">
-                    <img src="${pageContext.request.contextPath}/images/refresh.svg"  alt="Refresh"/>
+                    <img id="chats-refresh-icon-img" src="${pageContext.request.contextPath}/images/refresh.svg"  alt="Refresh"/>
                 </a>
             </div>
             <div class="channels-list" id="channels-list">
