@@ -72,12 +72,9 @@ async function getMessages(chatroom) {
             console.log("ERROR: " + response.status);
             return;
         }
-        console.log("response: " + response.toString);
         const json = await response.json();
 
         let messages = [];
-
-        console.log("typeof result is: " + typeof json);
 
         for (let i = 0; i < json.length; i++) {
             let curMessage = [];
