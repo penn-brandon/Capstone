@@ -14,10 +14,6 @@ async function getChatRooms() {
             curChatRoom.push(Object.values(json)[i][1]); // id
             curChatRoom.push(Object.values(json)[i][3]); // name
             let date = Object.values(json)[i][4] // date
-            console.log("THIS IS THE DATE");
-            console.log(date);
-            console.log(new Date(date));
-            console.log(new Date(date).getMonth());
             curChatRoom.push(new Date(date).getMonth() + 1 + "/" + new Date(date).getDate()); //date
             chat_rooms.push(curChatRoom);
         }
@@ -39,7 +35,6 @@ async function displayChatRooms(chat_rooms) {
 
     if (chat_rooms.length > 0) {
         for (let i = 0; i < chat_rooms.length; i++) {
-            console.log(chat_rooms[i]);
             let chat_room_name = document.createElement('span');
             chat_room_name.textContent = chat_rooms[i][1]; //NAME
 
@@ -103,7 +98,7 @@ function getUsernameFromUser() {
         const chat_room_div = document.getElementById("channels-list");
 
         const cancel_username = document.createElement('img');
-        cancel_username.src = "${pageContext.request.contextPath}/images/close.svg";
+        cancel_username.src = sessionStorage.getItem('path') + "/images/close.svg";
         cancel_username.style.float = "right";
 
         const search_user_title = document.createElement('p');
@@ -173,7 +168,6 @@ async function createNewChatRoom(searched_user){
         console.log("ERROR: " + response.status);
     }
     let chat_room_name = await response.json();
-    console.log(chat_room_name);
 
     const chatroom = chat_room_name["chatRoom"]["id"];
 
@@ -181,7 +175,6 @@ async function createNewChatRoom(searched_user){
     await displayChatRooms(chat_rooms);
 
     let messages = await getMessages(chatroom);
-    console.log("Message length: " + messages.length)
     if(messages.length !== 0){
 
         displayMessages(messages);
@@ -235,7 +228,6 @@ async function addUserToChatRoom(chat_room_id, username, user_id, name) {
         console.log("ERROR: " + response.status);
     }
     let chat_room_name = await response.json();
-    console.log(chat_room_name);
 
     const chatroom = chat_room_name["chatRoom"]["id"];
 
@@ -243,7 +235,6 @@ async function addUserToChatRoom(chat_room_id, username, user_id, name) {
     await displayChatRooms(chat_rooms);
 
     let messages = await getMessages(chatroom);
-    console.log("Message length: " + messages.length)
     if(messages.length !== 0){
 
         displayMessages(messages);

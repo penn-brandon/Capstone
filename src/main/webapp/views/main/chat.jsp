@@ -41,6 +41,14 @@
                 }
             });
             startListener();
+
+            const refresh_icon = document.getElementById('chats-refresh-icon');
+            refresh_icon.addEventListener('click', async () => {
+                let chat_rooms = await getChatRooms();
+                await displayChatRooms(chat_rooms);
+                refresh_icon.animate([{transform:"rotate(0deg)"},{transform:"rotate(180deg)"},{transform:"rotate(360deg)"}], {duration: 1000, iterations: 1});
+            });
+
         }
         function startListener() {
 
@@ -52,8 +60,6 @@
             let userName = `${sessionScope.userModel.getUsername()}`;
 
             stompClient.connect({}, function (frame) {
-
-                //console.log('Connected: ' + frame);
                 stompClient.subscribe("/listening/" + userName, function (message) {
 
                     const resultMap = JSON.parse(message.body);
@@ -130,7 +136,12 @@
         </nav>
 
         <div class="chats">
-            <p>Channels</p>
+            <div class="chats-title">
+                <p class="chats-title-title">Channels</p>
+                <a id="chats-refresh-icon">
+                    <img src="${pageContext.request.contextPath}/images/refresh.svg"  alt="Refresh"/>
+                </a>
+            </div>
             <div class="channels-list" id="channels-list">
                 <p>Default Channel</p>
             </div>
