@@ -37,7 +37,7 @@ public class UtilTest {
 
     UserModel um1 = new UserModel(1, "weichuan", "1234", "Chuan Wei", null, "male", true, new HashSet<UserAuthorityModel>());
 
-    UserModel um2 = new UserModel(1, "robot", "1234", "Bob The Builder", null, "male", true, new HashSet<UserAuthorityModel>());
+    UserModel um2 = new UserModel(2, "robot", "1234", "Bob The Builder", null, "male", true, new HashSet<UserAuthorityModel>());
 
     ChatRoom cr = new ChatRoom(1, false);
 
