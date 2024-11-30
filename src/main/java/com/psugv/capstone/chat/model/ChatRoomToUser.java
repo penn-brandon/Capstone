@@ -6,6 +6,11 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
 
+/**
+ * This class is to record the relationship of chat room and user.
+ *
+ * Author: Chuan Wei
+ */
 @Entity(name = "chatRoomToUser")
 @Table(name = "chatRoomToUser")
 @Component("chatRoomToUser")

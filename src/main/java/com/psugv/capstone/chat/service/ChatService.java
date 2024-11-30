@@ -25,6 +25,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This is the service class containing the major business logic.
+ * It should be invoked by controller.
+ *
+ * Author: Chuan Wei
+ */
 @Service
 @Transactional
 @EnableTransactionManagement
@@ -37,9 +43,6 @@ public class ChatService implements IChatService {
 
     @Autowired
     IUserDAO userDAO;
-
-    @Autowired
-    private MessageListener messageListener;
 
     @Autowired
     private SimpMessagingTemplate messagingTemplate;
@@ -94,6 +97,7 @@ public class ChatService implements IChatService {
     @Override
     public List<ChatRoomName> getAllChatRoomName (UserModel userModel){
 
+        ChatServer.loginCheckin(userModel.getId());
 
         return chatDAO.getAllChatroomName(userModel.getId());
     }
@@ -133,30 +137,39 @@ public class ChatService implements IChatService {
 
         if(aitaIDChatRoomToUser == null || jibunnIdChatRoomToUser == null || aitaIDChatRoomToUser.isEmpty() || jibunnIdChatRoomToUser.isEmpty()){
 
+            LOGGER.debug("no common chat room ID");
             cummonChatRoomID = new LinkedList<>();
 
         } else {
 
+            LOGGER.debug("Getting and comparing chat room ID");
             List<Integer> aitaChatRoomIDList = new LinkedList<>();
 
+            LOGGER.debug("aite chat room ID:\n");
             for (int i =0 ; i < aitaIDChatRoomToUser.size(); i++) {
 
                 ChatRoomToUser aita = aitaIDChatRoomToUser.get(i);
 
-                aitaChatRoomIDList.add(aita.getChatRoom().getId());
+                Integer tempID = aita.getChatRoom().getId();
+
+                LOGGER.debug(tempID + "\n");
+                aitaChatRoomIDList.add(tempID);
             }
 
             List<Integer> jibunnChatRoomIDList = new LinkedList<>();
 
+            LOGGER.debug("jibunn chat room ID:\n");
             for (int i = 0; i < jibunnIdChatRoomToUser.size(); i++) {
 
                 ChatRoomToUser jibunn = jibunnIdChatRoomToUser.get(i);
 
-                jibunnChatRoomIDList.add(jibunn.getChatRoom().getId());
+                Integer tempID = jibunn.getChatRoom().getId();
+
+                LOGGER.debug(tempID + "\n");
+                jibunnChatRoomIDList.add(tempID);
             }
             cummonChatRoomID = Utility.commonIdComparator(aitaChatRoomIDList, jibunnChatRoomIDList);
         }
-
         ChatRoomName crn = null;
 
         /*
@@ -171,13 +184,14 @@ public class ChatService implements IChatService {
 
                 if (crtuList.size() == 2) {
 
+                    LOGGER.debug("Exact chat room found!!");
                     crn = selectChatRoom(integer.toString(), userModel);
                 }
             }
         }
-        LOGGER.debug("create new chat room and new chat room name for both.");
         if(crn == null){
 
+            LOGGER.debug("create new chat room and new chat room name for both.");
             ChatRoom cr = chatDAO.createNewChatRoom();
 
             chatDAO.createNemMessage(cr.getId());
@@ -211,7 +225,17 @@ public class ChatService implements IChatService {
     @Override
     public ChatRoomName addUserToChatRoom(Map<String, String> inputMap, UserModel userModel){
 
-        Integer chatRoomId = Integer.parseInt(inputMap.get("chatroom"));
+        Integer chatRoomId;
+        LOGGER.debug(inputMap.toString());
+
+        try {
+            chatRoomId = Integer.parseInt(inputMap.get("chatroom"));
+
+        } catch (NumberFormatException e){
+
+            LOGGER.error("Chat room id is:" + inputMap.get("chatroom"));
+            throw new NoQueryResultException("Cannot find chat room ID");
+        }
 
         UserModel aite = userDAO.findUserById(Integer.parseInt(inputMap.get("id")));
 
@@ -228,7 +252,7 @@ public class ChatService implements IChatService {
         }
 
         ChatRoom chatRoom = chatDAO.findChatRoom(chatRoomId);
-        LOGGER.debug("Chaech chat room id: " + chatRoomId);
+        LOGGER.debug("search chat room id: " + chatRoomId);
 
         ChatRoomToUser crtu = new ChatRoomToUser(null, aite, chatRoom);
 

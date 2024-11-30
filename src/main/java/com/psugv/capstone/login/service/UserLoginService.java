@@ -16,6 +16,11 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * This class contains all business logic of users operation to their own data.
+ *
+ * Author: Chuan Wei
+ */
 @Service
 @Transactional
 @EnableTransactionManagement

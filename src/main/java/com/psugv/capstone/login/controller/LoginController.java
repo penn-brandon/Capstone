@@ -2,7 +2,9 @@ package com.psugv.capstone.login.controller;
 
 
 import com.psugv.capstone.exception.InsertErrorException;
+import com.psugv.capstone.login.model.UserModel;
 import com.psugv.capstone.login.service.ILoginService;
+import com.psugv.capstone.util.ChatServer;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
@@ -18,8 +20,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This is controller class that deals with the login and registration
+ *
+ * Author: Chuan Wei
+ */
 @Controller
 @Component
+@SessionAttributes("userModel")
 public class LoginController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
@@ -53,17 +61,15 @@ public class LoginController {
         return "/open/signup";
     }
 
-
-
-        @GetMapping(path="/logout")
-        public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            if (auth != null){
-
-                new SecurityContextLogoutHandler().logout(request, response, auth);
-            }
-            return "redirect:/index";
+    @GetMapping(path="/logout")
+    public String logoutPage (HttpServletRequest request, HttpServletResponse response, @SessionAttribute("userModel") UserModel userModel) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null){
+            new SecurityContextLogoutHandler().logout(request, response, auth);
         }
+        ChatServer.removeFromOnlineUserPool(userModel.getId());
+        return "redirect:/index";
+    }
 
     @PostMapping(path = "/register")
     /*

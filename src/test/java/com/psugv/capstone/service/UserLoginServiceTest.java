@@ -1,5 +1,6 @@
 package com.psugv.capstone.service;
 
+import com.psugv.capstone.exception.NoQueryResultException;
 import com.psugv.capstone.login.service.ILoginService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,8 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class UserLoginServiceTest {
@@ -32,6 +32,8 @@ public class UserLoginServiceTest {
     public void analyzeLogin() {
         assertEquals(loginService.getUserByUsername("weichuan"), loginService.getUserByUsername("weichuan"));
         assertNotEquals(loginService.getUserByUsername("weichuan"), loginService.getUserByUsername("robot"));
+
+        NoQueryResultException e = assertThrows(NoQueryResultException.class, ()->loginService.getUserByUsername("bot"));
     }
 
     @Test

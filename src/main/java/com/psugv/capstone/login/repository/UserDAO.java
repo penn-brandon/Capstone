@@ -11,6 +11,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+/**
+ * This data access object class is for user operation related to DB.
+ *
+ * Author: Chuan Wei
+ */
 @Repository
 public class UserDAO implements IUserDAO {
 
@@ -32,7 +37,7 @@ public class UserDAO implements IUserDAO {
 
         } catch (NoResultException e) {
 
-            LOGGER.error("Fail to load user by user name!!!", e);
+            LOGGER.error("Fail to load user by user name!!! Username: " + userName, e);
             throw new NoQueryResultException("username: " + userName + " not found");
         }
 
@@ -69,7 +74,7 @@ public class UserDAO implements IUserDAO {
 
             entityManager.createNativeQuery(sql).executeUpdate();
 
-        } catch (NoResultException e) {
+        } catch (Exception e) {
 
             LOGGER.error(e.getMessage(), e);
             throw new NoQueryResultException("Fail to create chat room name name!!!");

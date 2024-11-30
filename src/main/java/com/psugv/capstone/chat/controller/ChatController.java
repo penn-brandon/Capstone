@@ -6,6 +6,7 @@ import com.psugv.capstone.chat.service.IChatService;
 import com.psugv.capstone.exception.NoQueryResultException;
 import com.psugv.capstone.login.model.UserModel;
 import com.psugv.capstone.login.service.ILoginService;
+import com.psugv.capstone.util.ChatServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This controller class is for every function relating to chat.
+ *
+ * Author: Chuan Wei
+ */
 @Controller
 @SessionAttributes({"userModel", "chatRoomName"})
 public class ChatController {
@@ -42,7 +48,7 @@ public class ChatController {
         UserModel userModel = loginService.getUserByUsername(username);
         model.addAttribute("userModel", userModel);
 
-        chatService.deselectChatRoom(userModel);
+        ChatServer.loginCheckin(userModel.getId());
 
         return "/main/chat";
     }
@@ -111,7 +117,7 @@ public class ChatController {
     }
 
     @GetMapping(path = "/loadAllChatRoomName", produces = "application/json")
-    public @ResponseBody List<ChatRoomName> loadAllChatRoomName(UserModel userModel) {
+    public @ResponseBody List<ChatRoomName> loadAllChatRoomName(@SessionAttribute("userModel") UserModel userModel) {
 
         return chatService.getAllChatRoomName(userModel);
     }
@@ -145,7 +151,7 @@ public class ChatController {
      *                 key chatroom, value chatroom id
      */
     @PostMapping(path = "/addUserToChatRoom", consumes = "application/json")
-    public @ResponseBody ChatRoomName addUserToChatRoom(@RequestHeader Map<String, String> inputMap, @SessionAttribute("userModel") UserModel userModel, Model model) {
+    public @ResponseBody ChatRoomName addUserToChatRoom(@RequestBody Map<String, String> inputMap, @SessionAttribute("userModel") UserModel userModel, Model model) {
 
         ChatRoomName newchatRoomName = chatService.addUserToChatRoom(inputMap, userModel);
 

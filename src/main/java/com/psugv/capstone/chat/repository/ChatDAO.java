@@ -18,6 +18,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * This is data access object class.
+ * It's used to provide interaction to DB that service class need.
+ *
+ * Author: Chuan Wei
+ */
 @Repository
 public class ChatDAO implements IChatDAO {
 
@@ -168,20 +174,6 @@ public class ChatDAO implements IChatDAO {
     public void updateChatRoomName(UserModel userModel, Boolean admin, Integer chatRoomId, String name, Integer id){
 
         LOGGER.debug("Update chat room name DAO");
-/*
-        String sql = "update `" + userModel.getId() + CHAT_ROOM_NAME_POSTFIX +
-                "` set admin=" + chatRoomName.getAdmin() +
-                ",chat_room_id=" + chatRoomName.getChatRoom().getId() +
-                ",chat_room_name=\'" + name + "\'" +
-                ",last_modified=CURRENT_TIMESTAMP " +
-                "where chat_room_name_id=" + chatRoomName.getId() +";";
-
-        String sql = "update " + userModel.getId() + CHAT_ROOM_NAME_POSTFIX +
-                " set admin=false,chat_room_id=" + chatRoomName.getChatRoom().getId() +
-                ",chat_room_name='" + name +
-                "',last_modified=CURRENT_TIMESTAMP " +
-                "where chat_room_name_id=" + chatRoomName.getId() + ";";
- */
         String tableName = userModel.getId() + CHAT_ROOM_NAME_POSTFIX;
 
         String sql = "update `" + tableName +

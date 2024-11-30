@@ -222,10 +222,13 @@ async function addUserToChatRoom(chat_room_id, username, user_id, name) {
         method: 'POST',
         headers: {
             "Content-Type": "application/json",
+
+        },
+        body: JSON.stringify({
             "chatroom": chat_room_id.toString(),
-            "id": user_id.toString()
-        }
+            "id": user_id.toString()})
     });
+
     if (!response.ok) {
         console.log("ERROR: " + response.status);
     }

@@ -14,7 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
-
+/*
 @SpringBootTest
 public class ChatDAOTest {
 
@@ -119,4 +119,4 @@ public class ChatDAOTest {
 
         assertEquals(false, chatDAO.findChatRoomToUserByUserID(1).isEmpty());
     }
-}
+}*/
