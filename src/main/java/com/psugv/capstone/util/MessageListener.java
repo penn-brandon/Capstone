@@ -12,9 +12,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * This is the listener class that will pass the massage received from the server to the view.
+ * This is the listener class that will pass the message received from the server to the view.
  * Each session from user will have one listener to serve.
- *
  * Author: Chuan Wei
  */
 @Component

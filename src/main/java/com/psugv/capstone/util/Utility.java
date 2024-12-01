@@ -7,7 +7,6 @@ import java.util.*;
 
 /**
  * The class provide utility functions that can be used generally.
- *
  * Author: Chuan Wei
  */
 public class Utility {

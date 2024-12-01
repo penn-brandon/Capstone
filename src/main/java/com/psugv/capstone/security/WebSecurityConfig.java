@@ -14,7 +14,6 @@ import org.springframework.security.web.SecurityFilterChain;
 
 /**
  * This class is web security configuration for controlling access to the backend server.
- *
  * Author: Chuan Wei
  */
 @EnableWebSecurity

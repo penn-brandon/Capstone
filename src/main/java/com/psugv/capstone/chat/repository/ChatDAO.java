@@ -170,7 +170,7 @@ public class ChatDAO implements IChatDAO {
 
         try{
             String sql = "from user where username like '%" + input + "%'";
-            LOGGER.trace("sql: {}", sql.toString());
+            LOGGER.trace("sql: {}", sql);
 
             result = entityManager.createQuery(sql, UserModel.class).getResultList();
 
@@ -194,7 +194,7 @@ public class ChatDAO implements IChatDAO {
                 ", chat_room_name = ?" +
                 ", last_modified = CURRENT_TIMESTAMP " +
                 "where chat_room_name_id = ?";
-        LOGGER.debug("SQL string: " + sql);
+        LOGGER.debug("SQL string: {}", sql);
 
         try {
             Query query = entityManager.createNativeQuery(sql);
@@ -341,7 +341,7 @@ public class ChatDAO implements IChatDAO {
                 " senderId int not null," +
                 " sender varchar(225) not null," +
                 "  FOREIGN KEY (senderId) REFERENCES User (user_id));";
-        LOGGER.trace("SQL: " + sql);
+        LOGGER.trace("SQL: {}", sql);
 
         try{
             Query query = entityManager.createNativeQuery(sql);

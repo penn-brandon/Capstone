@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 
 /**
  * This is an entity class that represent authorization of users.
- *
  *Author: Chuan Wei
  */
 @Entity(name = "authorities")

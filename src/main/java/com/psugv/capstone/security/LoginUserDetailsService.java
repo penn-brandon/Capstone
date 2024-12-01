@@ -2,7 +2,6 @@ package com.psugv.capstone.security;
 
 import com.psugv.capstone.login.model.UserModel;
 import com.psugv.capstone.login.repository.IUserDAO;
-import com.psugv.capstone.util.ChatServer;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 /**
  * This class implements userdetailsservice of spring security to load user data by given username.
- *
  * Author: Chuan Wei
  */
 @Service

@@ -15,7 +15,6 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 
 /**
  * This class is configuration of web socket for the purpose to build a stateful connection with view.
- *
  * Author: Chuan Wei
  */
 @Configuration

@@ -32,4 +32,7 @@ public class ChatRoom {
         this.joinable = joinable;
     }
 
+    public Integer getId() {
+        return id;
+    }
 }

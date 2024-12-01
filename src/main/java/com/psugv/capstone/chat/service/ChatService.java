@@ -28,7 +28,6 @@ import java.util.Map;
 /**
  * This is the service class containing the major business logic.
  * It should be invoked by controller.
- *
  * Author: Chuan Wei
  */
 @Service
@@ -68,7 +67,7 @@ public class ChatService implements IChatService {
 
         LOGGER.trace("In ChatService selectChatRoom method");
         int chatRoomId = Integer.parseInt(chatRoomID);
-        LOGGER.debug("Find chat room id: " + chatRoomId);
+        LOGGER.debug("Find chat room id: {}", chatRoomId);
 
         ChatRoom cr = chatDAO.findChatRoom(chatRoomId);
 
@@ -131,23 +130,23 @@ public class ChatService implements IChatService {
         Getting both user id to compare if there is existing chat room.
          */
         Integer aitaID = Integer.parseInt(inputMap.get("id"));
-        LOGGER.trace("Id of the user used to create new chat:" + aitaID);
+        LOGGER.trace("Id of the user used to create new chat:{}", aitaID);
 
         Integer jibunnId = userModel.getId();
-        LOGGER.trace("My ID:" + jibunnId);
+        LOGGER.trace("My ID:{}", jibunnId);
 
         LOGGER.trace("Finding all chat room for both users");
         List<ChatRoomToUser> aitaIDChatRoomToUser = new ArrayList<>(chatDAO.findChatRoomToUserByUserID(aitaID));
 
         List<ChatRoomToUser> jibunnIdChatRoomToUser = new ArrayList<>(chatDAO.findChatRoomToUserByUserID(jibunnId));
 
-        List<Integer> cummonChatRoomID;
+        List<Integer> commonChatRoomID;
 
         LOGGER.trace("Checking non of them are empty.");
         if(aitaIDChatRoomToUser == null || jibunnIdChatRoomToUser == null || aitaIDChatRoomToUser.isEmpty() || jibunnIdChatRoomToUser.isEmpty()){
 
             LOGGER.debug("no common chat room ID");
-            cummonChatRoomID = new LinkedList<>();
+            commonChatRoomID = new LinkedList<>();
 
         } else {
 
@@ -155,30 +154,26 @@ public class ChatService implements IChatService {
             List<Integer> aitaChatRoomIDList = new LinkedList<>();
 
             LOGGER.debug("create ID list for added user");
-            for (int i =0 ; i < aitaIDChatRoomToUser.size(); i++) {
-
-                ChatRoomToUser aita = aitaIDChatRoomToUser.get(i);
+            for (ChatRoomToUser aita : aitaIDChatRoomToUser) {
 
                 Integer tempID = aita.getChatRoom().getId();
 
-                LOGGER.trace(tempID + "\n");
+                LOGGER.trace("{}\n", tempID);
                 aitaChatRoomIDList.add(tempID);
             }
 
             List<Integer> jibunnChatRoomIDList = new LinkedList<>();
 
             LOGGER.debug("create ID list for user");
-            for (int i = 0; i < jibunnIdChatRoomToUser.size(); i++) {
-
-                ChatRoomToUser jibunn = jibunnIdChatRoomToUser.get(i);
+            for (ChatRoomToUser jibunn : jibunnIdChatRoomToUser) {
 
                 Integer tempID = jibunn.getChatRoom().getId();
 
-                LOGGER.trace(tempID + "\n");
+                LOGGER.trace("{}\n", tempID);
                 jibunnChatRoomIDList.add(tempID);
             }
-            cummonChatRoomID = Utility.commonIdComparator(aitaChatRoomIDList, jibunnChatRoomIDList);
-            LOGGER.trace("Common ID list got: " + cummonChatRoomID.toString());
+            commonChatRoomID = Utility.commonIdComparator(aitaChatRoomIDList, jibunnChatRoomIDList);
+            LOGGER.trace("Common ID list got: {}", commonChatRoomID);
         }
         ChatRoomName crn = null;
 
@@ -186,9 +181,9 @@ public class ChatService implements IChatService {
         there is common chat room, check is it's specific for two people.
          */
         LOGGER.debug("Check common chat room");
-        if(!cummonChatRoomID.isEmpty()){
+        if(!commonChatRoomID.isEmpty()){
 
-            for (Integer integer : cummonChatRoomID) {
+            for (Integer integer : commonChatRoomID) {
 
                 List<ChatRoomToUser>  crtuList = chatDAO.findChatRoomToUserByChatRoom(integer);
 

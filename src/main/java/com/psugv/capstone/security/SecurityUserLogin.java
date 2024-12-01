@@ -16,7 +16,6 @@ import java.util.Set;
 
 /**
  * This class implements userdetails of spring security to gathering all required fields.
- *
  * Author: Chuan Wei
  */
 @Component

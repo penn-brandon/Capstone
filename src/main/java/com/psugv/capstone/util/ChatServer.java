@@ -11,8 +11,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * This is a server class that manage the online ysers chat rooms they are listening to.
- *
+ * This is a server class that manage the online users chat rooms they are listening to.
  * Author: Chuan Wei
  */
 @Component
@@ -144,13 +143,7 @@ public class ChatServer {
                         continue;
                     }
                     LOGGER.debug("Sent message to the listener of {}", listener.getUser().getUsername());
-                    Thread thread = new Thread(new Runnable() {
-
-                        public void run() {
-
-                            listener.setMessage(message, name);
-                        }
-                    });
+                    Thread thread = new Thread(() -> listener.setMessage(message, name));
                     threads.add(thread);
                 }
                 for (Thread thread : threads) {
@@ -178,11 +171,7 @@ public class ChatServer {
 
     public synchronized static boolean alreadyLogin(Integer userId) {
 
-        if(ONLINE_USER_POOL.containsKey(userId)) {
-
-            return true;
-        }
-        return false;
+        return ONLINE_USER_POOL.containsKey(userId);
     }
 
     public synchronized static void loginCheckin(Integer userId) {

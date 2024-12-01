@@ -8,13 +8,11 @@ import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
 /**
  * This is an entity class that represent the user
- *
  * Author: Chuan Wei and Brandon Alker
  */
 @Entity(name = "user")
@@ -38,6 +36,7 @@ public class UserModel implements Serializable {
     @JsonIgnore
     private String password;
 
+    @Getter
     @Setter
     private Date date_of_creation;
 
@@ -71,10 +70,6 @@ public class UserModel implements Serializable {
     }
 
     public UserModel() {
-    }
-
-    public Date getDate_of_creation() {
-        return date_of_creation;
     }
 
     public Boolean getEnable() {

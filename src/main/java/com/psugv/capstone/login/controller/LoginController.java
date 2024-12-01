@@ -22,7 +22,6 @@ import java.util.Map;
 
 /**
  * This is controller class that deals with the login and registration
- *
  * Author: Chuan Wei
  */
 @Controller

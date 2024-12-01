@@ -16,7 +16,6 @@ import org.springframework.stereotype.Component;
 
 /**
  * This class implement the authemticationprovide of spring security to allow user to login.
- *
  * Author: Chuan Wei
  */
 @Component
@@ -39,7 +38,7 @@ public class LoginAuthenticationProvider implements AuthenticationProvider {
         UserDetails user = loginUserDetailService.loadUserByUsername(username);
 
         System.out.println("input password: " + pwd);
-        System.out.println("uesr password: " + user.getPassword());
+        System.out.println("user password: " + user.getPassword());
 
         if (passwordEncoder.matches(pwd, user.getPassword())) {
             System.out.println("Login successful");
