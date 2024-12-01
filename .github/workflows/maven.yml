@@ -9,6 +9,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment:
+      DB_URL: jdbc:mysql://psugvsecapstone-psugvsecapstone.f.aivencloud.com:26571
+      DB_USERNAME: capstone
+      DB_PASSWORD: capstone
     steps:
     - uses: actions/checkout@v4
     - name: Set up JDK 17.0.12
