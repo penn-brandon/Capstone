@@ -6,6 +6,7 @@ import com.psugv.capstone.chat.service.IChatService;
 import com.psugv.capstone.exception.NoQueryResultException;
 import com.psugv.capstone.login.model.UserModel;
 import com.psugv.capstone.login.service.ILoginService;
+import com.psugv.capstone.util.ChatServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This controller class is for every function relating to chat.
+ *
+ * Author: Chuan Wei
+ */
 @Controller
 @SessionAttributes({"userModel", "chatRoomName"})
 public class ChatController {
@@ -34,6 +40,7 @@ public class ChatController {
     @GetMapping(path = "/chat")
     public String toChatPage(Model model) {
 
+        LOGGER.trace("toChatPage");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
 
@@ -42,7 +49,7 @@ public class ChatController {
         UserModel userModel = loginService.getUserByUsername(username);
         model.addAttribute("userModel", userModel);
 
-        chatService.deselectChatRoom(userModel);
+        ChatServer.loginCheckin(userModel.getId());
 
         return "/main/chat";
     }
@@ -54,6 +61,7 @@ public class ChatController {
     @PostMapping(path = "/send", consumes = "application/json")
     public @ResponseBody String sendMessage(@RequestBody Map<String, String> inputMap, @SessionAttribute UserModel userModel) {
 
+        LOGGER.trace("sendMessage");
         if (inputMap.get("message") == null || inputMap.get("message").isEmpty() || inputMap.get("room") == null || inputMap.get("room").isEmpty()) {
 
             LOGGER.debug("message: {}", inputMap.get("message"));
@@ -70,6 +78,7 @@ public class ChatController {
     @GetMapping(path = "/select")
     public String selectChatBox(@RequestHeader String chatRoomID, @SessionAttribute("userModel") UserModel userModel, Model model) {
 
+        LOGGER.trace("selectChatBox");
         ChatRoomName result;
 
         LOGGER.debug("Incoming chat room ID is: {}", chatRoomID);
@@ -96,6 +105,7 @@ public class ChatController {
     @GetMapping(path = "/loadMessage", produces = "application/json")
     public @ResponseBody List<Message> loadHistoryMessage(@SessionAttribute("chatRoomName") ChatRoomName chatRoomName) {
 
+        LOGGER.trace("loadHistoryMessage");
         List<Message> result;
 
         Integer chatRoomId = chatRoomName.getChatRoom().getId();
@@ -111,14 +121,16 @@ public class ChatController {
     }
 
     @GetMapping(path = "/loadAllChatRoomName", produces = "application/json")
-    public @ResponseBody List<ChatRoomName> loadAllChatRoomName(UserModel userModel) {
+    public @ResponseBody List<ChatRoomName> loadAllChatRoomName(@SessionAttribute("userModel") UserModel userModel) {
 
+        LOGGER.trace("loadAllChatRoomName");
         return chatService.getAllChatRoomName(userModel);
     }
 
     @PostMapping(path = "/searchUsers", produces = "application/json")
     public @ResponseBody List<UserModel> searchUser(@RequestHeader String username) {
 
+        LOGGER.trace("searchUser");
         LOGGER.debug("Search user controller");
         return chatService.searchUser(username);
     }
@@ -131,6 +143,7 @@ public class ChatController {
     @PostMapping(path = "/createNewChatRoom", consumes = "application/json", produces = "application/json")
     public @ResponseBody ChatRoomName createNewChatRoom(@RequestBody Map<String, String> inputMap, @SessionAttribute("userModel") UserModel userModel, Model model) {
 
+        LOGGER.trace("createNewChatRoom");
         ChatRoomName newchatRoomName = chatService.createChatRoom(inputMap, userModel);
 
         model.addAttribute("chatRoomName", newchatRoomName);
@@ -145,8 +158,9 @@ public class ChatController {
      *                 key chatroom, value chatroom id
      */
     @PostMapping(path = "/addUserToChatRoom", consumes = "application/json")
-    public @ResponseBody ChatRoomName addUserToChatRoom(@RequestHeader Map<String, String> inputMap, @SessionAttribute("userModel") UserModel userModel, Model model) {
+    public @ResponseBody ChatRoomName addUserToChatRoom(@RequestBody Map<String, String> inputMap, @SessionAttribute("userModel") UserModel userModel, Model model) {
 
+        LOGGER.trace("addUserToChatRoom");
         ChatRoomName newchatRoomName = chatService.addUserToChatRoom(inputMap, userModel);
 
         model.addAttribute("chatRoomName", newchatRoomName);

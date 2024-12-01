@@ -8,7 +8,7 @@ import com.psugv.capstone.login.model.UserModel;
 
 import java.util.List;
 
-public interface IChatDAO {
+public interface IChatDAO{
 
     List<ChatRoomName> getAllChatroomName(Integer userId);
 

@@ -4,7 +4,11 @@ package com.psugv.capstone.login.model;
 import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
 
-
+/**
+ * This is an entity class that represent authorization of users.
+ *
+ *Author: Chuan Wei
+ */
 @Entity(name = "authorities")
 @Table(name = "authorities")
 @Component("authorities")

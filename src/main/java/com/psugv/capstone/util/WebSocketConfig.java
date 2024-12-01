@@ -13,11 +13,13 @@ import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBr
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
+/**
+ * This class is configuration of web socket for the purpose to build a stateful connection with view.
+ *
+ * Author: Chuan Wei
+ */
 @Configuration
 @EnableWebSocketMessageBroker
-/*
-Configure to refresh the socket before time out.
- */
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(WebSocketConfig.class);

@@ -14,6 +14,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+/**
+ * This class implement the authemticationprovide of spring security to allow user to login.
+ *
+ * Author: Chuan Wei
+ */
 @Component
 public class LoginAuthenticationProvider implements AuthenticationProvider {
 

@@ -7,7 +7,12 @@ import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
-
+/**
+ * This is an entity class for user to define their own chat room name.
+ * But due to time constraint, we do not allow user to edit their own chat room name.
+ *
+ *Author: Chuan Wei and Brandon Alker
+ */
 @Entity
 @Component("chatRoomName")
 public class ChatRoomName {

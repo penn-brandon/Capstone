@@ -8,9 +8,15 @@ import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+/**
+ * This is an entity class that represent the user
+ *
+ * Author: Chuan Wei and Brandon Alker
+ */
 @Entity(name = "user")
 @Table(name = "user")
 @Component("user")
