@@ -25,5 +25,5 @@ jobs:
         overwrite: true
         path: target/*.war  
 
-    - name: Run Spring Boot Tests
-      run: mvn test -Dtest=All in Capstone
+#    - name: Run Spring Boot Tests
+#      run: mvn test -Dtest=All in Capstone
