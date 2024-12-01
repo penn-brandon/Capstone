@@ -337,10 +337,10 @@ public class ChatDAO implements IChatDAO {
         String sql = "create table " +  chatRoomId + MESSAGE_POSTFIX +
                 " (message_id SERIAL primary key not null," +
                 " time DATETIME not null DEFAULT CURRENT_TIMESTAMP," +
-                " content varchar(225) not null," +
+                " content TEXT not null," +
                 " senderId int not null," +
                 " sender varchar(225) not null," +
-                "  FOREIGN KEY (senderId) REFERENCES User (user_id));";
+                "  FOREIGN KEY (senderId) REFERENCES user (user_id));";
         LOGGER.trace("SQL: " + sql);
 
         try{

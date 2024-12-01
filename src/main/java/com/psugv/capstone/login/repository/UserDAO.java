@@ -77,7 +77,7 @@ public class UserDAO implements IUserDAO {
                     "chat_room_name_id SERIAL PRIMARY KEY NOT NULL," +
                     "chat_room_id INT NOT NULL," +
                     "admin BOOLEAN NOT NULL," +
-                    "chat_room_name TEXT NOT NULL," +
+                    "chat_room_name TINYTEXT NOT NULL," +
                     "last_modified DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP," +
                     "FOREIGN KEY (chat_room_id) REFERENCES ChatRoom (chat_room_id));";
             LOGGER.debug("Sql: " + sql);

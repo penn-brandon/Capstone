@@ -63,9 +63,9 @@ insert into authorities (user_id,
 values (4,
         'NORMAL');
 
-insert into chatroom(joinable)
+insert into ChatRoom(joinable)
 values (FALSE);
-insert into chatroom(joinable)
+insert into ChatRoom(joinable)
 values (FALSE);
-insert into chatroom(joinable)
+insert into ChatRoom(joinable)
 values (FALSE);

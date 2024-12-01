@@ -2,7 +2,9 @@ name: Build War File
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
+      - W_*
 
 jobs:
   build:
