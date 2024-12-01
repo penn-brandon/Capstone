@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.ApplicationContext;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,6 +17,14 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 public class UserLoginServiceTest {
 
+    @Autowired
+    private ApplicationContext applicationContext;
+
+    @Test
+    public void testBeanExists() {
+
+        assertTrue(applicationContext.containsBean("UserLoginService"));
+    }
 
     @Autowired
     private ILoginService loginService;

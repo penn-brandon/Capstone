@@ -40,6 +40,7 @@ public class ChatController {
     @GetMapping(path = "/chat")
     public String toChatPage(Model model) {
 
+        LOGGER.trace("toChatPage");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
 
@@ -60,6 +61,7 @@ public class ChatController {
     @PostMapping(path = "/send", consumes = "application/json")
     public @ResponseBody String sendMessage(@RequestBody Map<String, String> inputMap, @SessionAttribute UserModel userModel) {
 
+        LOGGER.trace("sendMessage");
         if (inputMap.get("message") == null || inputMap.get("message").isEmpty() || inputMap.get("room") == null || inputMap.get("room").isEmpty()) {
 
             LOGGER.debug("message: {}", inputMap.get("message"));
@@ -76,6 +78,7 @@ public class ChatController {
     @GetMapping(path = "/select")
     public String selectChatBox(@RequestHeader String chatRoomID, @SessionAttribute("userModel") UserModel userModel, Model model) {
 
+        LOGGER.trace("selectChatBox");
         ChatRoomName result;
 
         LOGGER.debug("Incoming chat room ID is: {}", chatRoomID);
@@ -102,6 +105,7 @@ public class ChatController {
     @GetMapping(path = "/loadMessage", produces = "application/json")
     public @ResponseBody List<Message> loadHistoryMessage(@SessionAttribute("chatRoomName") ChatRoomName chatRoomName) {
 
+        LOGGER.trace("loadHistoryMessage");
         List<Message> result;
 
         Integer chatRoomId = chatRoomName.getChatRoom().getId();
@@ -119,12 +123,14 @@ public class ChatController {
     @GetMapping(path = "/loadAllChatRoomName", produces = "application/json")
     public @ResponseBody List<ChatRoomName> loadAllChatRoomName(@SessionAttribute("userModel") UserModel userModel) {
 
+        LOGGER.trace("loadAllChatRoomName");
         return chatService.getAllChatRoomName(userModel);
     }
 
     @PostMapping(path = "/searchUsers", produces = "application/json")
     public @ResponseBody List<UserModel> searchUser(@RequestHeader String username) {
 
+        LOGGER.trace("searchUser");
         LOGGER.debug("Search user controller");
         return chatService.searchUser(username);
     }
@@ -137,6 +143,7 @@ public class ChatController {
     @PostMapping(path = "/createNewChatRoom", consumes = "application/json", produces = "application/json")
     public @ResponseBody ChatRoomName createNewChatRoom(@RequestBody Map<String, String> inputMap, @SessionAttribute("userModel") UserModel userModel, Model model) {
 
+        LOGGER.trace("createNewChatRoom");
         ChatRoomName newchatRoomName = chatService.createChatRoom(inputMap, userModel);
 
         model.addAttribute("chatRoomName", newchatRoomName);
@@ -153,6 +160,7 @@ public class ChatController {
     @PostMapping(path = "/addUserToChatRoom", consumes = "application/json")
     public @ResponseBody ChatRoomName addUserToChatRoom(@RequestBody Map<String, String> inputMap, @SessionAttribute("userModel") UserModel userModel, Model model) {
 
+        LOGGER.trace("addUserToChatRoom");
         ChatRoomName newchatRoomName = chatService.addUserToChatRoom(inputMap, userModel);
 
         model.addAttribute("chatRoomName", newchatRoomName);

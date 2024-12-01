@@ -6,17 +6,29 @@ import com.psugv.capstone.chat.model.ChatRoomToUser;
 import com.psugv.capstone.chat.repository.IChatDAO;
 import com.psugv.capstone.login.model.UserModel;
 import com.psugv.capstone.login.repository.IUserDAO;
+
 import org.junit.Test;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.ApplicationContext;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.annotation.Transactional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.*;
 /*
 @SpringBootTest
 public class ChatDAOTest {
+
+    @Autowired
+    private ApplicationContext applicationContext;
+
+    @Test
+    public void testBeanExists() {
+        assertTrue(applicationContext.containsBean("IUserDAO"));
+        assertTrue(applicationContext.containsBean("IChatDAO"));
+    }
 
     @Autowired
     private IChatDAO chatDAO;

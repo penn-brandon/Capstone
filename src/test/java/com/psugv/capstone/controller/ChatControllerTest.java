@@ -3,6 +3,7 @@ package com.psugv.capstone.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.psugv.capstone.chat.model.ChatRoom;
 import com.psugv.capstone.chat.model.ChatRoomName;
+import com.psugv.capstone.chat.model.Message;
 import com.psugv.capstone.login.model.UserAuthorityModel;
 import com.psugv.capstone.login.model.UserModel;
 import org.junit.jupiter.api.AfterEach;
@@ -88,6 +89,8 @@ public class ChatControllerTest {
     @Test
     public void analyzeLoadHistoryMessage() throws Exception{
 
+        Message m = new Message("123","me", um1, new Date());
+
         chatRoomName.setChatRoom(cr);
 
         MockHttpSession session = new MockHttpSession();
@@ -121,6 +124,12 @@ public class ChatControllerTest {
                         .with(user("weichuan").password("1234")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id").value("1"));
+
+        mockMvc.perform(post("/searchUsers")
+                        .header("username", "sdlif1")
+                        .with(user("weichuan").password("1234")))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isEmpty());
     }
 
     @Test
@@ -200,5 +209,7 @@ public class ChatControllerTest {
 
     ChatRoomName chatRoomName = new ChatRoomName(1, false, null, "Test", new Date());
 
-    UserModel um1 = new UserModel(1, "weichuan", "1234", "Chuan Wei", null, "male", true, new HashSet<UserAuthorityModel>());;
+    UserModel um1 = new UserModel(1, "weichuan", "1234", "Chuan Wei", null, "male", true, new HashSet<UserAuthorityModel>());
+
+    UserModel um2 = new UserModel(10, "weichuan", "1234", "Chuan Wei", null, "male", true, new HashSet<UserAuthorityModel>());;
 }

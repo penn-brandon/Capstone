@@ -50,6 +50,7 @@ public class ChatService implements IChatService {
     @Override
     public Boolean sendMessage(String message, UserModel userModel, String chatRoomId) {
 
+        LOGGER.trace("In ChatService sendMessage method");
         LOGGER.debug("User: {}, chat room: {}, send message: {}", userModel.getName(), chatRoomId, message);
         boolean insertion = chatDAO.insertMessage(message, userModel, chatRoomId);
 
@@ -65,6 +66,7 @@ public class ChatService implements IChatService {
     @Override
     public ChatRoomName selectChatRoom(String chatRoomID, UserModel userModel) {
 
+        LOGGER.trace("In ChatService selectChatRoom method");
         int chatRoomId = Integer.parseInt(chatRoomID);
         LOGGER.debug("Find chat room id: " + chatRoomId);
 
@@ -76,12 +78,13 @@ public class ChatService implements IChatService {
 
             throw new NoQueryResultException("No such chat room or chat room name!!!");
         }
+        LOGGER.trace("ChatRoom and ChatRoomName are not null^_^");
         chatDAO.updateChatRoomName(userModel, crn.getAdmin(), crn.getChatRoom().getId(), crn.getChatRoomName(), crn.getId());
 
-        LOGGER.info("Create new listener for new chat room");
+        LOGGER.debug("Create new listener for new chat room");
         MessageListener ml = new MessageListener(cr, crn, userModel, messagingTemplate);
 
-        LOGGER.info("Update new listener to server");
+        LOGGER.debug("Update new listener to server");
         ChatServer.updateOnlineUserPool(userModel.getId(), chatRoomId, ml);
 
         return crn;
@@ -97,6 +100,7 @@ public class ChatService implements IChatService {
     @Override
     public List<ChatRoomName> getAllChatRoomName (UserModel userModel){
 
+        LOGGER.trace("In ChatService getAllChatRoomName method");
         ChatServer.loginCheckin(userModel.getId());
 
         return chatDAO.getAllChatroomName(userModel.getId());
@@ -105,6 +109,7 @@ public class ChatService implements IChatService {
     @Override
     public List<UserModel> searchUser (String input){
 
+        LOGGER.trace("In ChatService searchUser method");
         List<UserModel> result;
 
         try {
@@ -121,20 +126,24 @@ public class ChatService implements IChatService {
     @Override
     public synchronized ChatRoomName createChatRoom (Map<String, String> inputMap, UserModel userModel){
 
-        LOGGER.debug("Create new chat room");
+        LOGGER.trace("In ChatService createChatRoom method");
         /*
         Getting both user id to compare if there is existing chat room.
          */
         Integer aitaID = Integer.parseInt(inputMap.get("id"));
+        LOGGER.trace("Id of the user used to create new chat:" + aitaID);
 
         Integer jibunnId = userModel.getId();
+        LOGGER.trace("My ID:" + jibunnId);
 
+        LOGGER.trace("Finding all chat room for both users");
         List<ChatRoomToUser> aitaIDChatRoomToUser = new ArrayList<>(chatDAO.findChatRoomToUserByUserID(aitaID));
 
         List<ChatRoomToUser> jibunnIdChatRoomToUser = new ArrayList<>(chatDAO.findChatRoomToUserByUserID(jibunnId));
 
         List<Integer> cummonChatRoomID;
 
+        LOGGER.trace("Checking non of them are empty.");
         if(aitaIDChatRoomToUser == null || jibunnIdChatRoomToUser == null || aitaIDChatRoomToUser.isEmpty() || jibunnIdChatRoomToUser.isEmpty()){
 
             LOGGER.debug("no common chat room ID");
@@ -145,30 +154,31 @@ public class ChatService implements IChatService {
             LOGGER.debug("Getting and comparing chat room ID");
             List<Integer> aitaChatRoomIDList = new LinkedList<>();
 
-            LOGGER.debug("aite chat room ID:\n");
+            LOGGER.debug("create ID list for added user");
             for (int i =0 ; i < aitaIDChatRoomToUser.size(); i++) {
 
                 ChatRoomToUser aita = aitaIDChatRoomToUser.get(i);
 
                 Integer tempID = aita.getChatRoom().getId();
 
-                LOGGER.debug(tempID + "\n");
+                LOGGER.trace(tempID + "\n");
                 aitaChatRoomIDList.add(tempID);
             }
 
             List<Integer> jibunnChatRoomIDList = new LinkedList<>();
 
-            LOGGER.debug("jibunn chat room ID:\n");
+            LOGGER.debug("create ID list for user");
             for (int i = 0; i < jibunnIdChatRoomToUser.size(); i++) {
 
                 ChatRoomToUser jibunn = jibunnIdChatRoomToUser.get(i);
 
                 Integer tempID = jibunn.getChatRoom().getId();
 
-                LOGGER.debug(tempID + "\n");
+                LOGGER.trace(tempID + "\n");
                 jibunnChatRoomIDList.add(tempID);
             }
             cummonChatRoomID = Utility.commonIdComparator(aitaChatRoomIDList, jibunnChatRoomIDList);
+            LOGGER.trace("Common ID list got: " + cummonChatRoomID.toString());
         }
         ChatRoomName crn = null;
 
@@ -184,18 +194,22 @@ public class ChatService implements IChatService {
 
                 if (crtuList.size() == 2) {
 
+                    LOGGER.trace("If the size is 2 means they have already have chat room");
                     LOGGER.debug("Exact chat room found!!");
                     crn = selectChatRoom(integer.toString(), userModel);
                 }
             }
         }
+        LOGGER.trace("If chat room not found means there are no existing chat room.");
         if(crn == null){
 
             LOGGER.debug("create new chat room and new chat room name for both.");
             ChatRoom cr = chatDAO.createNewChatRoom();
 
+            LOGGER.trace("Create new message table for chat room");
             chatDAO.createNemMessage(cr.getId());
 
+            LOGGER.trace("Insert new ChatRoomName for added user by giving user's username");
             chatDAO.insertNewChatRoomName(cr, aitaID, userModel.getName());
 
             UserModel aite = userDAO.findUserById(aitaID);
@@ -204,12 +218,14 @@ public class ChatService implements IChatService {
 
             chatDAO.insertChatRoomToUser(aiteRow);
 
+            LOGGER.trace("Insert new ChatRoomName for user by giving added user's username");
             chatDAO.insertNewChatRoomName(cr, jibunnId, inputMap.get("name"));
 
             ChatRoomToUser jibunnRow = new ChatRoomToUser(null, userModel, cr);
 
             chatDAO.insertChatRoomToUser(jibunnRow);
 
+            LOGGER.trace("Returning chat room for user");
             crn = selectChatRoom(cr.getId().toString(), userModel);
         }
 
@@ -219,16 +235,19 @@ public class ChatService implements IChatService {
     @Override
     public void deselectChatRoom (UserModel userModel){
 
+        LOGGER.trace("In ChatService deselectChatRoom method");
         ChatServer.removeFromOnlineUserPool(userModel.getId());
     }
 
     @Override
     public ChatRoomName addUserToChatRoom(Map<String, String> inputMap, UserModel userModel){
 
+        LOGGER.trace("In ChatService addUserToChatRoom method");
         Integer chatRoomId;
         LOGGER.debug(inputMap.toString());
 
         try {
+            LOGGER.trace("Get ChatRoom ID");
             chatRoomId = Integer.parseInt(inputMap.get("chatroom"));
 
         } catch (NumberFormatException e){
@@ -237,6 +256,7 @@ public class ChatService implements IChatService {
             throw new NoQueryResultException("Cannot find chat room ID");
         }
 
+        LOGGER.trace("get added user's ID");
         UserModel aite = userDAO.findUserById(Integer.parseInt(inputMap.get("id")));
 
         /*
@@ -244,20 +264,27 @@ public class ChatService implements IChatService {
          */
         ChatRoomName crn = null;
 
+        LOGGER.trace("Get existing chat room name of added user.");
         crn = chatDAO.findChatRoomName(aite.getId(), chatRoomId);
 
         if(crn != null){
 
+            LOGGER.trace("Added user already in the chat room");
             return crn;
         }
 
         ChatRoom chatRoom = chatDAO.findChatRoom(chatRoomId);
         LOGGER.debug("search chat room id: " + chatRoomId);
 
+        LOGGER.trace("Adding added user to chat room");
         ChatRoomToUser crtu = new ChatRoomToUser(null, aite, chatRoom);
 
         chatDAO.insertChatRoomToUser(crtu);
 
+        LOGGER.trace("Finding all users in the chat room");
+        /*
+        To change the chat room name for all user.
+         */
         List<ChatRoomToUser> chatRoomIdChatRoomToUser = chatDAO.findChatRoomToUserByChatRoom(chatRoom.getId());
 
         List<UserModel> userList = new LinkedList<>();
@@ -266,9 +293,9 @@ public class ChatService implements IChatService {
 
             userList.add(userDAO.findUserById(temp.getUserModel().getId()));
         }
-
         StringBuilder sb = new StringBuilder();
 
+        LOGGER.trace("Concactinating names of user");
         for (int i = 0; i < 3; i++){
 
             sb.append(userList.get(i).getName());
@@ -283,29 +310,32 @@ public class ChatService implements IChatService {
 
         String newName = sb.toString();
 
+        LOGGER.trace("Changing the name by delete and insert new row.");
         LOGGER.debug("insert for new comer");
         chatDAO.insertNewChatRoomName(chatRoom, aite.getId(), newName);
 
+        LOGGER.debug("delete and insert new row for existing user.");
         for(UserModel um: userList){
 
             if(um.getId().equals(aite.getId())){
-
+            LOGGER.trace("Skipping new user");
                 continue;
             }
             LOGGER.debug("current user is: " + um.getId());
             LOGGER.debug("current chat room is: " + chatRoomId);
             ChatRoomName tempCRN = chatDAO.findChatRoomName(um.getId(), chatRoomId);
 
-            LOGGER.debug("tempCRN is null? " + (tempCRN == null));
+            LOGGER.trace("tempCRN is null? " + (tempCRN == null));
             if(tempCRN == null) {
 
-                LOGGER.debug("tempCRN null: " + (tempCRN == null));
                 throw new RuntimeException("tempCRN is null");
             }
+            LOGGER.trace("Updating existing chat room name");
             chatDAO.deleteChatRoomName(tempCRN.getId(), um.getId());
 
             chatDAO.insertNewChatRoomName(tempCRN.getChatRoom(), um.getId(), newName);
         }
+        LOGGER.trace("Returning chat room name");
         return chatDAO.findChatRoomName(userModel.getId(), chatRoomId);
     }
 }
