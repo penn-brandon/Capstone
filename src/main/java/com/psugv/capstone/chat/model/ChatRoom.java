@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 @Component("chatroom")
 public class ChatRoom {
 
+    @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "chat_room_id")
@@ -32,7 +33,4 @@ public class ChatRoom {
         this.joinable = joinable;
     }
 
-    public Integer getId() {
-        return id;
-    }
 }
