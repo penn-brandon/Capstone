@@ -203,7 +203,7 @@
                             <goal>prepare-agent</goal>
                     <!--                         </goals>
                                         </execution>
-                                         After-test phase to generate coverage reports 
+                                         After-test phase to generate coverage reports
                     <execution>
                         <goals>-->
                             <goal>report</goal>

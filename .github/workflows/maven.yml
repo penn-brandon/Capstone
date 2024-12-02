@@ -31,7 +31,7 @@ jobs:
       run: mvn test -Dtest="*Test"
 
     - name: Run Tests and Generate Coverage
-      run: mvn test jacoco:report
+      run: mvn jacoco:report
 
       # Upload JaCoCo coverage report
     - name: Upload Coverage Report
