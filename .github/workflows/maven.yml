@@ -34,5 +34,5 @@ jobs:
 #        chmod 700 ./scripts/envvar.sh
 
 
-#    - name: Run Spring Boot Tests
-#      run: mvn test -Dtest=All in Capstone
+    - name: Run Spring Boot Tests
+      run: mvn test -Dtest=All in Capstone
