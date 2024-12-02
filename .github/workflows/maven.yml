@@ -35,4 +35,4 @@ jobs:
 
 
     - name: Run Spring Boot Tests
-      run: mvn test -Dtest=All in Capstone
+      run: mvn test -Dtest="*Test"
