@@ -201,11 +201,11 @@
                     <execution>
                         <goals>
                             <goal>prepare-agent</goal>
-                        </goals>
-                    </execution>
-                    <!-- After-test phase to generate coverage reports -->
+                    <!--                         </goals>
+                                        </execution>
+                                         After-test phase to generate coverage reports 
                     <execution>
-                        <goals>
+                        <goals>-->
                             <goal>report</goal>
                         </goals>
                         <phase>verify</phase> <!-- Generates the report in the verify phase -->
