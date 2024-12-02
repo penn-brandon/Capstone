@@ -77,7 +77,7 @@ public class CreateDBEnvironment {
 
             implementScript(initializeTestingTablesFilePath);
 
-            implementScript(insertTablesFilePath);
+            //implementScript(insertTablesFilePath);
 
             implementScript(insertTestingTablesFilePath);
 
