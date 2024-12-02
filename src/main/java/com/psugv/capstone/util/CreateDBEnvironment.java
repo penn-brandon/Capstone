@@ -71,7 +71,6 @@ public class CreateDBEnvironment {
             scriptRunner = new ScriptRunner(connection);
 
             LOGGER.info("Implementing set up method");
-
             implementScript(dropTablesFilePath);
 
             implementScript(initializeTablesFilePath);
@@ -90,15 +89,16 @@ public class CreateDBEnvironment {
 
     private void implementScript(String filePath) {
 
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+        File f = new File(filePath);
+        LOGGER.debug("check file path of the project is : {}", f.getAbsolutePath());
+
+        try (BufferedReader br = new BufferedReader(new FileReader(f))) {
 
             scriptRunner.runScript(br);
 
         } catch (Exception e) {
 
-            File f = new File(".");
-
-            LOGGER.error("Error file path of the project is : {}", f.getAbsolutePath() + filePath + "\n" + e.getMessage(), e);
+            LOGGER.error("Fail to run script file\n" + e.getMessage(), e);
         }
     }
 }
