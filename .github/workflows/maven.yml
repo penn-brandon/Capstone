@@ -27,12 +27,15 @@ jobs:
         overwrite: true
         path: target/*.war  
 
-#    - name: Execute Shell Script
-#      run:
-#        pwd
-#        ls
-#        chmod 700 ./scripts/envvar.sh
-
-
     - name: Run Spring Boot Tests
       run: mvn test -Dtest="*Test"
+
+    - name: Run Tests and Generate Coverage
+      run: mvn test jacoco:report
+
+      # Upload JaCoCo coverage report
+    - name: Upload Coverage Report
+      uses: actions/upload-artifact@v4
+      with:
+        name: jacoco-report
+        path: target/site/jacoco
