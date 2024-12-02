@@ -88,9 +88,6 @@ public class UserModel implements Serializable {
 
     @Override
     public String toString() {
-        return "UserModel{" +
-                "username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                '}';
+        return "UserModel{" + "username='" + username + '\'' + ", password='" + password + '\'' + '}';
     }
 }

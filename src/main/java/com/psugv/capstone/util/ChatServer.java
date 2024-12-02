@@ -47,7 +47,7 @@ public class ChatServer {
 
             Integer oldChatRoomId = ONLINE_USER_POOL.get(userId);
 
-            if(oldChatRoomId != 0) {
+            if (oldChatRoomId != 0) {
 
                 temp = ONLINE_LISTENER_POOL.get(oldChatRoomId);
 
@@ -101,7 +101,7 @@ public class ChatServer {
         }
         Integer roomId = ONLINE_USER_POOL.get(userId);
 
-        if(roomId != 0){
+        if (roomId != 0) {
 
             ConcurrentHashMap<Integer, MessageListener> temp = ONLINE_LISTENER_POOL.get(roomId);
 
@@ -147,7 +147,7 @@ public class ChatServer {
                     threads.add(thread);
                 }
                 for (Thread thread : threads) {
-                    
+
                     thread.start();
                 }
             }
@@ -159,16 +159,6 @@ public class ChatServer {
         return true;
     }
 
-    @PostConstruct
-    public void init() {
-
-        System.out.println("Chat server started");
-
-        ONLINE_LISTENER_POOL = new ConcurrentHashMap<>();
-
-        ONLINE_USER_POOL = new ConcurrentHashMap<>();
-    }
-
     public synchronized static boolean alreadyLogin(Integer userId) {
 
         return ONLINE_USER_POOL.containsKey(userId);
@@ -177,5 +167,15 @@ public class ChatServer {
     public synchronized static void loginCheckin(Integer userId) {
 
         ONLINE_USER_POOL.put(userId, 0);
+    }
+
+    @PostConstruct
+    public void init() {
+
+        System.out.println("Chat server started");
+
+        ONLINE_LISTENER_POOL = new ConcurrentHashMap<>();
+
+        ONLINE_USER_POOL = new ConcurrentHashMap<>();
     }
 }

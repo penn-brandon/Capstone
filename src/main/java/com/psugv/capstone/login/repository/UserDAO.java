@@ -65,17 +65,11 @@ public class UserDAO implements IUserDAO {
     }
 
     @Override
-    public void createChatRoomName(Integer userId){
+    public void createChatRoomName(Integer userId) {
 
         LOGGER.trace("In UserDAO createChatRoomName method");
-        try{
-            String sql = "CREATE TABLE " + userId.toString() + "_ChatRoomName ( " +
-                    "chat_room_name_id SERIAL PRIMARY KEY NOT NULL," +
-                    "chat_room_id INT NOT NULL," +
-                    "admin BOOLEAN NOT NULL," +
-                    "chat_room_name TEXT NOT NULL," +
-                    "last_modified DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP," +
-                    "FOREIGN KEY (chat_room_id) REFERENCES ChatRoom (chat_room_id));";
+        try {
+            String sql = "CREATE TABLE " + userId.toString() + "_ChatRoomName ( " + "chat_room_name_id SERIAL PRIMARY KEY NOT NULL," + "chat_room_id INT NOT NULL," + "admin BOOLEAN NOT NULL," + "chat_room_name TEXT NOT NULL," + "last_modified DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP," + "FOREIGN KEY (chat_room_id) REFERENCES ChatRoom (chat_room_id));";
             LOGGER.debug("Sql: {}", sql);
 
             LOGGER.trace("Execute update query");
@@ -89,14 +83,14 @@ public class UserDAO implements IUserDAO {
     }
 
     @Override
-    public UserModel findUserById(Integer userId){
+    public UserModel findUserById(Integer userId) {
 
         LOGGER.trace("In UserDAO.findUserById method");
         UserModel userModel;
 
         try {
             Query query = entityManager.createNativeQuery("select * from user where user_id = ?", UserModel.class);
-            LOGGER.trace("sql: {}",query.toString());
+            LOGGER.trace("sql: {}", query.toString());
 
             query.setParameter(1, userId.toString());
 

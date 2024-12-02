@@ -22,14 +22,15 @@ public class ChatRoomToUser {
     private Integer id;
 
     @OneToOne
-    @JoinColumn(name="user_id", referencedColumnName = "user_id")
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     private UserModel userModel;
 
     @OneToOne
-    @JoinColumn(name="chat_room_id", referencedColumnName = "chat_room_id")
+    @JoinColumn(name = "chat_room_id", referencedColumnName = "chat_room_id")
     private ChatRoom chatRoom;
 
-    public ChatRoomToUser() {}
+    public ChatRoomToUser() {
+    }
 
     public ChatRoomToUser(Integer id, UserModel userModel, ChatRoom chatRoom) {
         this.id = id;

@@ -143,8 +143,7 @@ public class ChatDAO implements IChatDAO {
         String formattedDate = sdf.format(currentDate);
 
         try {
-            Query query = entityManager.createNativeQuery("insert into " + chatRoomId + MESSAGE_POSTFIX + "(content,time,senderId,sender) " +
-                    "value (\"" + message + "\",\"" + formattedDate + "\"," + userModel.getId() + ",\"" + userModel.getName() + "\");");
+            Query query = entityManager.createNativeQuery("insert into " + chatRoomId + MESSAGE_POSTFIX + "(content,time,senderId,sender) " + "value (\"" + message + "\",\"" + formattedDate + "\"," + userModel.getId() + ",\"" + userModel.getName() + "\");");
             LOGGER.trace("sql: {}", query.toString());
 
             int result = query.executeUpdate();
@@ -161,18 +160,18 @@ public class ChatDAO implements IChatDAO {
     }
 
     @Override
-    public List<UserModel> blurrySearchUsername(String input){
+    public List<UserModel> blurrySearchUsername(String input) {
 
         LOGGER.trace("In ChatDAO blurrySearchUsername method");
         List<UserModel> result;
 
-        try{
+        try {
             String sql = "from user where username like '%" + input + "%'";
             LOGGER.trace("sql: {}", sql);
 
             result = entityManager.createQuery(sql, UserModel.class).getResultList();
 
-        } catch(Exception e){
+        } catch (Exception e) {
 
             LOGGER.error(e.getMessage(), e);
             return null;
@@ -181,17 +180,12 @@ public class ChatDAO implements IChatDAO {
     }
 
     @Override
-    public void updateChatRoomName(UserModel userModel, Boolean admin, Integer chatRoomId, String name, Integer id){
+    public void updateChatRoomName(UserModel userModel, Boolean admin, Integer chatRoomId, String name, Integer id) {
 
         LOGGER.debug("In ChatDAO updateChatRoomName method");
         String tableName = userModel.getId() + CHAT_ROOM_NAME_POSTFIX;
 
-        String sql = "update `" + tableName +
-                "` set admin = ?" +
-                ", chat_room_id = ?" +
-                ", chat_room_name = ?" +
-                ", last_modified = CURRENT_TIMESTAMP " +
-                "where chat_room_name_id = ?";
+        String sql = "update `" + tableName + "` set admin = ?" + ", chat_room_id = ?" + ", chat_room_name = ?" + ", last_modified = CURRENT_TIMESTAMP " + "where chat_room_name_id = ?";
         LOGGER.debug("SQL string: {}", sql);
 
         try {
@@ -205,7 +199,7 @@ public class ChatDAO implements IChatDAO {
             LOGGER.trace("Executeupdate");
             query.executeUpdate();
 
-        } catch (Exception e){
+        } catch (Exception e) {
 
             LOGGER.error(e.getMessage(), e);
             throw new RuntimeException("fail to update chat room name");
@@ -213,61 +207,61 @@ public class ChatDAO implements IChatDAO {
     }
 
     @Override
-    public ChatRoom createNewChatRoom(){
+    public ChatRoom createNewChatRoom() {
 
         LOGGER.trace("In ChatDAO createNewChatRoom method");
         ChatRoom chatRoom = new ChatRoom(null, false);
 
-        try{
+        try {
             LOGGER.debug("Store the chatroom");
             entityManager.persist(chatRoom);
             LOGGER.trace("flush ChatRoom");
             entityManager.flush();
 
-        } catch(Exception e){
+        } catch (Exception e) {
 
-            LOGGER.error("Fail to create new chat room!!!!!!!" , e);
+            LOGGER.error("Fail to create new chat room!!!!!!!", e);
         }
         return chatRoom;
     }
 
     @Override
-    public void insertNewChatRoomName(ChatRoom chatRoom, Integer userId, String name){
+    public void insertNewChatRoomName(ChatRoom chatRoom, Integer userId, String name) {
 
         LOGGER.trace("In ChatDAO insertNewChatRoomName method");
         String sql = "insert into " + userId + CHAT_ROOM_NAME_POSTFIX + " (chat_room_id, admin, chat_room_name, last_modified) value (" + chatRoom.getId() + ",False,\"" + name + "\", CURRENT_TIMESTAMP);";
         LOGGER.debug("Insert new chat room name sql: {}", sql);
 
-        try{
+        try {
             LOGGER.trace("Executeupdate");
             entityManager.createNativeQuery(sql).executeUpdate();
 
-        } catch(Exception e){
+        } catch (Exception e) {
 
             LOGGER.error("Fail to insert new chat room name", e);
         }
     }
 
     @Override
-    public void insertChatRoomToUser(ChatRoomToUser chatRoomToUser){
+    public void insertChatRoomToUser(ChatRoomToUser chatRoomToUser) {
 
         LOGGER.trace("In ChatDAO insertChatRoomToUser method");
-        try{
+        try {
             entityManager.persist(chatRoomToUser);
 
-        } catch(Exception e){
+        } catch (Exception e) {
 
             LOGGER.error(e.getMessage(), e);
         }
     }
 
     @Override
-    public List<ChatRoomToUser> findChatRoomToUserByChatRoom(Integer chatRoomId){
+    public List<ChatRoomToUser> findChatRoomToUserByChatRoom(Integer chatRoomId) {
 
         LOGGER.trace("In ChatDAO findChatRoomToUserByChatRoom method");
         List<ChatRoomToUser> result;
 
-        try{
+        try {
             Query query = entityManager.createNativeQuery("select * from chatRoomToUser where chat_room_id = ?", ChatRoomToUser.class);
             LOGGER.trace("sql: {}", query.toString());
 
@@ -276,7 +270,7 @@ public class ChatDAO implements IChatDAO {
             LOGGER.trace("Execute get query");
             result = query.getResultList();
 
-        } catch(Exception e){
+        } catch (Exception e) {
 
             LOGGER.error(e.getMessage(), e);
             return null;
@@ -285,12 +279,12 @@ public class ChatDAO implements IChatDAO {
     }
 
     @Override
-    public List<ChatRoomToUser> findChatRoomToUserByUserID(Integer userId){
+    public List<ChatRoomToUser> findChatRoomToUserByUserID(Integer userId) {
 
         LOGGER.trace("In ChatDAO findChatRoomToUserByUserID method");
         List<ChatRoomToUser> result;
 
-        try{
+        try {
             Query query = entityManager.createNativeQuery("select * from chatRoomToUser where user_id = ?", ChatRoomToUser.class);
             LOGGER.trace("sql: {}", query.toString());
 
@@ -299,7 +293,7 @@ public class ChatDAO implements IChatDAO {
             LOGGER.trace("Execute get query");
             result = query.getResultList();
 
-        } catch(Exception e){
+        } catch (Exception e) {
 
             LOGGER.error(e.getMessage(), e);
             return null;
@@ -308,12 +302,12 @@ public class ChatDAO implements IChatDAO {
     }
 
     @Override
-    public void deleteChatRoomName(Integer chatRoomNameId, Integer userId){
+    public void deleteChatRoomName(Integer chatRoomNameId, Integer userId) {
 
         LOGGER.trace("In ChatDAO deleteChatRoomName method");
-        String sql = "delete from " + userId + CHAT_ROOM_NAME_POSTFIX+ " where chat_room_name_id = ?";
+        String sql = "delete from " + userId + CHAT_ROOM_NAME_POSTFIX + " where chat_room_name_id = ?";
 
-        try{
+        try {
             Query query = entityManager.createNativeQuery(sql);
             LOGGER.trace("sql: {}", query.toString());
 
@@ -322,32 +316,26 @@ public class ChatDAO implements IChatDAO {
             LOGGER.trace("Executeupdate");
             query.executeUpdate();
 
-        } catch (Exception e){
+        } catch (Exception e) {
 
             LOGGER.error(e.getMessage(), e);
             throw new RuntimeException("fail to delete chat room name");
         }
     }
 
-    public void createNemMessage(Integer chatRoomId){
+    public void createNemMessage(Integer chatRoomId) {
 
         LOGGER.trace("In ChatDAO createNemMessage method");
-        String sql = "create table " +  chatRoomId + MESSAGE_POSTFIX +
-                " (message_id SERIAL primary key not null," +
-                " time DATETIME not null DEFAULT CURRENT_TIMESTAMP," +
-                " content varchar(225) not null," +
-                " senderId int not null," +
-                " sender varchar(225) not null," +
-                "  FOREIGN KEY (senderId) REFERENCES User (user_id));";
+        String sql = "create table " + chatRoomId + MESSAGE_POSTFIX + " (message_id SERIAL primary key not null," + " time DATETIME not null DEFAULT CURRENT_TIMESTAMP," + " content varchar(225) not null," + " senderId int not null," + " sender varchar(225) not null," + "  FOREIGN KEY (senderId) REFERENCES User (user_id));";
         LOGGER.trace("SQL: {}", sql);
 
-        try{
+        try {
             Query query = entityManager.createNativeQuery(sql);
 
             LOGGER.trace("Executeupdate");
             query.executeUpdate();
 
-        } catch (Exception e){
+        } catch (Exception e) {
 
             LOGGER.error(e.getMessage(), e);
             throw new RuntimeException("fail to create Nem Message table");

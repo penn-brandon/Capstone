@@ -3,7 +3,10 @@ package com.psugv.capstone.util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 
 /**
  * The class provide utility functions that can be used generally.
@@ -17,7 +20,7 @@ public class Utility {
 
         List<Integer> result = new LinkedList<>();
 
-        if(list1.isEmpty() || list2.isEmpty()) {
+        if (list1.isEmpty() || list2.isEmpty()) {
             return result;
         }
 
@@ -40,7 +43,7 @@ public class Utility {
             }
             for (int i = 0; i < list1Size; i++) {
 
-                if(set.contains(theList.get(i))){
+                if (set.contains(theList.get(i))) {
                     result.add(theList.get(i));
                 }
             }

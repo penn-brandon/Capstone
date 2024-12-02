@@ -25,18 +25,14 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
 
-        http.authorizeHttpRequests((requests) -> requests.requestMatchers("/css/**", "/images/**", "/javascript/**", "/sql/**", "/views/**").permitAll()
-                .requestMatchers("/", "/login", "/signup", "/index", "/error", "/register", "logout").permitAll()
-                .requestMatchers("/chat", "/send", "/select", "/loadMessage", "/loadAllChatRoomName","/searchUsers","/createNewChatRoom","/addUserToChatRoom").authenticated()
-                .requestMatchers("/listening/**", "/controller/**", "/capstone").permitAll().anyRequest().authenticated());
+        http.authorizeHttpRequests((requests) -> requests.requestMatchers("/css/**", "/images/**", "/javascript/**", "/sql/**", "/views/**").permitAll().requestMatchers("/", "/login", "/signup", "/index", "/error", "/register", "logout").permitAll().requestMatchers("/chat", "/send", "/select", "/loadMessage", "/loadAllChatRoomName", "/searchUsers", "/createNewChatRoom", "/addUserToChatRoom").authenticated().requestMatchers("/listening/**", "/controller/**", "/capstone").permitAll().anyRequest().authenticated());
 
         http.httpBasic(Customizer.withDefaults());
 
         http.csrf(AbstractHttpConfigurer::disable);
 
 
-        http.logout(logout -> logout
-                        .logoutSuccessUrl("/index").permitAll());
+        http.logout(logout -> logout.logoutSuccessUrl("/index").permitAll());
 
 
         http.formLogin(form -> form.loginPage("/login").permitAll().defaultSuccessUrl("/chat", true).failureUrl("/login?failed").permitAll());

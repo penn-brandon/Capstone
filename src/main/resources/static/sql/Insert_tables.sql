@@ -1,4 +1,5 @@
-use capstone;
+use
+capstone;
 
 insert into user(name,
                  gender,
