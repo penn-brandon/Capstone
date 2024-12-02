@@ -11,9 +11,9 @@ import org.springframework.stereotype.Component;
  */
 @Setter
 @Getter
-@Entity(name = "chatroom")
-@Table(name = "chatroom")
-@Component("chatroom")
+@Entity(name = "ChatRoom")
+@Table(name = "ChatRoom")
+@Component("ChatRoom")
 public class ChatRoom {
 
     @Getter

@@ -136,4 +136,13 @@ public class UtilTest {
 
         assertEquals(8, result3.size());
     }
+
+    @Autowired
+    CreateDBEnvironment createDBEnvironment;
+
+    @Test
+    public void TestCreateDBEnvironment(){
+
+        createDBEnvironment.init();
+    }
 }

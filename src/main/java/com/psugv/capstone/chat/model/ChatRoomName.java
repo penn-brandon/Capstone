@@ -15,7 +15,7 @@ import java.util.Date;
 @Setter
 @Getter
 @Entity
-@Component("chatRoomName")
+@Component("ChatRoomName")
 public class ChatRoomName {
 
     @Id

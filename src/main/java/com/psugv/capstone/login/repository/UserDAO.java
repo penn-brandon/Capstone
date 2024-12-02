@@ -9,10 +9,14 @@ import jakarta.persistence.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This data access object class is for user operation related to DB.
+ *
  * Author: Chuan Wei
  */
 @Repository
@@ -30,8 +34,8 @@ public class UserDAO implements IUserDAO {
         UserModel um;
 
         try {
-            Query user_query = entityManager.createNativeQuery("select * from user where userName = ?", UserModel.class);
-            LOGGER.trace("sql: {}", user_query.toString());
+            Query user_query = entityManager.createNativeQuery("select * from user where username = ?", UserModel.class);
+            LOGGER.trace("sql: " + user_query.toString());
 
             user_query.setParameter(1, userName);
 
@@ -40,7 +44,7 @@ public class UserDAO implements IUserDAO {
 
         } catch (NoResultException e) {
 
-            LOGGER.error("Fail to load user by user name!!! Username: {}", userName, e);
+            LOGGER.error("Fail to load user by user name!!! Username: " + userName, e);
             throw new NoQueryResultException("username: " + userName + " not found");
         }
         return um;
@@ -65,12 +69,18 @@ public class UserDAO implements IUserDAO {
     }
 
     @Override
-    public void createChatRoomName(Integer userId) {
+    public void createChatRoomName(Integer userId){
 
         LOGGER.trace("In UserDAO createChatRoomName method");
-        try {
-            String sql = "CREATE TABLE " + userId.toString() + "_ChatRoomName ( " + "chat_room_name_id SERIAL PRIMARY KEY NOT NULL," + "chat_room_id INT NOT NULL," + "admin BOOLEAN NOT NULL," + "chat_room_name TEXT NOT NULL," + "last_modified DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP," + "FOREIGN KEY (chat_room_id) REFERENCES ChatRoom (chat_room_id));";
-            LOGGER.debug("Sql: {}", sql);
+        try{
+            String sql = "CREATE TABLE " + userId.toString() + "_ChatRoomName ( " +
+                    "chat_room_name_id SERIAL PRIMARY KEY NOT NULL," +
+                    "chat_room_id INT NOT NULL," +
+                    "admin BOOLEAN NOT NULL," +
+                    "chat_room_name TINYTEXT NOT NULL," +
+                    "last_modified DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP," +
+                    "FOREIGN KEY (chat_room_id) REFERENCES ChatRoom (chat_room_id));";
+            LOGGER.debug("Sql: " + sql);
 
             LOGGER.trace("Execute update query");
             entityManager.createNativeQuery(sql).executeUpdate();
@@ -83,14 +93,14 @@ public class UserDAO implements IUserDAO {
     }
 
     @Override
-    public UserModel findUserById(Integer userId) {
+    public UserModel findUserById(Integer userId){
 
         LOGGER.trace("In UserDAO.findUserById method");
         UserModel userModel;
 
         try {
             Query query = entityManager.createNativeQuery("select * from user where user_id = ?", UserModel.class);
-            LOGGER.trace("sql: {}", query.toString());
+            LOGGER.trace("sql: " + query.toString());
 
             query.setParameter(1, userId.toString());
 

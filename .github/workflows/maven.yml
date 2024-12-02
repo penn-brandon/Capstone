@@ -2,7 +2,9 @@ name: Build War File
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
+      - W_*
 
 jobs:
   build:
@@ -25,5 +27,12 @@ jobs:
         overwrite: true
         path: target/*.war  
 
+#    - name: Execute Shell Script
+#      run:
+#        pwd
+#        ls
+#        chmod 700 ./scripts/envvar.sh
+
+
     - name: Run Spring Boot Tests
-      run: mvn test -Dtest=All in Capstone
+      run: mvn test -Dtest="*Test"
