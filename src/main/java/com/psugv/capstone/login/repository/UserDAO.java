@@ -34,7 +34,7 @@ public class UserDAO implements IUserDAO {
         UserModel um;
 
         try {
-            Query user_query = entityManager.createNativeQuery("select * from user where userName = ?", UserModel.class);
+            Query user_query = entityManager.createNativeQuery("select * from user where username = ?", UserModel.class);
             LOGGER.trace("sql: " + user_query.toString());
 
             user_query.setParameter(1, userName);

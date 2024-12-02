@@ -11,9 +11,9 @@ import org.springframework.stereotype.Component;
  *
  * Author: Chuan Wei
  */
-@Entity(name = "chatRoomToUser")
-@Table(name = "chatRoomToUser")
-@Component("chatRoomToUser")
+@Entity(name = "ChatRoomToUser")
+@Table(name = "ChatRoomToUser")
+@Component("ChatRoomToUser")
 public class ChatRoomToUser {
 
     @Setter

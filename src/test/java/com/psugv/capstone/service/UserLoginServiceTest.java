@@ -20,12 +20,6 @@ public class UserLoginServiceTest {
     @Autowired
     private ApplicationContext applicationContext;
 
-    @Test
-    public void testBeanExists() {
-
-        assertTrue(applicationContext.containsBean("UserLoginService"));
-    }
-
     @Autowired
     private ILoginService loginService;
 

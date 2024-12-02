@@ -14,7 +14,7 @@ import java.util.Date;
  *Author: Chuan Wei and Brandon Alker
  */
 @Entity
-@Component("chatRoomName")
+@Component("ChatRoomName")
 public class ChatRoomName {
 
     @Setter

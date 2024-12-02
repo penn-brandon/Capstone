@@ -29,7 +29,7 @@ import java.util.List;
 public class ChatDAO implements IChatDAO {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ChatDAO.class);
-    private static final String CHAT_ROOM_NAME_POSTFIX = "_chatroomname";
+    private static final String CHAT_ROOM_NAME_POSTFIX = "_ChatRoomName";
     private static final String MESSAGE_POSTFIX = "_message";
 
     @Autowired
@@ -98,7 +98,8 @@ public class ChatDAO implements IChatDAO {
 
         try {
 
-            Query query = entityManager.createNativeQuery("select * from " + userId + CHAT_ROOM_NAME_POSTFIX + " where chat_room_id = " + chatRoomId, ChatRoomName.class);
+            Query query = entityManager.createNativeQuery("select * from " + userId + CHAT_ROOM_NAME_POSTFIX + " where chat_room_id = ?", ChatRoomName.class);
+            query.setParameter(1, chatRoomId);
 
             LOGGER.trace("Execute get query");
             result = (ChatRoomName) query.getSingleResult();
@@ -118,9 +119,9 @@ public class ChatDAO implements IChatDAO {
         ChatRoom result;
 
         try {
-            Query query = entityManager.createQuery("from chatroom where id = :chatroomId", ChatRoom.class);
+            Query query = entityManager.createNativeQuery("select * from ChatRoom where chat_room_id = ?", ChatRoom.class);
 
-            query.setParameter("chatroomId", chatroomId);
+            query.setParameter(1, chatroomId);
 
             LOGGER.trace("Execute get query");
             result = (ChatRoom) query.getSingleResult();
@@ -146,7 +147,7 @@ public class ChatDAO implements IChatDAO {
 
         try {
             Query query = entityManager.createNativeQuery("insert into " + chatRoomId + MESSAGE_POSTFIX + "(content,time,senderId,sender) " +
-                    "value (\"" + message + "\",\"" + formattedDate + "\"," + userModel.getId() + ",\"" + userModel.getName() + "\");");
+                    "value ('" + message + "','" + formattedDate + "'," + userModel.getId() + ",'" + userModel.getName() + "');");
             LOGGER.trace("sql: {}", query.toString());
 
             int result = query.executeUpdate();
@@ -237,7 +238,7 @@ public class ChatDAO implements IChatDAO {
     public void insertNewChatRoomName(ChatRoom chatRoom, Integer userId, String name){
 
         LOGGER.trace("In ChatDAO insertNewChatRoomName method");
-        String sql = "insert into " + userId + CHAT_ROOM_NAME_POSTFIX + " (chat_room_id, admin, chat_room_name, last_modified) value (" + chatRoom.getId() + ",False,\"" + name + "\", CURRENT_TIMESTAMP);";
+        String sql = "insert into " + userId + CHAT_ROOM_NAME_POSTFIX + " (chat_room_id, admin, chat_room_name, last_modified) value (" + chatRoom.getId() + ",False,'" + name + "', CURRENT_TIMESTAMP);";
         LOGGER.debug("Insert new chat room name sql: " + sql);
 
         try{
@@ -270,7 +271,7 @@ public class ChatDAO implements IChatDAO {
         List<ChatRoomToUser> result;
 
         try{
-            Query query = entityManager.createNativeQuery("select * from chatRoomToUser where chat_room_id = ?", ChatRoomToUser.class);
+            Query query = entityManager.createNativeQuery("select * from ChatRoomToUser where chat_room_id = ?", ChatRoomToUser.class);
             LOGGER.trace("sql: {}", query.toString());
 
             query.setParameter(1, chatRoomId);
@@ -293,7 +294,7 @@ public class ChatDAO implements IChatDAO {
         List<ChatRoomToUser> result;
 
         try{
-            Query query = entityManager.createNativeQuery("select * from chatRoomToUser where user_id = ?", ChatRoomToUser.class);
+            Query query = entityManager.createNativeQuery("select * from ChatRoomToUser where user_id = ?", ChatRoomToUser.class);
             LOGGER.trace("sql: {}", query.toString());
 
             query.setParameter(1, userId);
