@@ -3,6 +3,7 @@ package com.psugv.capstone.util;
 import com.psugv.capstone.chat.model.ChatRoom;
 import com.psugv.capstone.chat.model.ChatRoomName;
 import com.psugv.capstone.login.model.UserModel;
+import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -21,11 +22,16 @@ public class MessageListener {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MessageListener.class);
     private final static String MESSAGE_WAIT = "MESSAGE_IS_WAITING_FOR_NEW_INPUT";
+    @Getter
     private boolean listening = false;
+    @Getter
     private UserModel user;
+    @Getter
     private ChatRoom room;
+    @Getter
     private ChatRoomName roomName;
     private String message;
+    @Getter
     private SimpMessagingTemplate messagingTemplate;
 
     private String senderName = null;
@@ -38,7 +44,7 @@ public class MessageListener {
         this.user = user;
         message = MESSAGE_WAIT;
         this.messagingTemplate = messagingTemplate;
-        LOGGER.debug("messagingTemplate is null in constructor? " + (messagingTemplate == null));
+        LOGGER.debug("messagingTemplate is null in constructor? {}", messagingTemplate == null);
     }
 
     public MessageListener(MessageListener messageListener) {
@@ -49,7 +55,7 @@ public class MessageListener {
         this.user = messageListener.getUser();
         message = MESSAGE_WAIT;
         this.messagingTemplate = messageListener.getMessagingTemplate();
-        LOGGER.debug("messagingTemplate is null in constructor? " + (messagingTemplate == null));
+        LOGGER.debug("messagingTemplate is null in constructor? {}", messagingTemplate == null);
     }
 
     public MessageListener() {
@@ -60,7 +66,7 @@ public class MessageListener {
         LOGGER.info("Listening start");
         LOGGER.trace(this.toString());
         listening = true;
-        listeringMessage();
+        listeningMessage();
     }
 
     public void destroy() {
@@ -101,7 +107,7 @@ public class MessageListener {
         }
     }
 
-    private void listeringMessage() {
+    private void listeningMessage() {
 
         try {
             synchronized (this) {
@@ -122,26 +128,10 @@ public class MessageListener {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error("Error occurred by listering loop", e);
+            LOGGER.error("Error occurred by listening loop", e);
             destroy();
         }
         LOGGER.warn("!!!Stop listening!!!");
-    }
-
-    public boolean isListening() {
-        return listening;
-    }
-
-    public ChatRoom getRoom() {
-        return room;
-    }
-
-    public ChatRoomName getRoomName() {
-        return roomName;
-    }
-
-    public UserModel getUser() {
-        return user;
     }
 
     @Override
@@ -152,11 +142,11 @@ public class MessageListener {
 
     private void sendUpdateToSocket(String message, String senderName) {
 
-        LOGGER.debug("ChatService.sendUpdate, message is: " + message + ", and Listener is: " + (this.getUser().getUsername()));
+        LOGGER.debug("ChatService.sendUpdate, message is: {}, and Listener is: {}", message, this.getUser().getUsername());
         String userName = this.getUser().getUsername();
 
-        LOGGER.info("Publish the data to " + "/listening/" + userName);
-        LOGGER.debug("messagingTemplate is null? " + (messagingTemplate == null));
+        LOGGER.info("Publish the data to /listening/{}", userName);
+        LOGGER.debug("messagingTemplate is null? {}", messagingTemplate == null);
 
         Map<String, Object> result = new HashMap<>();
 
@@ -164,10 +154,6 @@ public class MessageListener {
         result.put("senderName", senderName);
 
         messagingTemplate.convertAndSend("/listening/" + userName, result);
-    }
-
-    public SimpMessagingTemplate getMessagingTemplate() {
-        return messagingTemplate;
     }
 
     public void setMessagingTemplate(SimpMessagingTemplate messagingTemplate) {

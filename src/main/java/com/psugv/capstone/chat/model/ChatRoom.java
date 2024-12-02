@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 
 /**
  * This is the entity class for chat room.
- *
  * Author: Chuan Wei & Brandon Alker
  */
 @Setter

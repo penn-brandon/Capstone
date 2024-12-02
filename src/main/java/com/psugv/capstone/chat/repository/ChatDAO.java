@@ -12,7 +12,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import java.text.SimpleDateFormat;
@@ -22,7 +21,6 @@ import java.util.List;
 /**
  * This is data access object class.
  * It's used to provide interaction to DB that service class need.
- *
  * Author: Chuan Wei
  */
 @Repository
@@ -80,7 +78,7 @@ public class ChatDAO implements IChatDAO {
             Query query = entityManager.createNativeQuery(sql.toString(), Message.class);
 
             result = (List<Message>) query.getResultList();
-            LOGGER.trace("history message is empty? " + result.isEmpty());
+            LOGGER.trace("history message is empty? {}", result.isEmpty());
 
         } catch (Exception e) {
 
@@ -150,7 +148,7 @@ public class ChatDAO implements IChatDAO {
             LOGGER.trace("sql: {}", query.toString());
 
             int result = query.executeUpdate();
-            LOGGER.debug("rows inserted", result);
+            LOGGER.debug("rows inserted {}", result);
 
             return true;
 
@@ -238,7 +236,7 @@ public class ChatDAO implements IChatDAO {
 
         LOGGER.trace("In ChatDAO insertNewChatRoomName method");
         String sql = "insert into " + userId + CHAT_ROOM_NAME_POSTFIX + " (chat_room_id, admin, chat_room_name, last_modified) value (" + chatRoom.getId() + ",False,\"" + name + "\", CURRENT_TIMESTAMP);";
-        LOGGER.debug("Insert new chat room name sql: " + sql);
+        LOGGER.debug("Insert new chat room name sql: {}", sql);
 
         try{
             LOGGER.trace("Executeupdate");
