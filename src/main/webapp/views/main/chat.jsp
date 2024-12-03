@@ -44,8 +44,8 @@
             const refresh_icon_img = document.getElementById('chats-refresh-icon-img')
             const refresh_icon = document.getElementById('chats-refresh-icon');
             refresh_icon.addEventListener('click', async () => {
-                let chat_rooms = await getChatRooms();
-                await displayChatRooms(chat_rooms);
+                window.onload();
+                location.reload();
                 refresh_icon_img.animate([{transform: "rotate(0deg)"}, {transform: "rotate(180deg)"}, {transform: "rotate(360deg)"}], {
                     duration: 1000,
                     iterations: 1
@@ -56,7 +56,7 @@
 
         function startListener() {
 
-            var socket = new SockJS('http://217.15.171.16:8080/capstone/capstone');
+            var socket = new SockJS('http://217.15.171.16:8080/Capstone/capstone');
             //var socket = new SockJS('/Capstone/capstone');
 
             var stompClient = Stomp.over(socket);
