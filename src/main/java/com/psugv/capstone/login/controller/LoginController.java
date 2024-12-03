@@ -22,7 +22,6 @@ import java.util.Map;
 
 /**
  * This is controller class that deals with the login and registration
- *
  * Author: Chuan Wei
  */
 @Controller
@@ -69,13 +68,13 @@ public class LoginController {
         return "/open/signup";
     }
 
-    @GetMapping(path="/logout")
-    public String logoutPage (HttpServletRequest request, HttpServletResponse response, @SessionAttribute("userModel") UserModel userModel) {
+    @GetMapping(path = "/logout")
+    public String logoutPage(HttpServletRequest request, HttpServletResponse response, @SessionAttribute("userModel") UserModel userModel) {
 
         LOGGER.trace("logout");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-        if (auth != null){
+        if (auth != null) {
             new SecurityContextLogoutHandler().logout(request, response, auth);
         }
         ChatServer.removeFromOnlineUserPool(userModel.getId());
@@ -88,11 +87,7 @@ public class LoginController {
      * Key: password, value: input password.
      * Key: name, value: name displayed in the chat.
      * Key: gender, value: drop down list, should only have male, female, and other.
-     */
-    public String registerToApp(@RequestParam String username,
-                                @RequestParam String password,
-                                @RequestParam String name,
-                                @RequestParam String gender) {
+     */ public String registerToApp(@RequestParam String username, @RequestParam String password, @RequestParam String name, @RequestParam String gender) {
 
         LOGGER.trace("registerToApp controller called");
         boolean result;
@@ -115,7 +110,7 @@ public class LoginController {
             LOGGER.error(e.getMessage());
             return "redirect:/signup";
         }
-        if(!result) {
+        if (!result) {
 
             LOGGER.debug("Registration failed");
             return "redirect:/signup";

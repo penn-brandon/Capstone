@@ -9,11 +9,8 @@ async function sendMessage() {
     if (chat_id !== null) {
         try {
             const response = await fetch('/Capstone/send', {
-                method: 'POST',
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({
-                    "message": message,
-                    "room": chat_id
+                method: 'POST', headers: {"Content-Type": "application/json"}, body: JSON.stringify({
+                    "message": message, "room": chat_id
                 })
             });
             if (!response.ok) {
@@ -26,11 +23,7 @@ async function sendMessage() {
             chat_room_time.className = "chat-timestamp-sent";
             let date = new Date();
 
-            chat_room_time.innerHTML = (
-                date.getMonth() + 1 + "/" +
-                date.getDate() + " " +
-                date.getHours() + ":" +
-                date.getMinutes()).toString();
+            chat_room_time.innerHTML = (date.getMonth() + 1 + "/" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes()).toString();
 
             // For Message sender
             let chat_room_sender = document.createElement('p');
@@ -65,8 +58,7 @@ async function sendMessage() {
 async function getMessages(chatroom) {
     try {
         const response = await fetch('/Capstone/select', {
-            method: 'GET',
-            headers: {"chatRoomID": chatroom.toString()}
+            method: 'GET', headers: {"chatRoomID": chatroom.toString()}
         });
         if (!response.ok) {
             console.log("ERROR: " + response.status);
@@ -90,7 +82,7 @@ async function getMessages(chatroom) {
     }
 }
 
-function addAnotherUserToChat(current_chat){
+function addAnotherUserToChat(current_chat) {
     // creates button to add another user to chat
     const add_user_to_chat = document.createElement('button');
     add_user_to_chat.id = "add_user_to_chat";
@@ -98,13 +90,13 @@ function addAnotherUserToChat(current_chat){
     add_user_to_chat.title = "Add Another User to your Chat";
     current_chat.appendChild(add_user_to_chat);
 
-    add_user_to_chat.addEventListener("click", ()=> {
+    add_user_to_chat.addEventListener("click", () => {
         // RUNS FUNCTION TO ADD USER TO CHATROOM
         const chat_id = sessionStorage.getItem("chat_id");
-        if (document.getElementById('addUserToExistingChat_div')){
+        if (document.getElementById('addUserToExistingChat_div')) {
             document.getElementById('addUserToExistingChat_div').remove();
         }
-        if(chat_id !== null ){
+        if (chat_id !== null) {
             const add_user_input = document.createElement('div');
             add_user_input.className = "addUserToExistingChat";
             add_user_input.id = "addUserToExistingChat_div"
@@ -121,19 +113,19 @@ function addAnotherUserToChat(current_chat){
             add_user_input.appendChild(user_input_title);
             add_user_input.appendChild(cancel_user_input);
             add_user_input.appendChild(text_area);
-            add_user_to_chat.insertAdjacentElement("afterend",add_user_input);
+            add_user_to_chat.insertAdjacentElement("afterend", add_user_input);
 
             // Functions for input and button clicks
-            cancel_user_input.addEventListener('click', ()=>{
+            cancel_user_input.addEventListener('click', () => {
                 document.getElementById("addUserToExistingChat_div").remove();
             });
 
             text_area.addEventListener("input", async () => {
-                if (document.getElementById("add-search-user-div")){
+                if (document.getElementById("add-search-user-div")) {
                     document.getElementById("add-search-user-div").remove();
                 }
                 let username = text_area.value;
-                if (username !== null && username.length > 2){
+                if (username !== null && username.length > 2) {
                     let username_list = await searchUser(username);
 
                     const user_div = document.createElement('div');
@@ -143,7 +135,7 @@ function addAnotherUserToChat(current_chat){
                     outer_div.append(user_div);
                     // shows the current queried results
                     for (let i = 0; i < username_list.length; i++) {
-                        if (username_list[i][0].toString() === sessionStorage.getItem('username').toString()){
+                        if (username_list[i][0].toString() === sessionStorage.getItem('username').toString()) {
                             continue;
                         }
                         const user_p = document.createElement('p');
@@ -152,7 +144,7 @@ function addAnotherUserToChat(current_chat){
                         user_div.append(user_p);
 
                         user_p.addEventListener('click', async () => {
-                            await addUserToChatRoom(sessionStorage.getItem('chat_id'),username_list[i][0],username_list[i][2],username_list[i][1]);
+                            await addUserToChatRoom(sessionStorage.getItem('chat_id'), username_list[i][0], username_list[i][2], username_list[i][1]);
                             document.getElementById("addUserToExistingChat_div").remove();
                         })
                     }

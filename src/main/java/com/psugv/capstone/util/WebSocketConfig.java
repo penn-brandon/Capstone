@@ -15,7 +15,6 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 
 /**
  * This class is configuration of web socket for the purpose to build a stateful connection with view.
- *
  * Author: Chuan Wei
  */
 @Configuration
@@ -44,7 +43,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         LOGGER.debug("Use Interceptors to see where the message goes");
         registration.interceptors(new ChannelInterceptor() {
             @Override
-            public Message<?> preSend(@NonNull Message<?> message,@NonNull MessageChannel channel) {
+            public Message<?> preSend(@NonNull Message<?> message, @NonNull MessageChannel channel) {
                 LOGGER.debug("Tracking outbound message: {}", message);
                 return message;
             }

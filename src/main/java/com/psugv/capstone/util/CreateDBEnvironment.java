@@ -17,7 +17,6 @@ import java.sql.DriverManager;
 
 /**
  * This is a functional class that help set up database environment when initializing the project.
- *
  * Author: Chuan Wei
  */
 @Component

@@ -18,7 +18,6 @@ import java.util.Set;
 
 /**
  * This class contains all business logic of users operation to their own data.
- *
  * Author: Chuan Wei
  */
 @Service
@@ -42,7 +41,7 @@ public class UserLoginService implements ILoginService {
     @Override
     public boolean registration(Map<String, String> inputMap) {
 
-        try{
+        try {
             UserModel search;
 
             String username = inputMap.get("username");
@@ -53,30 +52,30 @@ public class UserLoginService implements ILoginService {
             try {
                 search = userDAO.getUserByUsername(username);
 
-            } catch (NoQueryResultException e){
+            } catch (NoQueryResultException e) {
 
                 LOGGER.debug("Username is available^_^");
                 search = null;
 
-            } finally{
+            } finally {
 
                 LOGGER.debug("Check that the finally block do not get skipped");
             }
 
-            LOGGER.debug("Check that search result is: " + search);
-            if(search != null){
+            LOGGER.debug("Check that search result is: {}", search);
+            if (search != null) {
 
                 return false;
             }
 
-            LOGGER.debug("create a new authrities");
+            LOGGER.debug("create a new authorities");
             UserAuthorityModel authority = new UserAuthorityModel(null, NORMAL_AUTHORITY, null);
-          
-            Set<UserAuthorityModel> authoritiesSet = new HashSet<UserAuthorityModel>();
+
+            Set<UserAuthorityModel> authoritiesSet = new HashSet<>();
 
             authoritiesSet.add(authority);
 
-            LOGGER.debug("Create a user model\n" + inputMap.toString());
+            LOGGER.debug("Create a user model\n{}", inputMap);
             UserModel newUser = new UserModel(null, username, password, name, null, gender, true, null);
 
             authority.setUserModel(newUser);

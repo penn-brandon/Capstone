@@ -36,7 +36,7 @@
         <div class="signup-form-box">
             <p>Create Your Account</p>
             <form id="signup-form-form" action="${pageContext.request.contextPath}/register" method="post">
-                <div class="signup-form-box-content" >
+                <div class="signup-form-box-content">
                     <label for="user"></label>
                     <input type="text" name="username" placeholder="Username"
                            class="submit-input" id="user"

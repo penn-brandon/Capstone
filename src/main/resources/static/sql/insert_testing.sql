@@ -1,4 +1,5 @@
-use capstone;
+use
+capstone;
 
 insert into user(name,
                  gender,
@@ -94,19 +95,19 @@ values (3, False, 'Chilling', CURRENT_TIMESTAMP);
 
 
 insert into ChatRoomToUser (chat_room_id, user_id)
-values (2,3);
+values (2, 3);
 insert into ChatRoomToUser (chat_room_id, user_id)
-values (2,4);
+values (2, 4);
 insert into ChatRoomToUser (chat_room_id, user_id)
-values (3,1);
+values (3, 1);
 insert into ChatRoomToUser (chat_room_id, user_id)
-values (3,2);
+values (3, 2);
 insert into ChatRoomToUser (chat_room_id, user_id)
-values (3,3);
+values (3, 3);
 insert into ChatRoomToUser (chat_room_id, user_id)
-values (1,1);
+values (1, 1);
 insert into ChatRoomToUser (chat_room_id, user_id)
-values (1,2);
+values (1, 2);
 
 
 insert into 3_message(content, time, senderId, sender)

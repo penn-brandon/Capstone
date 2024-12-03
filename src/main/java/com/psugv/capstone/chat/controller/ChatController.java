@@ -22,7 +22,6 @@ import java.util.Map;
 
 /**
  * This controller class is for every function relating to chat.
- *
  * Author: Chuan Wei
  */
 @Controller

@@ -12,7 +12,6 @@ import java.util.Date;
 /**
  * This class is an entity class that user to present messages in a chat room.
  * Each chat room will have its own message table.
- *
  * Author: Chuan Wei and Brandon Alker
  */
 @Setter

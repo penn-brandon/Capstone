@@ -10,13 +10,13 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import java.io.Serial;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
 /**
  * This class implements userdetails of spring security to gathering all required fields.
- *
  * Author: Chuan Wei
  */
 @Component
@@ -25,6 +25,7 @@ public class SecurityUserLogin implements UserDetails {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SecurityUserLogin.class);
 
+    @Serial
     private static final long serialVersionUID = -6690946490872875352L;
 
     private final UserModel user;

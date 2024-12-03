@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 
 /**
  * This is the entity class for chat room.
- *
  * Author: Chuan Wei & Brandon Alker
  */
 @Setter
@@ -17,6 +16,7 @@ import org.springframework.stereotype.Component;
 @Component("ChatRoom")
 public class ChatRoom {
 
+    @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "chat_room_id")

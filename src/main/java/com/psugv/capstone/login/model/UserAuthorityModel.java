@@ -2,13 +2,16 @@ package com.psugv.capstone.login.model;
 
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.stereotype.Component;
 
 /**
  * This is an entity class that represent authorization of users.
- *
- *Author: Chuan Wei
+ * Author: Chuan Wei
  */
+@Setter
+@Getter
 @Entity(name = "authorities")
 @Table(name = "authorities")
 @Component("authorities")
@@ -32,30 +35,6 @@ public class UserAuthorityModel {
 
         this.id = id;
         this.authorityName = authorityName;
-        this.userModel = userModel;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getAuthorityName() {
-        return authorityName;
-    }
-
-    public void setAuthorityName(String authorityName) {
-        this.authorityName = authorityName;
-    }
-
-    public UserModel getUserModel() {
-        return userModel;
-    }
-
-    public void setUserModel(UserModel userModel) {
         this.userModel = userModel;
     }
 

@@ -39,7 +39,7 @@ nav {
     height: 100px;
     width: 100px;
     margin-top: 5px;
-    float:left;
+    float: left;
 }
 
 .nav-logo {
@@ -99,7 +99,7 @@ nav {
 }
 
 #chats-refresh-icon {
-    float:right;
+    float: right;
     box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
     border-radius: 10px;
     padding: 10px;
@@ -112,7 +112,7 @@ nav {
 }
 
 .chats-title-title {
-    float:left;
+    float: left;
     margin-top: 15px;
     margin-left: 25px;
     width: 55%;
@@ -130,7 +130,7 @@ nav {
     margin-left: 25px;
     margin-top: 25px;
     margin-bottom: 25px;
-    float:left;
+    float: left;
 }
 
 .channels-list {
@@ -163,7 +163,7 @@ span {
 /* Search Box - for user search */
 #search-user-div {
     height: 100px;
-    overflow-y:scroll;
+    overflow-y: scroll;
     background-color: orange;
     width: auto;
     border-radius: 10px;
@@ -177,6 +177,7 @@ span {
     box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
     border-radius: 10px;
 }
+
 .searched_username:hover {
     cursor: pointer;
 }
@@ -188,13 +189,14 @@ span {
     text-align: center;
     height: 40px;
     width: 40px;
-    float:right;
+    float: right;
     background-color: #48CAE4;
     border: none;
     border-radius: 10px;
     margin-right: 10px;
     margin-top: 10px;
 }
+
 #add_user_to_chat:hover {
     cursor: pointer;
 }
@@ -207,17 +209,20 @@ span {
     padding: 10px;
     border-radius: 10px;
     z-index: 10;
-    float:right;
+    float: right;
     margin-right: 10px;
     margin-top: 10px;
 }
+
 .addUserToExistingChat > p {
     width: 100px;
 }
+
 .addUserToExistingChat > textarea {
     margin-top: 5px;
     width: 140px;
 }
+
 .addUserToExistingChat > img:hover {
     cursor: pointer;
 }
@@ -230,14 +235,14 @@ span {
     box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
     border-radius: 10px;
 }
+
 .add_searched_username:hover {
     cursor: pointer;
 }
 
 
-
 .current-chat {
-    float:left;
+    float: left;
     margin-top: 25px;
     margin-left: 10px;
     background-color: rgb(146, 170, 212);

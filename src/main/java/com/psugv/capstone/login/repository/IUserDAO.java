@@ -10,6 +10,6 @@ public interface IUserDAO {
     UserModel registration(UserModel user);
 
     void createChatRoomName(Integer userId);
-  
+
     UserModel findUserById(Integer userId);
 }

@@ -11,8 +11,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * This is a server class that manage the online ysers chat rooms they are listening to.
- *
+ * This is a server class that manage the online users chat rooms they are listening to.
  * Author: Chuan Wei
  */
 @Component
@@ -48,7 +47,7 @@ public class ChatServer {
 
             Integer oldChatRoomId = ONLINE_USER_POOL.get(userId);
 
-            if(oldChatRoomId != 0) {
+            if (oldChatRoomId != 0) {
 
                 temp = ONLINE_LISTENER_POOL.get(oldChatRoomId);
 
@@ -102,7 +101,7 @@ public class ChatServer {
         }
         Integer roomId = ONLINE_USER_POOL.get(userId);
 
-        if(roomId != 0){
+        if (roomId != 0) {
 
             ConcurrentHashMap<Integer, MessageListener> temp = ONLINE_LISTENER_POOL.get(roomId);
 
@@ -144,17 +143,11 @@ public class ChatServer {
                         continue;
                     }
                     LOGGER.debug("Sent message to the listener of {}", listener.getUser().getUsername());
-                    Thread thread = new Thread(new Runnable() {
-
-                        public void run() {
-
-                            listener.setMessage(message, name);
-                        }
-                    });
+                    Thread thread = new Thread(() -> listener.setMessage(message, name));
                     threads.add(thread);
                 }
                 for (Thread thread : threads) {
-                    
+
                     thread.start();
                 }
             }
@@ -166,26 +159,22 @@ public class ChatServer {
         return true;
     }
 
+    public synchronized static boolean alreadyLogin(Integer userId) {
+
+        return ONLINE_USER_POOL.containsKey(userId);
+    }
+
+    public synchronized static void loginCheckin(Integer userId) {
+
+        ONLINE_USER_POOL.put(userId, 0);
+    }
+
     @PostConstruct
     public void init() {
 
         System.out.println("Chat server started");
 
         ONLINE_LISTENER_POOL = new ConcurrentHashMap<>();
-
-        ONLINE_USER_POOL = new ConcurrentHashMap<>();
-    }
-
-    public synchronized static boolean alreadyLogin(Integer userId) {
-
-        if(ONLINE_USER_POOL.containsKey(userId)) {
-
-            return true;
-        }
-        return false;
-    }
-
-    public synchronized static void loginCheckin(Integer userId) {
 
         removeFromOnlineUserPool(userId);
 

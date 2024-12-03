@@ -51,13 +51,12 @@ async function displayChatRooms(chat_rooms) {
             new_chat.addEventListener('click', async () => {
                 let messages = await getMessages(chat_rooms[i][0]);
                 displayMessages(messages);
-                sessionStorage.setItem("chat_id",chat_rooms[i][0]);
+                sessionStorage.setItem("chat_id", chat_rooms[i][0]);
             });
 
             chat_room_div.appendChild(new_chat);
         }
-    }
-    else {
+    } else {
         let chat_room_name = document.createElement('span');
         chat_room_name.textContent = "None";
 
@@ -94,7 +93,7 @@ async function displayChatRooms(chat_rooms) {
 // This creates a text input field for the user to input new chat room name
 function getUsernameFromUser() {
     let username = null;
-    if (document.getElementById("search_username") == null){
+    if (document.getElementById("search_username") == null) {
         const chat_room_div = document.getElementById("channels-list");
 
         const cancel_username = document.createElement('img');
@@ -118,17 +117,17 @@ function getUsernameFromUser() {
 
         cancel_username.addEventListener('click', () => {
             chat_room_div.removeChild(new_username);
-            if (document.getElementById(("search-user-div"))){
+            if (document.getElementById(("search-user-div"))) {
                 document.getElementById("search-user-div").remove();
             }
         });
 
         text_area.addEventListener("input", async () => {
-            if (document.getElementById("search-user-div")){
+            if (document.getElementById("search-user-div")) {
                 document.getElementById("search-user-div").remove();
             }
             username = text_area.value;
-            if (username !== null && username.length > 2){
+            if (username !== null && username.length > 2) {
                 let username_list = await searchUser(username);
 
                 const user_div = document.createElement('div');
@@ -137,7 +136,7 @@ function getUsernameFromUser() {
                 chat_room_div.append(user_div);
                 // shows the current queried results
                 for (let i = 0; i < username_list.length; i++) {
-                    if (username_list[i][0].toString() === sessionStorage.getItem('username').toString()){
+                    if (username_list[i][0].toString() === sessionStorage.getItem('username').toString()) {
                         continue;
                     }
                     const user_p = document.createElement('p');
@@ -154,14 +153,13 @@ function getUsernameFromUser() {
     }
 }
 
-async function createNewChatRoom(searched_user){
+async function createNewChatRoom(searched_user) {
     const response = await fetch('/Capstone/createNewChatRoom', {
-        headers:{"Content-Type":"application/json"},
-        method:'POST',
-        body: JSON.stringify({
+        headers: {"Content-Type": "application/json"}, method: 'POST', body: JSON.stringify({
             "username": searched_user[0].toString(),
             "id": searched_user[2].toString(),
-            "name": searched_user[1].toString()})
+            "name": searched_user[1].toString()
+        })
 
     });
     if (!response.ok) {
@@ -175,7 +173,7 @@ async function createNewChatRoom(searched_user){
     await displayChatRooms(chat_rooms);
 
     let messages = await getMessages(chatroom);
-    if(messages.length !== 0){
+    if (messages.length !== 0) {
 
         displayMessages(messages);
     }
@@ -193,8 +191,7 @@ async function createNewChatRoom(searched_user){
 // first need to search for user then with their username send to create new chatroom
 async function searchUser(input) {
     const response = await fetch('/Capstone/searchUsers', {
-        method: 'POST',
-        headers: {"username": input.toString()}
+        method: 'POST', headers: {"username": input.toString()}
     });
 
     if (!response.ok) {
@@ -217,14 +214,12 @@ async function searchUser(input) {
 async function addUserToChatRoom(chat_room_id, username, user_id, name) {
 
     const response = await fetch('/Capstone/addUserToChatRoom', {
-        method: 'POST',
-        headers: {
+        method: 'POST', headers: {
             "Content-Type": "application/json",
 
-        },
-        body: JSON.stringify({
-            "chatroom": chat_room_id.toString(),
-            "id": user_id.toString()})
+        }, body: JSON.stringify({
+            "chatroom": chat_room_id.toString(), "id": user_id.toString()
+        })
     });
 
     if (!response.ok) {
@@ -238,7 +233,7 @@ async function addUserToChatRoom(chat_room_id, username, user_id, name) {
     await displayChatRooms(chat_rooms);
 
     let messages = await getMessages(chatroom);
-    if(messages.length !== 0){
+    if (messages.length !== 0) {
 
         displayMessages(messages);
     }

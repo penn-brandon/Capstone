@@ -28,10 +28,10 @@
         window.onload = async () => {
             let chat_rooms = await getChatRooms();
             await displayChatRooms(chat_rooms);
-            sessionStorage.setItem("chat_id",null);
-            sessionStorage.setItem("name",`${sessionScope.userModel.getName()}`);
-            sessionStorage.setItem("username",`${sessionScope.userModel.getUsername()}`);
-            sessionStorage.setItem("path",`${pageContext.request.contextPath}`);
+            sessionStorage.setItem("chat_id", null);
+            sessionStorage.setItem("name", `${sessionScope.userModel.getName()}`);
+            sessionStorage.setItem("username", `${sessionScope.userModel.getUsername()}`);
+            sessionStorage.setItem("path", `${pageContext.request.contextPath}`);
 
             let send_message_enter = document.getElementById('chat-send');
             send_message_enter.addEventListener("keypress", function (event) {
@@ -46,10 +46,14 @@
             refresh_icon.addEventListener('click', async () => {
                 let chat_rooms = await getChatRooms();
                 await displayChatRooms(chat_rooms);
-                refresh_icon_img.animate([{transform:"rotate(0deg)"},{transform:"rotate(180deg)"},{transform:"rotate(360deg)"}], {duration: 1000, iterations: 1});
+                refresh_icon_img.animate([{transform: "rotate(0deg)"}, {transform: "rotate(180deg)"}, {transform: "rotate(360deg)"}], {
+                    duration: 1000,
+                    iterations: 1
+                });
             });
 
         }
+
         function startListener() {
 
             var socket = new SockJS('http://localhost:8080/Capstone/capstone');
@@ -120,51 +124,52 @@
 </head>
 
 <body>
-    <div class="container">
-        <nav>
-            <div class="nav-content">
-                <div class="nav-img">
-                    <img src="${pageContext.request.contextPath}/images/logo.svg" alt="Logo"/>
-                    <span class="nav-logo">BLURB</span>
-                </div>
-                <div class="profile-div" id="profile-div">
-                    <button class="profile" id="profile" onclick="profile_click()">
-                        <img src="${pageContext.request.contextPath}/images/user.svg" alt="Profile"/>
-                    </button>
-                </div>
+<div class="container">
+    <nav>
+        <div class="nav-content">
+            <div class="nav-img">
+                <img src="${pageContext.request.contextPath}/images/logo.svg" alt="Logo"/>
+                <span class="nav-logo">BLURB</span>
             </div>
-        </nav>
+            <div class="profile-div" id="profile-div">
+                <button class="profile" id="profile" onclick="profile_click()">
+                    <img src="${pageContext.request.contextPath}/images/user.svg" alt="Profile"/>
+                </button>
+            </div>
+        </div>
+    </nav>
 
-        <div class="chats">
-            <div class="chats-title">
-                <p class="chats-title-title">Channels</p>
-                <a id="chats-refresh-icon">
-                    <img id="chats-refresh-icon-img" src="${pageContext.request.contextPath}/images/refresh.svg"  alt="Refresh"/>
-                </a>
-            </div>
-            <div class="channels-list" id="channels-list">
-                <p>Default Channel</p>
-            </div>
+    <div class="chats">
+        <div class="chats-title">
+            <p class="chats-title-title">Channels</p>
+            <a id="chats-refresh-icon">
+                <img id="chats-refresh-icon-img" src="${pageContext.request.contextPath}/images/refresh.svg"
+                     alt="Refresh"/>
+            </a>
         </div>
-        <div class="current-chat" id="current-chat">
+        <div class="channels-list" id="channels-list">
+            <p>Default Channel</p>
         </div>
-        <div class="chat-box">
-            <label>
-                <textarea class="chat-send" id="chat-send"></textarea>
-            </label>
-            <div id="send-button" onclick="sendMessage()">
-                <img src="${pageContext.request.contextPath}/images/send.svg" class="chat-send-icon" alt="Send">
-            </div>
-        </div>
-
-        <footer>
-            <div class="footer-div">
-                <p class="footer-copyright">
-                    Copyright of Cool Dudes &copy;2024. All Rights Reserved.
-                </p>
-            </div>
-        </footer>
     </div>
+    <div class="current-chat" id="current-chat">
+    </div>
+    <div class="chat-box">
+        <label>
+            <textarea class="chat-send" id="chat-send"></textarea>
+        </label>
+        <div id="send-button" onclick="sendMessage()">
+            <img src="${pageContext.request.contextPath}/images/send.svg" class="chat-send-icon" alt="Send">
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-div">
+            <p class="footer-copyright">
+                Copyright of Cool Dudes &copy;2024. All Rights Reserved.
+            </p>
+        </div>
+    </footer>
+</div>
 </body>
 
 </html>
