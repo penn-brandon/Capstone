@@ -187,6 +187,8 @@ public class ChatServer {
 
     public synchronized static void loginCheckin(Integer userId) {
 
+        removeFromOnlineUserPool(userId);
+
         ONLINE_USER_POOL.put(userId, 0);
     }
 }
