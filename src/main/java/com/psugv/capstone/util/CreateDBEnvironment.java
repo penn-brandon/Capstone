@@ -2,17 +2,16 @@ package com.psugv.capstone.util;
 
 
 import jakarta.annotation.PostConstruct;
-import jakarta.persistence.EntityManager;
 import org.apache.ibatis.jdbc.ScriptRunner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
+import java.io.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
@@ -27,22 +26,15 @@ public class CreateDBEnvironment {
     private static final Logger LOGGER = LoggerFactory.getLogger(CreateDBEnvironment.class);
 
     @Autowired
-    private EntityManager entityManager;
+    private ResourceLoader resourceLoader;
 
-    @Value("${drop.db.tables}")
-    private String dropTablesFilePath;
+    private final static String DROP_TABLES = "classpath:static/sql/drop_tables.sql";
 
-    @Value("${initialize.db.tables}")
-    private String initializeTablesFilePath;
+    private final static String CREAT_TABLE = "classpath:static/sql/create_tables.sql";
 
-    @Value("${initialize.db.tables.test}")
-    private String initializeTestingTablesFilePath;
+    private final static String CREATE_TESTING_TABLE = "classpath:static/sql/testing.sql";
 
-    @Value("${initialize.db.tables.insert}")
-    private String insertTablesFilePath;
-
-    @Value("${initialize.db.tables.test.insert}")
-    private String insertTestingTablesFilePath;
+    private final static String INSERT_TESTING_DATA = "classpath:static/sql/insert_testing.sql";
 
     @Value("${spring.datasource.url}")
     private String URL;
@@ -71,15 +63,13 @@ public class CreateDBEnvironment {
             scriptRunner = new ScriptRunner(connection);
 
             LOGGER.info("Implementing set up method");
-            implementScript(dropTablesFilePath);
+            implementScript(DROP_TABLES);
 
-            implementScript(initializeTablesFilePath);
+            implementScript(CREAT_TABLE);
 
-            implementScript(initializeTestingTablesFilePath);
+            implementScript(CREATE_TESTING_TABLE);
 
-            //implementScript(insertTablesFilePath);
-
-            implementScript(insertTestingTablesFilePath);
+            implementScript(INSERT_TESTING_DATA);
 
         } catch (Exception e) {
 
@@ -87,9 +77,9 @@ public class CreateDBEnvironment {
         }
     }
 
-    private void implementScript(String filePath) {
+    private void implementScript(String classpath) {
 
-        File f = new File(filePath);
+        File f = getFile(classpath);
         LOGGER.debug("check file path of the project is : {}", f.getAbsolutePath());
 
         try (BufferedReader br = new BufferedReader(new FileReader(f))) {
@@ -100,5 +90,36 @@ public class CreateDBEnvironment {
 
             LOGGER.error("Fail to run script file\n" + e.getMessage(), e);
         }
+
+        boolean deleteFile = f.delete();
+
+        if (!deleteFile) {
+
+            LOGGER.error("Cannot delete temp file");
+            throw new RuntimeException("Fail to delete file " + f.getAbsolutePath());
+        }
+    }
+
+    private File getFile(String classpath){
+
+        Resource resource = resourceLoader.getResource(classpath);
+
+        File outputFile = new File("temp.sql");
+
+        try (InputStream inputStream = resource.getInputStream(); OutputStream outputStream = new FileOutputStream(outputFile)) {
+
+            byte[] buffer = new byte[1024];
+
+            int bytesRead;
+
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+
+                outputStream.write(buffer, 0, bytesRead);
+            }
+        }  catch (Exception e) {
+
+            LOGGER.error("Fail to load resource" + e.getMessage(), e);
+        }
+        return outputFile;
     }
 }
