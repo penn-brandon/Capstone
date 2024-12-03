@@ -201,14 +201,15 @@
                     <execution>
                         <goals>
                             <goal>prepare-agent</goal>
-                    <!--                         </goals>
-                                        </execution>
-                                         After-test phase to generate coverage reports
+                        </goals>
+                    </execution>
+                                         <!--After-test phase to generate coverage reports-->
                     <execution>
-                        <goals>-->
+                        <id>generate-code-coverage-report</id>
+                        <goals>
                             <goal>report</goal>
                         </goals>
-                        <phase>verify</phase> <!-- Generates the report in the verify phase -->
+                        <phase>test</phase> <!-- Generates the report in the verify phase -->
                     </execution>
                 </executions>
             </plugin>
