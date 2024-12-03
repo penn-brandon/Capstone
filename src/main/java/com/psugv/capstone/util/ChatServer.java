@@ -176,6 +176,8 @@ public class ChatServer {
 
         ONLINE_LISTENER_POOL = new ConcurrentHashMap<>();
 
-        ONLINE_USER_POOL = new ConcurrentHashMap<>();
+        removeFromOnlineUserPool(userId);
+
+        ONLINE_USER_POOL.put(userId, 0);
     }
 }
