@@ -27,15 +27,22 @@ public class LoginUserDetailsService implements UserDetailsService {
     private IUserDAO userDAO;
 
     @Override
-    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String userName) {
 
-        System.out.println("userName input: " + userName);
+        LOGGER.trace("userName input: " + userName);
+        try{
+            UserModel user = userDAO.getUserByUsername(userName);
 
-        UserModel user = userDAO.getUserByUsername(userName);
+            if (user == null) {
 
-        if (user == null) {
-            throw new UsernameNotFoundException("User details not found for the user : " + userName);
+                throw new UsernameNotFoundException("User details not found for the user : " + userName);
+            }
+            return new SecurityUserLogin(user);
+
+        } catch (Exception e) {
+
+            LOGGER.error("User name incorrect", e);
+            return new SecurityUserLogin(new UserModel());
         }
-        return new SecurityUserLogin(user);
     }
 }
