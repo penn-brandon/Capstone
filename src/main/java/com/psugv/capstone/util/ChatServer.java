@@ -159,22 +159,26 @@ public class ChatServer {
         return true;
     }
 
-    public synchronized static boolean alreadyLogin(Integer userId) {
-
-        return ONLINE_USER_POOL.containsKey(userId);
-    }
-
-    public synchronized static void loginCheckin(Integer userId) {
-
-        ONLINE_USER_POOL.put(userId, 0);
-    }
-
     @PostConstruct
     public void init() {
 
         System.out.println("Chat server started");
 
         ONLINE_LISTENER_POOL = new ConcurrentHashMap<>();
+
+        ONLINE_USER_POOL = new ConcurrentHashMap<>();
+    }
+
+    public synchronized static boolean alreadyLogin(Integer userId) {
+
+        if(ONLINE_USER_POOL.containsKey(userId)) {
+
+            return true;
+        }
+        return false;
+    }
+
+    public synchronized static void loginCheckin(Integer userId) {
 
         removeFromOnlineUserPool(userId);
 
