@@ -8,6 +8,7 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -25,7 +26,12 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
 
-        http.authorizeHttpRequests((requests) -> requests.requestMatchers("/css/**", "/images/**", "/javascript/**", "/sql/**", "/views/**").permitAll().requestMatchers("/", "/login", "/signup", "/index", "/error", "/register", "logout").permitAll().requestMatchers("/chat", "/send", "/select", "/loadMessage", "/loadAllChatRoomName", "/searchUsers", "/createNewChatRoom", "/addUserToChatRoom").authenticated().requestMatchers("/listening/**", "/controller/**", "/capstone").permitAll().anyRequest().authenticated());
+        http.authorizeHttpRequests((requests) -> requests
+                .requestMatchers("/css/**", "/images/**", "/javascript/**", "/sql/**", "/views/open/**").permitAll()
+                .requestMatchers("/", "/login", "/signup", "/index", "/error", "/register", "logout").permitAll()
+                .requestMatchers("/views/main/**", "/chat", "/send", "/select", "/loadMessage", "/loadAllChatRoomName", "/searchUsers", "/createNewChatRoom", "/addUserToChatRoom").authenticated()
+                .requestMatchers("/listening/**", "/controller/**", "/capstone").permitAll()
+                .anyRequest().authenticated());
 
         http.httpBasic(Customizer.withDefaults());
 
