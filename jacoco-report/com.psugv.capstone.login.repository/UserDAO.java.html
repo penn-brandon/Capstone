@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserDAO.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Capstone</a> &gt; <a href="index.source.html" class="el_package">com.psugv.capstone.login.repository</a> &gt; <span class="el_source">UserDAO.java</span></div><h1>UserDAO.java</h1><pre class="source lang-java linenums">package com.psugv.capstone.login.repository;
+
+import com.psugv.capstone.exception.InsertErrorException;
+import com.psugv.capstone.exception.NoQueryResultException;
+import com.psugv.capstone.login.model.UserModel;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
+import jakarta.persistence.Query;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.annotation.Transactional;
+
+/**
+ * This data access object class is for user operation related to DB.
+ *
+ * Author: Chuan Wei
+ */
+@Repository
+<span class="fc" id="L23">public class UserDAO implements IUserDAO {</span>
+
+<span class="fc" id="L25">    private static final Logger LOGGER = LoggerFactory.getLogger(UserDAO.class);</span>
+
+    @Autowired
+    EntityManager entityManager;
+
+
+    public UserModel getUserByUsername(String userName) {
+
+<span class="fc" id="L33">        LOGGER.trace(&quot;In UserDAO.getUserByUsername method&quot;);</span>
+        UserModel um;
+
+        try {
+<span class="fc" id="L37">            Query user_query = entityManager.createNativeQuery(&quot;select * from user where username = ?&quot;, UserModel.class);</span>
+<span class="fc" id="L38">            LOGGER.trace(&quot;sql: &quot; + user_query.toString());</span>
+
+<span class="fc" id="L40">            user_query.setParameter(1, userName);</span>
+
+<span class="fc" id="L42">            LOGGER.trace(&quot;Execute get query&quot;);</span>
+<span class="fc" id="L43">            um = (UserModel) user_query.getSingleResult();</span>
+
+<span class="fc" id="L45">        } catch (NoResultException e) {</span>
+
+<span class="fc" id="L47">            LOGGER.error(&quot;Fail to load user by user name!!! Username: &quot; + userName, e);</span>
+<span class="fc" id="L48">            throw new NoQueryResultException(&quot;username: &quot; + userName + &quot; not found&quot;);</span>
+<span class="fc" id="L49">        }</span>
+<span class="fc" id="L50">        return um;</span>
+    }
+
+    @Override
+    public UserModel registration(UserModel user) {
+
+<span class="fc" id="L56">        LOGGER.trace(&quot;In UserDAO.registration method&quot;);</span>
+        try {
+<span class="fc" id="L58">            LOGGER.trace(&quot;Execute persist query&quot;);</span>
+<span class="fc" id="L59">            entityManager.persist(user);</span>
+<span class="fc" id="L60">            LOGGER.trace(&quot;Execute flush&quot;);</span>
+<span class="fc" id="L61">            entityManager.flush();</span>
+
+<span class="nc" id="L63">        } catch (Exception e) {</span>
+
+<span class="nc" id="L65">            LOGGER.error(&quot;Fail to register user!!!&quot;, e);</span>
+<span class="nc" id="L66">            throw new InsertErrorException(&quot;Registration failure!!!&quot;);</span>
+<span class="fc" id="L67">        }</span>
+<span class="fc" id="L68">        return user;</span>
+    }
+
+    @Override
+    public void createChatRoomName(Integer userId){
+
+<span class="fc" id="L74">        LOGGER.trace(&quot;In UserDAO createChatRoomName method&quot;);</span>
+        try{
+<span class="fc" id="L76">            String sql = &quot;CREATE TABLE &quot; + userId.toString() + &quot;_ChatRoomName ( &quot; +</span>
+                    &quot;chat_room_name_id SERIAL PRIMARY KEY NOT NULL,&quot; +
+                    &quot;chat_room_id INT NOT NULL,&quot; +
+                    &quot;admin BOOLEAN NOT NULL,&quot; +
+                    &quot;chat_room_name TINYTEXT NOT NULL,&quot; +
+                    &quot;last_modified DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,&quot; +
+                    &quot;FOREIGN KEY (chat_room_id) REFERENCES ChatRoom (chat_room_id));&quot;;
+<span class="fc" id="L83">            LOGGER.debug(&quot;Sql: &quot; + sql);</span>
+
+<span class="fc" id="L85">            LOGGER.trace(&quot;Execute update query&quot;);</span>
+<span class="fc" id="L86">            entityManager.createNativeQuery(sql).executeUpdate();</span>
+
+<span class="nc" id="L88">        } catch (Exception e) {</span>
+
+<span class="nc" id="L90">            LOGGER.error(e.getMessage(), e);</span>
+<span class="nc" id="L91">            throw new NoQueryResultException(&quot;Fail to create chat room name name!!!&quot;);</span>
+<span class="fc" id="L92">        }</span>
+<span class="fc" id="L93">    }</span>
+
+    @Override
+    public UserModel findUserById(Integer userId){
+
+<span class="fc" id="L98">        LOGGER.trace(&quot;In UserDAO.findUserById method&quot;);</span>
+        UserModel userModel;
+
+        try {
+<span class="fc" id="L102">            Query query = entityManager.createNativeQuery(&quot;select * from user where user_id = ?&quot;, UserModel.class);</span>
+<span class="fc" id="L103">            LOGGER.trace(&quot;sql: &quot; + query.toString());</span>
+
+<span class="fc" id="L105">            query.setParameter(1, userId.toString());</span>
+
+<span class="fc" id="L107">            LOGGER.trace(&quot;Execute get query&quot;);</span>
+<span class="fc" id="L108">            userModel = (UserModel) query.getSingleResult();</span>
+
+<span class="nc" id="L110">        } catch (Exception e) {</span>
+
+<span class="nc" id="L112">            LOGGER.error(&quot;Fail to find user by Id!!!&quot;, e);</span>
+<span class="nc" id="L113">            throw new InsertErrorException(&quot;Registration failure!!!&quot;);</span>
+<span class="fc" id="L114">        }</span>
+<span class="fc" id="L115">        return userModel;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

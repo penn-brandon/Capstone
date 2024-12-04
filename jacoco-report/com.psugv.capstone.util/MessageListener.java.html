@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MessageListener.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Capstone</a> &gt; <a href="index.source.html" class="el_package">com.psugv.capstone.util</a> &gt; <span class="el_source">MessageListener.java</span></div><h1>MessageListener.java</h1><pre class="source lang-java linenums">package com.psugv.capstone.util;
+
+import com.psugv.capstone.chat.model.ChatRoom;
+import com.psugv.capstone.chat.model.ChatRoomName;
+import com.psugv.capstone.login.model.UserModel;
+import lombok.Getter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.stereotype.Component;
+
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * This is the listener class that will pass the message received from the server to the view.
+ * Each session from user will have one listener to serve.
+ * Author: Chuan Wei
+ */
+@Component
+public class MessageListener {
+
+<span class="fc" id="L23">    private static final Logger LOGGER = LoggerFactory.getLogger(MessageListener.class);</span>
+    private final static String MESSAGE_WAIT = &quot;MESSAGE_IS_WAITING_FOR_NEW_INPUT&quot;;
+<span class="pc" id="L25">    @Getter</span>
+    private boolean listening = false;
+<span class="fc" id="L27">    @Getter</span>
+    private UserModel user;
+<span class="fc" id="L29">    @Getter</span>
+    private ChatRoom room;
+<span class="fc" id="L31">    @Getter</span>
+    private ChatRoomName roomName;
+    private String message;
+<span class="fc" id="L34">    @Getter</span>
+    private SimpMessagingTemplate messagingTemplate;
+
+<span class="fc" id="L37">    private String senderName = null;</span>
+
+<span class="fc" id="L39">    public MessageListener(ChatRoom room, ChatRoomName roomName, UserModel user, SimpMessagingTemplate messagingTemplate) {</span>
+
+<span class="fc" id="L41">        LOGGER.info(&quot;Listener initializes&quot;);</span>
+<span class="fc" id="L42">        this.room = room;</span>
+<span class="fc" id="L43">        this.roomName = roomName;</span>
+<span class="fc" id="L44">        this.user = user;</span>
+<span class="fc" id="L45">        message = MESSAGE_WAIT;</span>
+<span class="fc" id="L46">        this.messagingTemplate = messagingTemplate;</span>
+<span class="pc bpc" id="L47" title="1 of 2 branches missed.">        LOGGER.debug(&quot;messagingTemplate is null in constructor? {}&quot;, messagingTemplate == null);</span>
+<span class="fc" id="L48">    }</span>
+
+<span class="fc" id="L50">    public MessageListener(MessageListener messageListener) {</span>
+
+<span class="fc" id="L52">        LOGGER.info(&quot;Listener initializes&quot;);</span>
+<span class="fc" id="L53">        this.room = messageListener.getRoom();</span>
+<span class="fc" id="L54">        this.roomName = messageListener.getRoomName();</span>
+<span class="fc" id="L55">        this.user = messageListener.getUser();</span>
+<span class="fc" id="L56">        message = MESSAGE_WAIT;</span>
+<span class="fc" id="L57">        this.messagingTemplate = messageListener.getMessagingTemplate();</span>
+<span class="pc bpc" id="L58" title="1 of 2 branches missed.">        LOGGER.debug(&quot;messagingTemplate is null in constructor? {}&quot;, messagingTemplate == null);</span>
+<span class="fc" id="L59">    }</span>
+
+<span class="fc" id="L61">    public MessageListener() {</span>
+<span class="fc" id="L62">    }</span>
+
+    public void init() {
+
+<span class="fc" id="L66">        LOGGER.info(&quot;Listening start&quot;);</span>
+<span class="fc" id="L67">        LOGGER.trace(this.toString());</span>
+<span class="fc" id="L68">        listening = true;</span>
+<span class="nc" id="L69">        listeningMessage();</span>
+<span class="nc" id="L70">    }</span>
+
+    public void destroy() {
+
+<span class="nc" id="L74">        LOGGER.info(&quot;Listening stop&quot;);</span>
+<span class="nc" id="L75">        LOGGER.trace(&quot;{} !!Ceased!!&quot;, this);</span>
+<span class="nc" id="L76">        listening = false;</span>
+<span class="nc" id="L77">        user = null;</span>
+<span class="nc" id="L78">        room = null;</span>
+<span class="nc" id="L79">        roomName = null;</span>
+<span class="nc" id="L80">    }</span>
+
+    public synchronized void updateChatRoom(MessageListener listener) {
+
+<span class="fc" id="L84">        LOGGER.debug(&quot;Lock listener itself&quot;);</span>
+<span class="fc" id="L85">        synchronized (this) {</span>
+
+<span class="fc" id="L87">            listening = false;</span>
+
+<span class="fc" id="L89">            LOGGER.info(&quot;Update chat room&quot;);</span>
+<span class="fc" id="L90">            LOGGER.trace(this.toString());</span>
+<span class="fc" id="L91">            this.room = listener.getRoom();</span>
+<span class="fc" id="L92">            this.roomName = listener.getRoomName();</span>
+<span class="pc bpc" id="L93" title="1 of 2 branches missed.">            LOGGER.debug(&quot;messagingTemplate is null in update method? {}&quot;, messagingTemplate == null);</span>
+<span class="fc" id="L94">        }</span>
+<span class="fc" id="L95">    }</span>
+
+    public synchronized void setMessage(String message, String name) {
+
+<span class="fc" id="L99">        LOGGER.debug(&quot;In setMessage method&quot;);</span>
+
+<span class="fc" id="L101">        synchronized (this) {</span>
+
+<span class="fc" id="L103">            LOGGER.debug(&quot;Message: {} synchronized, set message field and notify it.&quot;, this.message);</span>
+<span class="fc" id="L104">            this.message = message;</span>
+<span class="fc" id="L105">            this.senderName = name;</span>
+<span class="fc" id="L106">            this.notify();</span>
+<span class="fc" id="L107">        }</span>
+<span class="fc" id="L108">    }</span>
+
+    private void listeningMessage() {
+
+        try {
+<span class="fc" id="L113">            synchronized (this) {</span>
+
+<span class="pc bpc" id="L115" title="1 of 2 branches missed.">                while (listening) {</span>
+
+<span class="pc bpc" id="L117" title="1 of 2 branches missed.">                    if (message.equals(MESSAGE_WAIT)) {</span>
+
+<span class="fc" id="L119">                        LOGGER.debug(&quot;Message object wait!!&quot;);</span>
+<span class="fc" id="L120">                        this.wait();</span>
+                    }
+<span class="fc" id="L122">                    LOGGER.debug(&quot;Message received: {} sender is {}&quot;, message, this.senderName);</span>
+<span class="fc" id="L123">                    LOGGER.trace(&quot;sending message out!!&quot;);</span>
+<span class="fc" id="L124">                    sendUpdateToSocket(message, senderName);</span>
+
+<span class="fc" id="L126">                    message = MESSAGE_WAIT;</span>
+<span class="fc" id="L127">                    senderName = null;</span>
+                }
+<span class="nc" id="L129">            }</span>
+<span class="nc" id="L130">        } catch (Exception e) {</span>
+<span class="nc" id="L131">            LOGGER.error(&quot;Error occurred by listening loop&quot;, e);</span>
+<span class="nc" id="L132">            destroy();</span>
+<span class="nc" id="L133">        }</span>
+<span class="nc" id="L134">        LOGGER.warn(&quot;!!!Stop listening!!!&quot;);</span>
+<span class="nc" id="L135">    }</span>
+
+    @Override
+    public String toString() {
+
+<span class="fc" id="L140">        return user.getName() + &quot; is listening to chat room &quot; + roomName;</span>
+    }
+
+    private void sendUpdateToSocket(String message, String senderName) {
+
+<span class="fc" id="L145">        LOGGER.debug(&quot;ChatService.sendUpdate, message is: {}, and Listener is: {}&quot;, message, this.getUser().getUsername());</span>
+<span class="fc" id="L146">        String userName = this.getUser().getUsername();</span>
+
+<span class="fc" id="L148">        LOGGER.info(&quot;Publish the data to /listening/{}&quot;, userName);</span>
+<span class="pc bpc" id="L149" title="1 of 2 branches missed.">        LOGGER.debug(&quot;messagingTemplate is null? {}&quot;, messagingTemplate == null);</span>
+
+<span class="fc" id="L151">        Map&lt;String, Object&gt; result = new HashMap&lt;&gt;();</span>
+
+<span class="fc" id="L153">        result.put(&quot;message&quot;, message);</span>
+<span class="fc" id="L154">        result.put(&quot;senderName&quot;, senderName);</span>
+
+<span class="fc" id="L156">        messagingTemplate.convertAndSend(&quot;/listening/&quot; + userName, result);</span>
+<span class="fc" id="L157">    }</span>
+
+    public void setMessagingTemplate(SimpMessagingTemplate messagingTemplate) {
+<span class="nc" id="L160">        this.messagingTemplate = messagingTemplate;</span>
+<span class="nc" id="L161">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

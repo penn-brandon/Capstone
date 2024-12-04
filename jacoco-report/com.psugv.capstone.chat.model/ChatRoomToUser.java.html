@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ChatRoomToUser.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Capstone</a> &gt; <a href="index.source.html" class="el_package">com.psugv.capstone.chat.model</a> &gt; <span class="el_source">ChatRoomToUser.java</span></div><h1>ChatRoomToUser.java</h1><pre class="source lang-java linenums">package com.psugv.capstone.chat.model;
+
+import com.psugv.capstone.login.model.UserModel;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.stereotype.Component;
+
+/**
+ * This class is to record the relationship of chat room and user.
+ *
+ * Author: Chuan Wei
+ */
+@Entity(name = &quot;ChatRoomToUser&quot;)
+@Table(name = &quot;ChatRoomToUser&quot;)
+@Component(&quot;ChatRoomToUser&quot;)
+public class ChatRoomToUser {
+
+<span class="nc" id="L19">    @Setter</span>
+<span class="nc" id="L20">    @Getter</span>
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+<span class="nc" id="L25">    @Setter</span>
+<span class="fc" id="L26">    @Getter</span>
+    @OneToOne
+    @JoinColumn(name=&quot;user_id&quot;, referencedColumnName = &quot;user_id&quot;)
+    private UserModel userModel;
+
+<span class="nc" id="L31">    @Setter</span>
+<span class="fc" id="L32">    @Getter</span>
+    @OneToOne
+    @JoinColumn(name=&quot;chat_room_id&quot;, referencedColumnName = &quot;chat_room_id&quot;)
+    private ChatRoom chatRoom;
+
+<span class="fc" id="L37">    public ChatRoomToUser() {}</span>
+
+<span class="fc" id="L39">    public ChatRoomToUser(Integer id, UserModel userModel, ChatRoom chatRoom) {</span>
+<span class="fc" id="L40">        this.id = id;</span>
+<span class="fc" id="L41">        this.userModel = userModel;</span>
+<span class="fc" id="L42">        this.chatRoom = chatRoom;</span>
+<span class="fc" id="L43">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ChatDAO.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Capstone</a> &gt; <a href="index.source.html" class="el_package">com.psugv.capstone.chat.repository</a> &gt; <span class="el_source">ChatDAO.java</span></div><h1>ChatDAO.java</h1><pre class="source lang-java linenums">package com.psugv.capstone.chat.repository;
+
+import com.psugv.capstone.chat.model.ChatRoom;
+import com.psugv.capstone.chat.model.ChatRoomName;
+import com.psugv.capstone.chat.model.ChatRoomToUser;
+import com.psugv.capstone.chat.model.Message;
+import com.psugv.capstone.exception.InsertErrorException;
+import com.psugv.capstone.login.model.UserModel;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
+/**
+ * This is data access object class.
+ * It's used to provide interaction to DB that service class need.
+ *
+ * Author: Chuan Wei
+ */
+@Repository
+<span class="fc" id="L29">public class ChatDAO implements IChatDAO {</span>
+
+<span class="fc" id="L31">    private static final Logger LOGGER = LoggerFactory.getLogger(ChatDAO.class);</span>
+    private static final String CHAT_ROOM_NAME_POSTFIX = &quot;_ChatRoomName&quot;;
+    private static final String MESSAGE_POSTFIX = &quot;_message&quot;;
+
+    @Autowired
+    EntityManager entityManager;
+
+    @Value(&quot;${spring.datasource.url}&quot;)
+    private String URL;
+
+    @Value(&quot;${spring.datasource.username}&quot;)
+    private String username;
+
+    @Value(&quot;${spring.datasource.password}&quot;)
+    private String password;
+
+    @Override
+    public List&lt;ChatRoomName&gt; getAllChatroomName(Integer userId) {
+
+<span class="fc" id="L50">        LOGGER.trace(&quot;In ChatDAO getAllChatroomName method&quot;);</span>
+        List&lt;ChatRoomName&gt; result;
+
+<span class="fc" id="L53">        StringBuilder sql = new StringBuilder().append(&quot;select * from &quot;).append(userId).append(CHAT_ROOM_NAME_POSTFIX).append(&quot; order by last_modified desc&quot;);</span>
+<span class="fc" id="L54">        LOGGER.trace(&quot;sql: {}&quot;, sql);</span>
+
+        try {
+<span class="fc" id="L57">            Query query = entityManager.createNativeQuery(sql.toString());</span>
+
+<span class="fc" id="L59">            result = (List&lt;ChatRoomName&gt;) query.getResultList();</span>
+
+<span class="nc" id="L61">        } catch (Exception e) {</span>
+
+<span class="nc" id="L63">            LOGGER.error(&quot;Fail to load chat room name list!!&quot;, e);</span>
+
+<span class="nc" id="L65">            return null;</span>
+<span class="fc" id="L66">        }</span>
+<span class="fc" id="L67">        return result;</span>
+    }
+
+    @Override
+    public List&lt;Message&gt; loadHistoryMessage(Integer chatroomId) {
+
+<span class="fc" id="L73">        LOGGER.trace(&quot;In ChatDAO loadHistoryMessage method&quot;);</span>
+        List&lt;Message&gt; result;
+
+<span class="fc" id="L76">        StringBuilder sql = new StringBuilder().append(&quot;select * from &quot;).append(chatroomId).append(MESSAGE_POSTFIX).append(&quot; order by time desc&quot;);</span>
+<span class="fc" id="L77">        LOGGER.trace(&quot;sql: {}&quot;, sql);</span>
+
+        try {
+<span class="fc" id="L80">            Query query = entityManager.createNativeQuery(sql.toString(), Message.class);</span>
+
+<span class="fc" id="L82">            result = (List&lt;Message&gt;) query.getResultList();</span>
+<span class="fc" id="L83">            LOGGER.trace(&quot;history message is empty? &quot; + result.isEmpty());</span>
+
+<span class="nc" id="L85">        } catch (Exception e) {</span>
+
+<span class="nc" id="L87">            LOGGER.error(&quot;Fail to load message list!!&quot;, e);</span>
+<span class="nc" id="L88">            return null;</span>
+<span class="fc" id="L89">        }</span>
+<span class="fc" id="L90">        return result;</span>
+    }
+
+    @Override
+    public ChatRoomName findChatRoomName(Integer userId, Integer chatRoomId) {
+
+<span class="fc" id="L96">        LOGGER.trace(&quot;In ChatDAO findChatRoomName method&quot;);</span>
+        ChatRoomName result;
+
+        try {
+
+<span class="fc" id="L101">            Query query = entityManager.createNativeQuery(&quot;select * from &quot; + userId + CHAT_ROOM_NAME_POSTFIX + &quot; where chat_room_id = ?&quot;, ChatRoomName.class);</span>
+<span class="fc" id="L102">            query.setParameter(1, chatRoomId);</span>
+
+<span class="fc" id="L104">            LOGGER.trace(&quot;Execute get query&quot;);</span>
+<span class="fc" id="L105">            result = (ChatRoomName) query.getSingleResult();</span>
+
+<span class="fc" id="L107">        } catch (Exception e) {</span>
+
+<span class="fc" id="L109">            LOGGER.error(&quot;Fail to find the chat room name&quot;, e);</span>
+<span class="fc" id="L110">            return null;</span>
+<span class="fc" id="L111">        }</span>
+<span class="fc" id="L112">        return result;</span>
+    }
+
+    @Override
+    public ChatRoom findChatRoom(Integer chatroomId) {
+
+<span class="fc" id="L118">        LOGGER.trace(&quot;In ChatDAO findChatRoom method&quot;);</span>
+        ChatRoom result;
+
+        try {
+<span class="fc" id="L122">            Query query = entityManager.createNativeQuery(&quot;select * from ChatRoom where chat_room_id = ?&quot;, ChatRoom.class);</span>
+
+<span class="fc" id="L124">            query.setParameter(1, chatroomId);</span>
+
+<span class="fc" id="L126">            LOGGER.trace(&quot;Execute get query&quot;);</span>
+<span class="fc" id="L127">            result = (ChatRoom) query.getSingleResult();</span>
+
+<span class="nc" id="L129">        } catch (Exception e) {</span>
+
+<span class="nc" id="L131">            LOGGER.error(&quot;Fail to find chat room!!&quot;, e);</span>
+
+<span class="nc" id="L133">            return null;</span>
+<span class="fc" id="L134">        }</span>
+<span class="fc" id="L135">        return result;</span>
+    }
+
+    @Override
+    public boolean insertMessage(String message, UserModel userModel, String chatRoomId) {
+
+<span class="fc" id="L141">        LOGGER.trace(&quot;In ChatDAO insertMessage method&quot;);</span>
+<span class="fc" id="L142">        Date currentDate = new Date();</span>
+
+<span class="fc" id="L144">        SimpleDateFormat sdf = new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;);</span>
+
+<span class="fc" id="L146">        String formattedDate = sdf.format(currentDate);</span>
+
+        try {
+<span class="fc" id="L149">            Query query = entityManager.createNativeQuery(&quot;insert into &quot; + chatRoomId + MESSAGE_POSTFIX + &quot;(content,time,senderId,sender) &quot; +</span>
+<span class="fc" id="L150">                    &quot;value ('&quot; + message + &quot;','&quot; + formattedDate + &quot;',&quot; + userModel.getId() + &quot;,'&quot; + userModel.getName() + &quot;');&quot;);</span>
+<span class="fc" id="L151">            LOGGER.trace(&quot;sql: {}&quot;, query.toString());</span>
+
+<span class="fc" id="L153">            int result = query.executeUpdate();</span>
+<span class="fc" id="L154">            LOGGER.debug(&quot;rows inserted&quot;, result);</span>
+
+<span class="fc" id="L156">            return true;</span>
+
+<span class="nc" id="L158">        } catch (Exception e) {</span>
+
+<span class="nc" id="L160">            LOGGER.error(&quot;Cannot insert message {}&quot;, message, e);</span>
+
+<span class="nc" id="L162">            throw new InsertErrorException(&quot;Cannot insert message&quot; + message);</span>
+        }
+    }
+
+    @Override
+    public List&lt;UserModel&gt; blurrySearchUsername(String input){
+
+<span class="fc" id="L169">        LOGGER.trace(&quot;In ChatDAO blurrySearchUsername method&quot;);</span>
+        List&lt;UserModel&gt; result;
+
+        try{
+<span class="fc" id="L173">            String sql = &quot;from user where username like '%&quot; + input + &quot;%'&quot;;</span>
+<span class="fc" id="L174">            LOGGER.trace(&quot;sql: {}&quot;, sql.toString());</span>
+
+<span class="fc" id="L176">            result = entityManager.createQuery(sql, UserModel.class).getResultList();</span>
+
+<span class="nc" id="L178">        } catch(Exception e){</span>
+
+<span class="nc" id="L180">            LOGGER.error(e.getMessage(), e);</span>
+<span class="nc" id="L181">            return null;</span>
+<span class="fc" id="L182">        }</span>
+<span class="fc" id="L183">        return result;</span>
+    }
+
+    @Override
+    public void updateChatRoomName(UserModel userModel, Boolean admin, Integer chatRoomId, String name, Integer id){
+
+<span class="fc" id="L189">        LOGGER.debug(&quot;In ChatDAO updateChatRoomName method&quot;);</span>
+<span class="fc" id="L190">        String tableName = userModel.getId() + CHAT_ROOM_NAME_POSTFIX;</span>
+
+<span class="fc" id="L192">        String sql = &quot;update `&quot; + tableName +</span>
+                &quot;` set admin = ?&quot; +
+                &quot;, chat_room_id = ?&quot; +
+                &quot;, chat_room_name = ?&quot; +
+                &quot;, last_modified = CURRENT_TIMESTAMP &quot; +
+                &quot;where chat_room_name_id = ?&quot;;
+<span class="fc" id="L198">        LOGGER.debug(&quot;SQL string: &quot; + sql);</span>
+
+        try {
+<span class="fc" id="L201">            Query query = entityManager.createNativeQuery(sql);</span>
+
+<span class="fc" id="L203">            query.setParameter(1, admin);</span>
+<span class="fc" id="L204">            query.setParameter(2, chatRoomId);</span>
+<span class="fc" id="L205">            query.setParameter(3, name);</span>
+<span class="fc" id="L206">            query.setParameter(4, id);</span>
+
+<span class="fc" id="L208">            LOGGER.trace(&quot;Executeupdate&quot;);</span>
+<span class="fc" id="L209">            query.executeUpdate();</span>
+
+<span class="nc" id="L211">        } catch (Exception e){</span>
+
+<span class="nc" id="L213">            LOGGER.error(e.getMessage(), e);</span>
+<span class="nc" id="L214">            throw new RuntimeException(&quot;fail to update chat room name&quot;);</span>
+<span class="fc" id="L215">        }</span>
+<span class="fc" id="L216">    }</span>
+
+    @Override
+    public ChatRoom createNewChatRoom(){
+
+<span class="fc" id="L221">        LOGGER.trace(&quot;In ChatDAO createNewChatRoom method&quot;);</span>
+<span class="fc" id="L222">        ChatRoom chatRoom = new ChatRoom(null, false);</span>
+
+        try{
+<span class="fc" id="L225">            LOGGER.debug(&quot;Store the chatroom&quot;);</span>
+<span class="fc" id="L226">            entityManager.persist(chatRoom);</span>
+<span class="fc" id="L227">            LOGGER.trace(&quot;flush ChatRoom&quot;);</span>
+<span class="fc" id="L228">            entityManager.flush();</span>
+
+<span class="nc" id="L230">        } catch(Exception e){</span>
+
+<span class="nc" id="L232">            LOGGER.error(&quot;Fail to create new chat room!!!!!!!&quot; , e);</span>
+<span class="fc" id="L233">        }</span>
+<span class="fc" id="L234">        return chatRoom;</span>
+    }
+
+    @Override
+    public void insertNewChatRoomName(ChatRoom chatRoom, Integer userId, String name){
+
+<span class="fc" id="L240">        LOGGER.trace(&quot;In ChatDAO insertNewChatRoomName method&quot;);</span>
+<span class="fc" id="L241">        String sql = &quot;insert into &quot; + userId + CHAT_ROOM_NAME_POSTFIX + &quot; (chat_room_id, admin, chat_room_name, last_modified) value (&quot; + chatRoom.getId() + &quot;,False,'&quot; + name + &quot;', CURRENT_TIMESTAMP);&quot;;</span>
+<span class="fc" id="L242">        LOGGER.debug(&quot;Insert new chat room name sql: &quot; + sql);</span>
+
+        try{
+<span class="fc" id="L245">            LOGGER.trace(&quot;Executeupdate&quot;);</span>
+<span class="fc" id="L246">            entityManager.createNativeQuery(sql).executeUpdate();</span>
+
+<span class="nc" id="L248">        } catch(Exception e){</span>
+
+<span class="nc" id="L250">            LOGGER.error(&quot;Fail to insert new chat room name&quot;, e);</span>
+<span class="fc" id="L251">        }</span>
+<span class="fc" id="L252">    }</span>
+
+    @Override
+    public void insertChatRoomToUser(ChatRoomToUser chatRoomToUser){
+
+<span class="fc" id="L257">        LOGGER.trace(&quot;In ChatDAO insertChatRoomToUser method&quot;);</span>
+        try{
+<span class="fc" id="L259">            entityManager.persist(chatRoomToUser);</span>
+
+<span class="nc" id="L261">        } catch(Exception e){</span>
+
+<span class="nc" id="L263">            LOGGER.error(e.getMessage(), e);</span>
+<span class="fc" id="L264">        }</span>
+<span class="fc" id="L265">    }</span>
+
+    @Override
+    public List&lt;ChatRoomToUser&gt; findChatRoomToUserByChatRoom(Integer chatRoomId){
+
+<span class="fc" id="L270">        LOGGER.trace(&quot;In ChatDAO findChatRoomToUserByChatRoom method&quot;);</span>
+        List&lt;ChatRoomToUser&gt; result;
+
+        try{
+<span class="fc" id="L274">            Query query = entityManager.createNativeQuery(&quot;select * from ChatRoomToUser where chat_room_id = ?&quot;, ChatRoomToUser.class);</span>
+<span class="fc" id="L275">            LOGGER.trace(&quot;sql: {}&quot;, query.toString());</span>
+
+<span class="fc" id="L277">            query.setParameter(1, chatRoomId);</span>
+
+<span class="fc" id="L279">            LOGGER.trace(&quot;Execute get query&quot;);</span>
+<span class="fc" id="L280">            result = query.getResultList();</span>
+
+<span class="nc" id="L282">        } catch(Exception e){</span>
+
+<span class="nc" id="L284">            LOGGER.error(e.getMessage(), e);</span>
+<span class="nc" id="L285">            return null;</span>
+<span class="fc" id="L286">        }</span>
+<span class="fc" id="L287">        return result;</span>
+    }
+
+    @Override
+    public List&lt;ChatRoomToUser&gt; findChatRoomToUserByUserID(Integer userId){
+
+<span class="fc" id="L293">        LOGGER.trace(&quot;In ChatDAO findChatRoomToUserByUserID method&quot;);</span>
+        List&lt;ChatRoomToUser&gt; result;
+
+        try{
+<span class="fc" id="L297">            Query query = entityManager.createNativeQuery(&quot;select * from ChatRoomToUser where user_id = ?&quot;, ChatRoomToUser.class);</span>
+<span class="fc" id="L298">            LOGGER.trace(&quot;sql: {}&quot;, query.toString());</span>
+
+<span class="fc" id="L300">            query.setParameter(1, userId);</span>
+
+<span class="fc" id="L302">            LOGGER.trace(&quot;Execute get query&quot;);</span>
+<span class="fc" id="L303">            result = query.getResultList();</span>
+
+<span class="nc" id="L305">        } catch(Exception e){</span>
+
+<span class="nc" id="L307">            LOGGER.error(e.getMessage(), e);</span>
+<span class="nc" id="L308">            return null;</span>
+<span class="fc" id="L309">        }</span>
+<span class="fc" id="L310">        return result;</span>
+    }
+
+    @Override
+    public void deleteChatRoomName(Integer chatRoomNameId, Integer userId){
+
+<span class="fc" id="L316">        LOGGER.trace(&quot;In ChatDAO deleteChatRoomName method&quot;);</span>
+<span class="fc" id="L317">        String sql = &quot;delete from &quot; + userId + CHAT_ROOM_NAME_POSTFIX+ &quot; where chat_room_name_id = ?&quot;;</span>
+
+        try{
+<span class="fc" id="L320">            Query query = entityManager.createNativeQuery(sql);</span>
+<span class="fc" id="L321">            LOGGER.trace(&quot;sql: {}&quot;, query.toString());</span>
+
+<span class="fc" id="L323">            query.setParameter(1, chatRoomNameId);</span>
+
+<span class="fc" id="L325">            LOGGER.trace(&quot;Executeupdate&quot;);</span>
+<span class="fc" id="L326">            query.executeUpdate();</span>
+
+<span class="nc" id="L328">        } catch (Exception e){</span>
+
+<span class="nc" id="L330">            LOGGER.error(e.getMessage(), e);</span>
+<span class="nc" id="L331">            throw new RuntimeException(&quot;fail to delete chat room name&quot;);</span>
+<span class="fc" id="L332">        }</span>
+<span class="fc" id="L333">    }</span>
+
+    public void createNemMessage(Integer chatRoomId){
+
+<span class="fc" id="L337">        LOGGER.trace(&quot;In ChatDAO createNemMessage method&quot;);</span>
+<span class="fc" id="L338">        String sql = &quot;create table &quot; +  chatRoomId + MESSAGE_POSTFIX +</span>
+                &quot; (message_id SERIAL primary key not null,&quot; +
+                &quot; time DATETIME not null DEFAULT CURRENT_TIMESTAMP,&quot; +
+                &quot; content TEXT not null,&quot; +
+                &quot; senderId int not null,&quot; +
+                &quot; sender varchar(225) not null,&quot; +
+                &quot;  FOREIGN KEY (senderId) REFERENCES user (user_id));&quot;;
+<span class="fc" id="L345">        LOGGER.trace(&quot;SQL: &quot; + sql);</span>
+
+        try{
+<span class="fc" id="L348">            Query query = entityManager.createNativeQuery(sql);</span>
+
+<span class="fc" id="L350">            LOGGER.trace(&quot;Executeupdate&quot;);</span>
+<span class="fc" id="L351">            query.executeUpdate();</span>
+
+<span class="nc" id="L353">        } catch (Exception e){</span>
+
+<span class="nc" id="L355">            LOGGER.error(e.getMessage(), e);</span>
+<span class="nc" id="L356">            throw new RuntimeException(&quot;fail to create Nem Message table&quot;);</span>
+<span class="fc" id="L357">        }</span>
+<span class="fc" id="L358">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

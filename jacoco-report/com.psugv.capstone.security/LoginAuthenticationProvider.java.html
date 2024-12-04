@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LoginAuthenticationProvider.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Capstone</a> &gt; <a href="index.source.html" class="el_package">com.psugv.capstone.security</a> &gt; <span class="el_source">LoginAuthenticationProvider.java</span></div><h1>LoginAuthenticationProvider.java</h1><pre class="source lang-java linenums">package com.psugv.capstone.security;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
+
+/**
+ * This class implement the authemticationprovide of spring security to allow user to login.
+ * Author: Chuan Wei
+ */
+@Component
+<span class="fc" id="L22">public class LoginAuthenticationProvider implements AuthenticationProvider {</span>
+
+<span class="fc" id="L24">    private static final Logger LOGGER = LoggerFactory.getLogger(LoginAuthenticationProvider.class);</span>
+
+    @Autowired
+    @Qualifier(&quot;LoginUserDetailsService&quot;)
+    private UserDetailsService loginUserDetailService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Override
+    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+<span class="fc" id="L35">        String username = authentication.getName();</span>
+<span class="fc" id="L36">        String pwd = authentication.getCredentials().toString();</span>
+
+<span class="fc" id="L38">        UserDetails user = loginUserDetailService.loadUserByUsername(username);</span>
+
+<span class="fc" id="L40">        System.out.println(&quot;input password: &quot; + pwd);</span>
+<span class="fc" id="L41">        System.out.println(&quot;user password: &quot; + user.getPassword());</span>
+
+<span class="pc bpc" id="L43" title="1 of 2 branches missed.">        if (passwordEncoder.matches(pwd, user.getPassword())) {</span>
+<span class="fc" id="L44">            System.out.println(&quot;Login successful&quot;);</span>
+<span class="fc" id="L45">            return new UsernamePasswordAuthenticationToken(username, pwd, user.getAuthorities());</span>
+        } else {
+
+<span class="nc" id="L48">            System.err.println(&quot;Invalid username or password!&quot;);</span>
+
+<span class="nc" id="L50">            throw new BadCredentialsException(&quot;Invalid username or password!&quot;);</span>
+        }
+    }
+
+    @Override
+    public boolean supports(Class&lt;?&gt; authenticationType) {
+        //System.out.println(authenticationType.equals(UsernamePasswordAuthenticationToken.class));
+<span class="nc" id="L57">        return UsernamePasswordAuthenticationToken.class.isAssignableFrom(authenticationType);</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

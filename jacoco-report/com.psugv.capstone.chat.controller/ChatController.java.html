@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ChatController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Capstone</a> &gt; <a href="index.source.html" class="el_package">com.psugv.capstone.chat.controller</a> &gt; <span class="el_source">ChatController.java</span></div><h1>ChatController.java</h1><pre class="source lang-java linenums">package com.psugv.capstone.chat.controller;
+
+import com.psugv.capstone.chat.model.ChatRoomName;
+import com.psugv.capstone.chat.model.Message;
+import com.psugv.capstone.chat.service.IChatService;
+import com.psugv.capstone.exception.NoQueryResultException;
+import com.psugv.capstone.login.model.UserModel;
+import com.psugv.capstone.login.service.ILoginService;
+import com.psugv.capstone.util.ChatServer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * This controller class is for every function relating to chat.
+ * Author: Chuan Wei
+ */
+@Controller
+@SessionAttributes({&quot;userModel&quot;, &quot;chatRoomName&quot;})
+<span class="fc" id="L29">public class ChatController {</span>
+
+<span class="fc" id="L31">    private static final Logger LOGGER = LoggerFactory.getLogger(ChatController.class);</span>
+
+    @Autowired
+    IChatService chatService;
+
+    @Autowired
+    ILoginService loginService;
+
+    @GetMapping(path = &quot;/chat&quot;)
+    public String toChatPage(Model model) {
+
+<span class="fc" id="L42">        LOGGER.trace(&quot;toChatPage&quot;);</span>
+<span class="fc" id="L43">        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();</span>
+<span class="fc" id="L44">        String username = authentication.getName();</span>
+
+<span class="fc" id="L46">        LOGGER.trace(&quot;Storing user to session: {}&quot;, username);</span>
+<span class="fc" id="L47">        LOGGER.trace(&quot;Storing user to session: {}&quot;, authentication.getCredentials());</span>
+<span class="fc" id="L48">        UserModel userModel = loginService.getUserByUsername(username);</span>
+<span class="fc" id="L49">        model.addAttribute(&quot;userModel&quot;, userModel);</span>
+
+<span class="fc" id="L51">        ChatServer.loginCheckin(userModel.getId());</span>
+
+<span class="fc" id="L53">        return &quot;/main/chat&quot;;</span>
+    }
+
+    /**
+     * @param inputMap key: message, value: message send by user
+     *                 key: room, value: chat room ID
+     */
+    @PostMapping(path = &quot;/send&quot;, consumes = &quot;application/json&quot;)
+    public @ResponseBody String sendMessage(@RequestBody Map&lt;String, String&gt; inputMap, @SessionAttribute UserModel userModel) {
+
+<span class="fc" id="L63">        LOGGER.trace(&quot;sendMessage&quot;);</span>
+<span class="pc bpc" id="L64" title="4 of 8 branches missed.">        if (inputMap.get(&quot;message&quot;) == null || inputMap.get(&quot;message&quot;).isEmpty() || inputMap.get(&quot;room&quot;) == null || inputMap.get(&quot;room&quot;).isEmpty()) {</span>
+
+<span class="nc" id="L66">            LOGGER.debug(&quot;message: {}&quot;, inputMap.get(&quot;message&quot;));</span>
+<span class="nc" id="L67">            LOGGER.debug(&quot;room: {}&quot;, inputMap.get(&quot;room&quot;));</span>
+
+<span class="nc" id="L69">            return &quot;MESSAGE SENDING FAILURE&quot;;</span>
+        }
+
+<span class="fc" id="L72">        Boolean result = chatService.sendMessage(inputMap.get(&quot;message&quot;), userModel, inputMap.get(&quot;room&quot;));</span>
+
+<span class="fc" id="L74">        return result.toString();</span>
+    }
+
+    @GetMapping(path = &quot;/select&quot;)
+    public String selectChatBox(@RequestHeader String chatRoomID, @SessionAttribute(&quot;userModel&quot;) UserModel userModel, Model model) {
+
+<span class="fc" id="L80">        LOGGER.trace(&quot;selectChatBox&quot;);</span>
+        ChatRoomName result;
+
+<span class="fc" id="L83">        LOGGER.debug(&quot;Incoming chat room ID is: {}&quot;, chatRoomID);</span>
+
+        try {
+<span class="fc" id="L86">            result = chatService.selectChatRoom(chatRoomID, userModel);</span>
+
+<span class="pc bpc" id="L88" title="1 of 2 branches missed.">            if (result == null) {</span>
+
+<span class="nc" id="L90">                LOGGER.error(&quot;Chat room name not found for chat room ID {}, and user ID {}&quot;, chatRoomID, userModel.getId());</span>
+
+<span class="nc" id="L92">                return &quot;redirect:/error&quot;;</span>
+            }
+<span class="fc" id="L94">            model.addAttribute(&quot;chatRoomName&quot;, result);</span>
+
+<span class="fc" id="L96">            return &quot;redirect:/loadMessage&quot;;</span>
+
+<span class="nc" id="L98">        } catch (NoQueryResultException e) {</span>
+
+<span class="nc" id="L100">            return &quot;redirect:/error&quot;;</span>
+        }
+    }
+
+    @GetMapping(path = &quot;/loadMessage&quot;, produces = &quot;application/json&quot;)
+    public @ResponseBody List&lt;Message&gt; loadHistoryMessage(@SessionAttribute(&quot;chatRoomName&quot;) ChatRoomName chatRoomName) {
+
+<span class="fc" id="L107">        LOGGER.trace(&quot;loadHistoryMessage&quot;);</span>
+        List&lt;Message&gt; result;
+
+<span class="fc" id="L110">        Integer chatRoomId = chatRoomName.getChatRoom().getId();</span>
+
+<span class="fc" id="L112">        result = chatService.loadHistoryMessage(chatRoomId);</span>
+
+<span class="pc bpc" id="L114" title="1 of 2 branches missed.">        if (result == null) {</span>
+
+<span class="nc" id="L116">            return new ArrayList&lt;&gt;();</span>
+        }
+<span class="fc" id="L118">        LOGGER.debug(&quot;MESSAGE LENGTH {}&quot;, result.size());</span>
+<span class="fc" id="L119">        return result;</span>
+    }
+
+    @GetMapping(path = &quot;/loadAllChatRoomName&quot;, produces = &quot;application/json&quot;)
+    public @ResponseBody List&lt;ChatRoomName&gt; loadAllChatRoomName(@SessionAttribute(&quot;userModel&quot;) UserModel userModel) {
+
+<span class="fc" id="L125">        LOGGER.trace(&quot;loadAllChatRoomName&quot;);</span>
+<span class="fc" id="L126">        return chatService.getAllChatRoomName(userModel);</span>
+    }
+
+    @PostMapping(path = &quot;/searchUsers&quot;, produces = &quot;application/json&quot;)
+    public @ResponseBody List&lt;UserModel&gt; searchUser(@RequestHeader String username) {
+
+<span class="fc" id="L132">        LOGGER.trace(&quot;searchUser&quot;);</span>
+<span class="fc" id="L133">        LOGGER.debug(&quot;Search user controller&quot;);</span>
+<span class="fc" id="L134">        return chatService.searchUser(username);</span>
+    }
+
+    /**
+     * @param inputMap key: id, value: user id
+     *                 key: name, value: name of user
+     *                 key username, value username
+     */
+    @PostMapping(path = &quot;/createNewChatRoom&quot;, consumes = &quot;application/json&quot;, produces = &quot;application/json&quot;)
+    public @ResponseBody ChatRoomName createNewChatRoom(@RequestBody Map&lt;String, String&gt; inputMap, @SessionAttribute(&quot;userModel&quot;) UserModel userModel, Model model) {
+
+<span class="fc" id="L145">        LOGGER.trace(&quot;createNewChatRoom&quot;);</span>
+<span class="fc" id="L146">        ChatRoomName newchatRoomName = chatService.createChatRoom(inputMap, userModel);</span>
+
+<span class="fc" id="L148">        model.addAttribute(&quot;chatRoomName&quot;, newchatRoomName);</span>
+<span class="fc" id="L149">        LOGGER.debug(&quot;THIS IS  A CHEESEBURGER&quot;);</span>
+<span class="fc" id="L150">        return newchatRoomName;</span>
+    }
+
+    /**
+     * @param inputMap key: id, value: user id
+     *                 key: name, value: name of user
+     *                 key username, value username
+     *                 key chatroom, value chatroom id
+     */
+    @PostMapping(path = &quot;/addUserToChatRoom&quot;, consumes = &quot;application/json&quot;)
+    public @ResponseBody ChatRoomName addUserToChatRoom(@RequestBody Map&lt;String, String&gt; inputMap, @SessionAttribute(&quot;userModel&quot;) UserModel userModel, Model model) {
+
+<span class="fc" id="L162">        LOGGER.trace(&quot;addUserToChatRoom&quot;);</span>
+<span class="fc" id="L163">        ChatRoomName newchatRoomName = chatService.addUserToChatRoom(inputMap, userModel);</span>
+
+<span class="fc" id="L165">        model.addAttribute(&quot;chatRoomName&quot;, newchatRoomName);</span>
+
+<span class="fc" id="L167">        return newchatRoomName;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

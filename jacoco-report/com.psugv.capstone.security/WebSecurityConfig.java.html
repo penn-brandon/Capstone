@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>WebSecurityConfig.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Capstone</a> &gt; <a href="index.source.html" class="el_package">com.psugv.capstone.security</a> &gt; <span class="el_source">WebSecurityConfig.java</span></div><h1>WebSecurityConfig.java</h1><pre class="source lang-java linenums">package com.psugv.capstone.security;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+
+/**
+ * This class is web security configuration for controlling access to the backend server.
+ * Author: Chuan Wei
+ */
+@EnableWebSecurity
+@Configuration
+<span class="fc" id="L21">public class WebSecurityConfig {</span>
+
+<span class="fc" id="L23">    private static final Logger LOGGER = LoggerFactory.getLogger(WebSecurityConfig.class);</span>
+
+    @Bean
+    public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
+
+<span class="fc" id="L28">        http.authorizeHttpRequests((requests) -&gt; requests.requestMatchers(&quot;/css/**&quot;, &quot;/images/**&quot;, &quot;/javascript/**&quot;, &quot;/sql/**&quot;, &quot;/views/**&quot;).permitAll().requestMatchers(&quot;/&quot;, &quot;/login&quot;, &quot;/signup&quot;, &quot;/index&quot;, &quot;/error&quot;, &quot;/register&quot;, &quot;logout&quot;).permitAll().requestMatchers(&quot;/chat&quot;, &quot;/send&quot;, &quot;/select&quot;, &quot;/loadMessage&quot;, &quot;/loadAllChatRoomName&quot;, &quot;/searchUsers&quot;, &quot;/createNewChatRoom&quot;, &quot;/addUserToChatRoom&quot;).authenticated().requestMatchers(&quot;/listening/**&quot;, &quot;/controller/**&quot;, &quot;/capstone&quot;).permitAll().anyRequest().authenticated());</span>
+
+<span class="fc" id="L30">        http.httpBasic(Customizer.withDefaults());</span>
+
+<span class="fc" id="L32">        http.csrf(AbstractHttpConfigurer::disable);</span>
+
+
+<span class="fc" id="L35">        http.logout(logout -&gt; logout.logoutSuccessUrl(&quot;/index&quot;).permitAll());</span>
+
+
+<span class="fc" id="L38">        http.formLogin(form -&gt; form.loginPage(&quot;/login&quot;).permitAll().defaultSuccessUrl(&quot;/chat&quot;, true).failureUrl(&quot;/login?failed&quot;).permitAll());</span>
+
+<span class="fc" id="L40">        return http.build();</span>
+    }
+
+    /*
+        @Bean
+        public WebSecurityCustomizer webSecurityCustomizer() {
+            return (web) -&gt; web. ignoring()
+                    // Spring Security should completely ignore URLs starting with / resources/
+                    .requestMatchers(&quot;/css/**&quot;, &quot;/images/**&quot;, &quot;/javascript/**&quot;, &quot;/sql/**&quot;);
+        }
+    */
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        //return new BCryptPasswordEncoder();
+<span class="fc" id="L54">        return NoOpPasswordEncoder.getInstance();</span>
+    }
+    /*
+    @Bean
+    public CompromisedPasswordChecker compromisedPasswordChecker() {
+
+        return new HaveIBeenPwnedRestApiPasswordChecker();
+    }*/
+/*
+    @Bean
+    public UserDetailsService userDetailsService() {
+
+        UserDetails user = User.withUsername(&quot;weichuan&quot;).password(&quot;19951027&quot;).authorities(&quot;read&quot;).build();
+
+        return new InMemoryUserDetailsManager(user);
+    }
+    */
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

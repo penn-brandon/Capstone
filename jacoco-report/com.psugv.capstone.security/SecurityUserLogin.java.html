@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SecurityUserLogin.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Capstone</a> &gt; <a href="index.source.html" class="el_package">com.psugv.capstone.security</a> &gt; <span class="el_source">SecurityUserLogin.java</span></div><h1>SecurityUserLogin.java</h1><pre class="source lang-java linenums">package com.psugv.capstone.security;
+
+import com.psugv.capstone.login.model.UserAuthorityModel;
+import com.psugv.capstone.login.model.UserModel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
+
+import java.io.Serial;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+
+/**
+ * This class implements userdetails of spring security to gathering all required fields.
+ * Author: Chuan Wei
+ */
+@Component
+@Qualifier(&quot;SecurityUserLogin&quot;)
+public class SecurityUserLogin implements UserDetails {
+
+<span class="fc" id="L26">    private static final Logger LOGGER = LoggerFactory.getLogger(SecurityUserLogin.class);</span>
+
+    @Serial
+    private static final long serialVersionUID = -6690946490872875352L;
+
+    private final UserModel user;
+
+<span class="fc" id="L33">    public SecurityUserLogin(UserModel user) {</span>
+<span class="fc" id="L34">        this.user = user;</span>
+<span class="fc" id="L35">        LOGGER.debug(this.user.toString());</span>
+<span class="fc" id="L36">    }</span>
+
+    @Override
+    public Collection&lt;? extends GrantedAuthority&gt; getAuthorities() {
+
+<span class="fc" id="L41">        Set&lt;GrantedAuthority&gt; authorities = new HashSet&lt;&gt;();</span>
+
+<span class="fc" id="L43">        Set&lt;UserAuthorityModel&gt; auSet = user.getAuthorities();</span>
+
+<span class="fc bfc" id="L45" title="All 2 branches covered.">        for (UserAuthorityModel au : auSet) {</span>
+<span class="fc" id="L46">            authorities.add(new SimpleGrantedAuthority(au.getAuthorityName()));</span>
+<span class="fc" id="L47">        }</span>
+<span class="fc" id="L48">        return authorities;</span>
+    }
+
+    @Override
+    public String getPassword() {
+<span class="fc" id="L53">        return user.getPassword();</span>
+    }
+
+    @Override
+    public String getUsername() {
+<span class="fc" id="L58">        return user.getUsername();</span>
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+<span class="fc" id="L63">        return true;</span>
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+<span class="fc" id="L68">        return true;</span>
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+<span class="fc" id="L73">        return true;</span>
+    }
+
+    @Override
+    public boolean isEnabled() {
+<span class="fc" id="L78">        return user.getEnable();</span>
+        //return true;
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

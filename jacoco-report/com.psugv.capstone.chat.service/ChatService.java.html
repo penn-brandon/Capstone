@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ChatService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Capstone</a> &gt; <a href="index.source.html" class="el_package">com.psugv.capstone.chat.service</a> &gt; <span class="el_source">ChatService.java</span></div><h1>ChatService.java</h1><pre class="source lang-java linenums">package com.psugv.capstone.chat.service;
+
+import com.psugv.capstone.chat.model.ChatRoom;
+import com.psugv.capstone.chat.model.ChatRoomName;
+import com.psugv.capstone.chat.model.ChatRoomToUser;
+import com.psugv.capstone.chat.model.Message;
+import com.psugv.capstone.chat.repository.IChatDAO;
+import com.psugv.capstone.exception.InsertErrorException;
+import com.psugv.capstone.exception.NoQueryResultException;
+import com.psugv.capstone.login.model.UserModel;
+import com.psugv.capstone.login.repository.IUserDAO;
+import com.psugv.capstone.util.ChatServer;
+import com.psugv.capstone.util.MessageListener;
+import com.psugv.capstone.util.Utility;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * This is the service class containing the major business logic.
+ * It should be invoked by controller.
+ * Author: Chuan Wei
+ */
+@Service
+@Transactional
+@EnableTransactionManagement
+<span class="fc" id="L36">public class ChatService implements IChatService {</span>
+
+<span class="fc" id="L38">    private static final Logger LOGGER = LoggerFactory.getLogger(ChatService.class);</span>
+
+    @Autowired
+    IChatDAO chatDAO;
+
+    @Autowired
+    IUserDAO userDAO;
+
+    @Autowired
+    private SimpMessagingTemplate messagingTemplate;
+
+    @Override
+    public Boolean sendMessage(String message, UserModel userModel, String chatRoomId) {
+
+<span class="fc" id="L52">        LOGGER.trace(&quot;In ChatService sendMessage method&quot;);</span>
+<span class="fc" id="L53">        LOGGER.debug(&quot;User: {}, chat room: {}, send message: {}&quot;, userModel.getName(), chatRoomId, message);</span>
+<span class="fc" id="L54">        boolean insertion = chatDAO.insertMessage(message, userModel, chatRoomId);</span>
+
+<span class="fc" id="L56">        boolean sendToServer = ChatServer.sentMessage(message, userModel.getId(), Integer.parseInt(chatRoomId), userModel.getName());</span>
+
+<span class="pc bpc" id="L58" title="2 of 4 branches missed.">        if (!(insertion &amp;&amp; sendToServer)) {</span>
+
+<span class="nc" id="L60">            throw new InsertErrorException(&quot;send message service is not implemented corrected&quot;);</span>
+        }
+<span class="fc" id="L62">        return true;</span>
+    }
+
+    @Override
+    public ChatRoomName selectChatRoom(String chatRoomID, UserModel userModel) {
+
+<span class="fc" id="L68">        LOGGER.trace(&quot;In ChatService selectChatRoom method&quot;);</span>
+<span class="fc" id="L69">        int chatRoomId = Integer.parseInt(chatRoomID);</span>
+<span class="fc" id="L70">        LOGGER.debug(&quot;Find chat room id: {}&quot;, chatRoomId);</span>
+
+<span class="fc" id="L72">        ChatRoom cr = chatDAO.findChatRoom(chatRoomId);</span>
+
+<span class="fc" id="L74">        ChatRoomName crn = chatDAO.findChatRoomName(userModel.getId(), chatRoomId);</span>
+
+<span class="pc bpc" id="L76" title="2 of 4 branches missed.">        if (cr == null || crn == null) {</span>
+
+<span class="nc" id="L78">            throw new NoQueryResultException(&quot;No such chat room or chat room name!!!&quot;);</span>
+        }
+<span class="fc" id="L80">        LOGGER.trace(&quot;ChatRoom and ChatRoomName are not null^_^&quot;);</span>
+<span class="fc" id="L81">        chatDAO.updateChatRoomName(userModel, crn.getAdmin(), crn.getChatRoom().getId(), crn.getChatRoomName(), crn.getId());</span>
+
+<span class="fc" id="L83">        LOGGER.debug(&quot;Create new listener for new chat room&quot;);</span>
+<span class="fc" id="L84">        MessageListener ml = new MessageListener(cr, crn, userModel, messagingTemplate);</span>
+
+<span class="fc" id="L86">        LOGGER.debug(&quot;Update new listener to server&quot;);</span>
+<span class="fc" id="L87">        ChatServer.updateOnlineUserPool(userModel.getId(), chatRoomId, ml);</span>
+
+<span class="fc" id="L89">        return crn;</span>
+    }
+
+    @Override
+    public List&lt;Message&gt; loadHistoryMessage(Integer chatRoomID) {
+
+<span class="fc" id="L95">        LOGGER.debug(&quot;load history message service&quot;);</span>
+<span class="fc" id="L96">        return chatDAO.loadHistoryMessage(chatRoomID);</span>
+    }
+
+    @Override
+    public List&lt;ChatRoomName&gt; getAllChatRoomName(UserModel userModel) {
+
+<span class="fc" id="L102">        LOGGER.trace(&quot;In ChatService getAllChatRoomName method&quot;);</span>
+<span class="fc" id="L103">        ChatServer.loginCheckin(userModel.getId());</span>
+
+<span class="fc" id="L105">        return chatDAO.getAllChatroomName(userModel.getId());</span>
+    }
+
+    @Override
+    public List&lt;UserModel&gt; searchUser(String input) {
+
+<span class="fc" id="L111">        LOGGER.trace(&quot;In ChatService searchUser method&quot;);</span>
+        List&lt;UserModel&gt; result;
+
+        try {
+<span class="fc" id="L115">            result = chatDAO.blurrySearchUsername(input);</span>
+
+<span class="nc" id="L117">        } catch (NoQueryResultException e) {</span>
+
+<span class="nc" id="L119">            LOGGER.warn(&quot;Username does not exist, please try again&quot;);</span>
+<span class="nc" id="L120">            return null;</span>
+<span class="fc" id="L121">        }</span>
+<span class="fc" id="L122">        return result;</span>
+    }
+
+    @Override
+    public synchronized ChatRoomName createChatRoom(Map&lt;String, String&gt; inputMap, UserModel userModel) {
+
+<span class="fc" id="L128">        LOGGER.trace(&quot;In ChatService createChatRoom method&quot;);</span>
+        /*
+        Getting both user id to compare if there is existing chat room.
+         */
+<span class="fc" id="L132">        Integer aitaID = Integer.parseInt(inputMap.get(&quot;id&quot;));</span>
+<span class="fc" id="L133">        LOGGER.trace(&quot;Id of the user used to create new chat:{}&quot;, aitaID);</span>
+
+<span class="fc" id="L135">        Integer jibunnId = userModel.getId();</span>
+<span class="fc" id="L136">        LOGGER.trace(&quot;My ID:{}&quot;, jibunnId);</span>
+
+<span class="fc" id="L138">        LOGGER.trace(&quot;Finding all chat room for both users&quot;);</span>
+<span class="fc" id="L139">        List&lt;ChatRoomToUser&gt; aitaIDChatRoomToUser = new ArrayList&lt;&gt;(chatDAO.findChatRoomToUserByUserID(aitaID));</span>
+
+<span class="fc" id="L141">        List&lt;ChatRoomToUser&gt; jibunnIdChatRoomToUser = new ArrayList&lt;&gt;(chatDAO.findChatRoomToUserByUserID(jibunnId));</span>
+
+        List&lt;Integer&gt; commonChatRoomID;
+
+<span class="fc" id="L145">        LOGGER.trace(&quot;Checking non of them are empty.&quot;);</span>
+<span class="pc bpc" id="L146" title="4 of 8 branches missed.">        if (aitaIDChatRoomToUser == null || jibunnIdChatRoomToUser == null || aitaIDChatRoomToUser.isEmpty() || jibunnIdChatRoomToUser.isEmpty()) {</span>
+
+<span class="nc" id="L148">            LOGGER.debug(&quot;no common chat room ID&quot;);</span>
+<span class="nc" id="L149">            commonChatRoomID = new LinkedList&lt;&gt;();</span>
+
+        } else {
+
+<span class="fc" id="L153">            LOGGER.debug(&quot;Getting and comparing chat room ID&quot;);</span>
+<span class="fc" id="L154">            List&lt;Integer&gt; aitaChatRoomIDList = new LinkedList&lt;&gt;();</span>
+
+<span class="fc" id="L156">            LOGGER.debug(&quot;create ID list for added user&quot;);</span>
+<span class="fc bfc" id="L157" title="All 2 branches covered.">            for (ChatRoomToUser aita : aitaIDChatRoomToUser) {</span>
+
+<span class="fc" id="L159">                Integer tempID = aita.getChatRoom().getId();</span>
+
+<span class="fc" id="L161">                LOGGER.trace(&quot;{}\n&quot;, tempID);</span>
+<span class="fc" id="L162">                aitaChatRoomIDList.add(tempID);</span>
+<span class="fc" id="L163">            }</span>
+
+<span class="fc" id="L165">            List&lt;Integer&gt; jibunnChatRoomIDList = new LinkedList&lt;&gt;();</span>
+
+<span class="fc" id="L167">            LOGGER.debug(&quot;create ID list for user&quot;);</span>
+<span class="fc bfc" id="L168" title="All 2 branches covered.">            for (ChatRoomToUser jibunn : jibunnIdChatRoomToUser) {</span>
+
+<span class="fc" id="L170">                Integer tempID = jibunn.getChatRoom().getId();</span>
+
+<span class="fc" id="L172">                LOGGER.trace(&quot;{}\n&quot;, tempID);</span>
+<span class="fc" id="L173">                jibunnChatRoomIDList.add(tempID);</span>
+<span class="fc" id="L174">            }</span>
+<span class="fc" id="L175">            commonChatRoomID = Utility.commonIdComparator(aitaChatRoomIDList, jibunnChatRoomIDList);</span>
+<span class="fc" id="L176">            LOGGER.trace(&quot;Common ID list got: {}&quot;, commonChatRoomID);</span>
+        }
+<span class="fc" id="L178">        ChatRoomName crn = null;</span>
+
+        /*
+        there is common chat room, check is it's specific for two people.
+         */
+<span class="fc" id="L183">        LOGGER.debug(&quot;Check common chat room&quot;);</span>
+<span class="pc bpc" id="L184" title="1 of 2 branches missed.">        if (!commonChatRoomID.isEmpty()) {</span>
+
+<span class="fc bfc" id="L186" title="All 2 branches covered.">            for (Integer integer : commonChatRoomID) {</span>
+
+<span class="fc" id="L188">                List&lt;ChatRoomToUser&gt; crtuList = chatDAO.findChatRoomToUserByChatRoom(integer);</span>
+
+<span class="pc bpc" id="L190" title="1 of 2 branches missed.">                if (crtuList.size() == 2) {</span>
+
+<span class="nc" id="L192">                    LOGGER.trace(&quot;If the size is 2 means they have already have chat room&quot;);</span>
+<span class="nc" id="L193">                    LOGGER.debug(&quot;Exact chat room found!!&quot;);</span>
+<span class="nc" id="L194">                    crn = selectChatRoom(integer.toString(), userModel);</span>
+                }
+<span class="fc" id="L196">            }</span>
+        }
+<span class="fc" id="L198">        LOGGER.trace(&quot;If chat room not found means there are no existing chat room.&quot;);</span>
+<span class="pc bpc" id="L199" title="1 of 2 branches missed.">        if (crn == null) {</span>
+
+<span class="fc" id="L201">            LOGGER.debug(&quot;create new chat room and new chat room name for both.&quot;);</span>
+<span class="fc" id="L202">            ChatRoom cr = chatDAO.createNewChatRoom();</span>
+
+<span class="fc" id="L204">            LOGGER.trace(&quot;Create new message table for chat room&quot;);</span>
+<span class="fc" id="L205">            chatDAO.createNemMessage(cr.getId());</span>
+
+<span class="fc" id="L207">            LOGGER.trace(&quot;Insert new ChatRoomName for added user by giving user's username&quot;);</span>
+<span class="fc" id="L208">            chatDAO.insertNewChatRoomName(cr, aitaID, userModel.getName());</span>
+
+<span class="fc" id="L210">            UserModel aite = userDAO.findUserById(aitaID);</span>
+
+<span class="fc" id="L212">            ChatRoomToUser aiteRow = new ChatRoomToUser(null, aite, cr);</span>
+
+<span class="fc" id="L214">            chatDAO.insertChatRoomToUser(aiteRow);</span>
+
+<span class="fc" id="L216">            LOGGER.trace(&quot;Insert new ChatRoomName for user by giving added user's username&quot;);</span>
+<span class="fc" id="L217">            chatDAO.insertNewChatRoomName(cr, jibunnId, inputMap.get(&quot;name&quot;));</span>
+
+<span class="fc" id="L219">            ChatRoomToUser jibunnRow = new ChatRoomToUser(null, userModel, cr);</span>
+
+<span class="fc" id="L221">            chatDAO.insertChatRoomToUser(jibunnRow);</span>
+
+<span class="fc" id="L223">            LOGGER.trace(&quot;Returning chat room for user&quot;);</span>
+<span class="fc" id="L224">            crn = selectChatRoom(cr.getId().toString(), userModel);</span>
+        }
+
+<span class="fc" id="L227">        return crn;</span>
+    }
+
+    @Override
+    public void deselectChatRoom(UserModel userModel) {
+
+<span class="nc" id="L233">        LOGGER.trace(&quot;In ChatService deselectChatRoom method&quot;);</span>
+<span class="nc" id="L234">        ChatServer.removeFromOnlineUserPool(userModel.getId());</span>
+<span class="nc" id="L235">    }</span>
+
+    @Override
+    public ChatRoomName addUserToChatRoom(Map&lt;String, String&gt; inputMap, UserModel userModel) {
+
+<span class="fc" id="L240">        LOGGER.trace(&quot;In ChatService addUserToChatRoom method&quot;);</span>
+        Integer chatRoomId;
+<span class="fc" id="L242">        LOGGER.debug(inputMap.toString());</span>
+
+        try {
+<span class="fc" id="L245">            LOGGER.trace(&quot;Get ChatRoom ID&quot;);</span>
+<span class="fc" id="L246">            chatRoomId = Integer.parseInt(inputMap.get(&quot;chatroom&quot;));</span>
+
+<span class="nc" id="L248">        } catch (NumberFormatException e) {</span>
+
+<span class="nc" id="L250">            LOGGER.error(&quot;Chat room id is:&quot; + inputMap.get(&quot;chatroom&quot;));</span>
+<span class="nc" id="L251">            throw new NoQueryResultException(&quot;Cannot find chat room ID&quot;);</span>
+<span class="fc" id="L252">        }</span>
+
+<span class="fc" id="L254">        LOGGER.trace(&quot;get added user's ID&quot;);</span>
+<span class="fc" id="L255">        UserModel aite = userDAO.findUserById(Integer.parseInt(inputMap.get(&quot;id&quot;)));</span>
+
+        /*
+        Check if user is in the chat room already.
+         */
+<span class="fc" id="L260">        ChatRoomName crn = null;</span>
+
+<span class="fc" id="L262">        LOGGER.trace(&quot;Get existing chat room name of added user.&quot;);</span>
+<span class="fc" id="L263">        crn = chatDAO.findChatRoomName(aite.getId(), chatRoomId);</span>
+
+<span class="pc bpc" id="L265" title="1 of 2 branches missed.">        if (crn != null) {</span>
+
+<span class="nc" id="L267">            LOGGER.trace(&quot;Added user already in the chat room&quot;);</span>
+<span class="nc" id="L268">            return crn;</span>
+        }
+
+<span class="fc" id="L271">        ChatRoom chatRoom = chatDAO.findChatRoom(chatRoomId);</span>
+<span class="fc" id="L272">        LOGGER.debug(&quot;search chat room id: &quot; + chatRoomId);</span>
+
+<span class="fc" id="L274">        LOGGER.trace(&quot;Adding added user to chat room&quot;);</span>
+<span class="fc" id="L275">        ChatRoomToUser crtu = new ChatRoomToUser(null, aite, chatRoom);</span>
+
+<span class="fc" id="L277">        chatDAO.insertChatRoomToUser(crtu);</span>
+
+<span class="fc" id="L279">        LOGGER.trace(&quot;Finding all users in the chat room&quot;);</span>
+        /*
+        To change the chat room name for all user.
+         */
+<span class="fc" id="L283">        List&lt;ChatRoomToUser&gt; chatRoomIdChatRoomToUser = chatDAO.findChatRoomToUserByChatRoom(chatRoom.getId());</span>
+
+<span class="fc" id="L285">        List&lt;UserModel&gt; userList = new LinkedList&lt;&gt;();</span>
+
+<span class="fc bfc" id="L287" title="All 2 branches covered.">        for (ChatRoomToUser temp : chatRoomIdChatRoomToUser) {</span>
+
+<span class="fc" id="L289">            userList.add(userDAO.findUserById(temp.getUserModel().getId()));</span>
+<span class="fc" id="L290">        }</span>
+<span class="fc" id="L291">        StringBuilder sb = new StringBuilder();</span>
+
+<span class="fc" id="L293">        LOGGER.trace(&quot;Concactinating names of user&quot;);</span>
+<span class="fc bfc" id="L294" title="All 2 branches covered.">        for (int i = 0; i &lt; 3; i++) {</span>
+
+<span class="fc" id="L296">            sb.append(userList.get(i).getName());</span>
+<span class="fc" id="L297">            sb.append(&quot;, &quot;);</span>
+        }
+
+<span class="fc" id="L300">        sb.append(&quot;and &quot;);</span>
+
+<span class="fc" id="L302">        sb.append(userList.size() - 3);</span>
+
+<span class="fc" id="L304">        sb.append(&quot; people&quot;);</span>
+
+<span class="fc" id="L306">        String newName = sb.toString();</span>
+
+<span class="fc" id="L308">        LOGGER.trace(&quot;Changing the name by delete and insert new row.&quot;);</span>
+<span class="fc" id="L309">        LOGGER.debug(&quot;insert for new comer&quot;);</span>
+<span class="fc" id="L310">        chatDAO.insertNewChatRoomName(chatRoom, aite.getId(), newName);</span>
+
+<span class="fc" id="L312">        LOGGER.debug(&quot;delete and insert new row for existing user.&quot;);</span>
+<span class="fc bfc" id="L313" title="All 2 branches covered.">        for (UserModel um : userList) {</span>
+
+<span class="fc bfc" id="L315" title="All 2 branches covered.">            if (um.getId().equals(aite.getId())) {</span>
+<span class="fc" id="L316">                LOGGER.trace(&quot;Skipping new user&quot;);</span>
+<span class="fc" id="L317">                continue;</span>
+            }
+<span class="fc" id="L319">            LOGGER.debug(&quot;current user is: &quot; + um.getId());</span>
+<span class="fc" id="L320">            LOGGER.debug(&quot;current chat room is: &quot; + chatRoomId);</span>
+<span class="fc" id="L321">            ChatRoomName tempCRN = chatDAO.findChatRoomName(um.getId(), chatRoomId);</span>
+
+<span class="pc bpc" id="L323" title="1 of 2 branches missed.">            LOGGER.trace(&quot;tempCRN is null? &quot; + (tempCRN == null));</span>
+<span class="pc bpc" id="L324" title="1 of 2 branches missed.">            if (tempCRN == null) {</span>
+
+<span class="nc" id="L326">                throw new RuntimeException(&quot;tempCRN is null&quot;);</span>
+            }
+<span class="fc" id="L328">            LOGGER.trace(&quot;Updating existing chat room name&quot;);</span>
+<span class="fc" id="L329">            chatDAO.deleteChatRoomName(tempCRN.getId(), um.getId());</span>
+
+<span class="fc" id="L331">            chatDAO.insertNewChatRoomName(tempCRN.getChatRoom(), um.getId(), newName);</span>
+<span class="fc" id="L332">        }</span>
+<span class="fc" id="L333">        LOGGER.trace(&quot;Returning chat room name&quot;);</span>
+<span class="fc" id="L334">        return chatDAO.findChatRoomName(userModel.getId(), chatRoomId);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

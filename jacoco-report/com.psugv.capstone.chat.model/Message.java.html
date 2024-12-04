@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Message.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Capstone</a> &gt; <a href="index.source.html" class="el_package">com.psugv.capstone.chat.model</a> &gt; <span class="el_source">Message.java</span></div><h1>Message.java</h1><pre class="source lang-java linenums">package com.psugv.capstone.chat.model;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.psugv.capstone.login.model.UserModel;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.stereotype.Component;
+
+import java.util.Date;
+
+/**
+ * This class is an entity class that user to present messages in a chat room.
+ * Each chat room will have its own message table.
+ * Author: Chuan Wei and Brandon Alker
+ */
+<span class="nc" id="L17">@Setter</span>
+@Getter
+@Entity(name = &quot;message&quot;)
+@Component(&quot;message&quot;)
+public class Message {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = &quot;message_id&quot;)
+    @JsonIgnore
+<span class="nc" id="L27">    private int id;</span>
+
+<span class="fc" id="L29">    private Date time;</span>
+
+<span class="fc" id="L31">    private String content;</span>
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = &quot;senderId&quot;, referencedColumnName = &quot;user_id&quot;)
+<span class="fc" id="L35">    private UserModel userModel;</span>
+
+    @Transient
+<span class="fc" id="L38">    private Integer senderId;</span>
+
+<span class="fc" id="L40">    private String sender;</span>
+
+<span class="fc" id="L42">    public Message() {</span>
+<span class="fc" id="L43">    }</span>
+
+<span class="fc" id="L45">    public Message(String content, String sender, UserModel userModel, Date time) {</span>
+<span class="fc" id="L46">        this.content = content;</span>
+<span class="fc" id="L47">        this.sender = sender;</span>
+<span class="fc" id="L48">        this.userModel = userModel;</span>
+<span class="fc" id="L49">        senderId = userModel.getId();</span>
+<span class="pc bpc" id="L50" title="1 of 2 branches missed.">        this.time = time == null ? new Date() : time;</span>
+<span class="fc" id="L51">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
