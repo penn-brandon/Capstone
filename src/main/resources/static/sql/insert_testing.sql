@@ -9,7 +9,7 @@ insert into user(name,
 values ('Chuan Wei',
         'male',
         'weichuan',
-        '1234',
+        '$2a$10$ikATPJO57o.WxrIKGzcrs.F9R2MTxzuOIiJ23GWu1QZmu5vVOMn3K',
         TRUE);
 
 insert into user(name,
@@ -20,7 +20,7 @@ insert into user(name,
 values ('Bob the builder',
         'male',
         'robot',
-        '1234',
+        '$2a$10$ikATPJO57o.WxrIKGzcrs.F9R2MTxzuOIiJ23GWu1QZmu5vVOMn3K',
         TRUE);
 
 insert into user(name,
@@ -31,7 +31,7 @@ insert into user(name,
 values ('Freddy The Creator',
         'male',
         'freddy',
-        '1234',
+        '$2a$10$ikATPJO57o.WxrIKGzcrs.F9R2MTxzuOIiJ23GWu1QZmu5vVOMn3K',
         TRUE);
 
 insert into user(name,
@@ -42,7 +42,7 @@ insert into user(name,
 values ('George the Monster',
         'female',
         'purdue',
-        '1234',
+        '$2a$10$ikATPJO57o.WxrIKGzcrs.F9R2MTxzuOIiJ23GWu1QZmu5vVOMn3K',
         TRUE);
 
 insert into authorities (user_id,

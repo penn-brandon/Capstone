@@ -8,6 +8,7 @@ import com.psugv.capstone.login.repository.IUserDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,7 +31,10 @@ public class UserLoginService implements ILoginService {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserLoginService.class);
 
     @Autowired
-    IUserDAO userDAO;
+    private IUserDAO userDAO;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public UserModel getUserByUsername(String username) {
@@ -48,6 +52,8 @@ public class UserLoginService implements ILoginService {
             String password = inputMap.get("password");
             String name = inputMap.get("name");
             String gender = inputMap.get("gender");
+
+            String encryptedPwd = passwordEncoder.encode(password);
 
             try {
                 search = userDAO.getUserByUsername(username);
@@ -76,7 +82,7 @@ public class UserLoginService implements ILoginService {
             authoritiesSet.add(authority);
 
             LOGGER.debug("Create a user model\n{}", inputMap);
-            UserModel newUser = new UserModel(null, username, password, name, null, gender, true, null);
+            UserModel newUser = new UserModel(null, username, encryptedPwd, name, null, gender, true, null);
 
             authority.setUserModel(newUser);
             newUser.setAuthorities(authoritiesSet);
