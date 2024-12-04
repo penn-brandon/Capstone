@@ -95,12 +95,21 @@ public class ChatControllerTest {
 
         MockHttpSession session = new MockHttpSession();
         session.setAttribute("chatRoomName", chatRoomName);
+        session.setAttribute("userModel", um1);
 
         mockMvc.perform(get("/loadMessage")
                         .session(session)
                         .with(user("weichuan").password("1234")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].content").value("testtest"));
+
+        session.setAttribute("userModel", um2);
+
+        mockMvc.perform(get("/loadMessage")
+                        .session(session)
+                        .with(user("weichuan").password("1234")))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isEmpty());
     }
 
     @Test

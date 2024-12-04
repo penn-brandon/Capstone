@@ -102,14 +102,14 @@ public class ChatController {
     }
 
     @GetMapping(path = "/loadMessage", produces = "application/json")
-    public @ResponseBody List<Message> loadHistoryMessage(@SessionAttribute("chatRoomName") ChatRoomName chatRoomName) {
+    public @ResponseBody List<Message> loadHistoryMessage(@SessionAttribute("chatRoomName") ChatRoomName chatRoomName, @SessionAttribute("userModel") UserModel userModel) {
 
         LOGGER.trace("loadHistoryMessage");
         List<Message> result;
 
         Integer chatRoomId = chatRoomName.getChatRoom().getId();
 
-        result = chatService.loadHistoryMessage(chatRoomId);
+        result = chatService.loadHistoryMessage(userModel, chatRoomId);
 
         if (result == null) {
 

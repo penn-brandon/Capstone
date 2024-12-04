@@ -356,4 +356,30 @@ public class ChatDAO implements IChatDAO {
             throw new RuntimeException("fail to create Nem Message table");
         }
     }
+
+    public ChatRoomToUser findChatRoomToUserByUserId(Integer chatRoomId, Integer userId){
+
+        LOGGER.trace("In ChatDAO findChatRoomToUserByUserId method");
+        String sql = "select * from ChatRoomToUser where chatRoomId = " + chatRoomId + " and user_id = " + userId + ";";
+        LOGGER.debug("Sql: " + sql);
+
+        Query query = entityManager.createNativeQuery("select * from ChatRoomToUser where chat_room_id = ? and user_id = ?", ChatRoomToUser.class);
+        LOGGER.trace("sql: {}", query.toString());
+
+        query.setParameter(1, chatRoomId);
+
+        query.setParameter(2, userId);
+
+        try{
+            LOGGER.trace("Executeget");
+            ChatRoomToUser result = (ChatRoomToUser) query.getSingleResult();
+
+            return result;
+
+        } catch(Exception e){
+
+            LOGGER.error(e.getMessage(), e);
+            return null;
+        }
+    }
 }

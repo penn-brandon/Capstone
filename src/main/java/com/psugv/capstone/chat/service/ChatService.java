@@ -90,9 +90,19 @@ public class ChatService implements IChatService {
     }
 
     @Override
-    public List<Message> loadHistoryMessage(Integer chatRoomID) {
+    public List<Message> loadHistoryMessage(UserModel usermodel, Integer chatRoomID) {
 
         LOGGER.debug("load history message service");
+
+        //Check if user in the chat room.
+        ChatRoomToUser chatRoomToUser = chatDAO.findChatRoomToUserByUserId(chatRoomID, usermodel.getId());
+
+        if (chatRoomToUser == null) {
+
+            LOGGER.error("User " + usermodel.getId() + " is trying to access chat room " + chatRoomID);
+            return null;
+        }
+
         return chatDAO.loadHistoryMessage(chatRoomID);
     }
 
