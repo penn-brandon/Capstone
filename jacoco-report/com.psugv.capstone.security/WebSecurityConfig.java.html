@@ -8,6 +8,7 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -18,26 +19,31 @@ import org.springframework.security.web.SecurityFilterChain;
  */
 @EnableWebSecurity
 @Configuration
-<span class="fc" id="L21">public class WebSecurityConfig {</span>
+<span class="fc" id="L22">public class WebSecurityConfig {</span>
 
-<span class="fc" id="L23">    private static final Logger LOGGER = LoggerFactory.getLogger(WebSecurityConfig.class);</span>
+<span class="fc" id="L24">    private static final Logger LOGGER = LoggerFactory.getLogger(WebSecurityConfig.class);</span>
 
     @Bean
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
 
-<span class="fc" id="L28">        http.authorizeHttpRequests((requests) -&gt; requests.requestMatchers(&quot;/css/**&quot;, &quot;/images/**&quot;, &quot;/javascript/**&quot;, &quot;/sql/**&quot;, &quot;/views/**&quot;).permitAll().requestMatchers(&quot;/&quot;, &quot;/login&quot;, &quot;/signup&quot;, &quot;/index&quot;, &quot;/error&quot;, &quot;/register&quot;, &quot;logout&quot;).permitAll().requestMatchers(&quot;/chat&quot;, &quot;/send&quot;, &quot;/select&quot;, &quot;/loadMessage&quot;, &quot;/loadAllChatRoomName&quot;, &quot;/searchUsers&quot;, &quot;/createNewChatRoom&quot;, &quot;/addUserToChatRoom&quot;).authenticated().requestMatchers(&quot;/listening/**&quot;, &quot;/controller/**&quot;, &quot;/capstone&quot;).permitAll().anyRequest().authenticated());</span>
+<span class="fc" id="L29">        http.authorizeHttpRequests((requests) -&gt; requests</span>
+<span class="fc" id="L30">                .requestMatchers(&quot;/css/**&quot;, &quot;/images/**&quot;, &quot;/javascript/**&quot;, &quot;/sql/**&quot;, &quot;/views/open/**&quot;).permitAll()</span>
+<span class="fc" id="L31">                .requestMatchers(&quot;/&quot;, &quot;/login&quot;, &quot;/signup&quot;, &quot;/index&quot;, &quot;/error&quot;, &quot;/register&quot;, &quot;logout&quot;).permitAll()</span>
+<span class="fc" id="L32">                .requestMatchers(&quot;/views/main/**&quot;, &quot;/chat&quot;, &quot;/send&quot;, &quot;/select&quot;, &quot;/loadMessage&quot;, &quot;/loadAllChatRoomName&quot;, &quot;/searchUsers&quot;, &quot;/createNewChatRoom&quot;, &quot;/addUserToChatRoom&quot;).authenticated()</span>
+<span class="fc" id="L33">                .requestMatchers(&quot;/listening/**&quot;, &quot;/controller/**&quot;, &quot;/capstone&quot;).permitAll()</span>
+<span class="fc" id="L34">                .anyRequest().authenticated());</span>
 
-<span class="fc" id="L30">        http.httpBasic(Customizer.withDefaults());</span>
+<span class="fc" id="L36">        http.httpBasic(Customizer.withDefaults());</span>
 
-<span class="fc" id="L32">        http.csrf(AbstractHttpConfigurer::disable);</span>
-
-
-<span class="fc" id="L35">        http.logout(logout -&gt; logout.logoutSuccessUrl(&quot;/index&quot;).permitAll());</span>
+<span class="fc" id="L38">        http.csrf(AbstractHttpConfigurer::disable);</span>
 
 
-<span class="fc" id="L38">        http.formLogin(form -&gt; form.loginPage(&quot;/login&quot;).permitAll().defaultSuccessUrl(&quot;/chat&quot;, true).failureUrl(&quot;/login?failed&quot;).permitAll());</span>
+<span class="fc" id="L41">        http.logout(logout -&gt; logout.logoutSuccessUrl(&quot;/index&quot;).permitAll());</span>
 
-<span class="fc" id="L40">        return http.build();</span>
+
+<span class="fc" id="L44">        http.formLogin(form -&gt; form.loginPage(&quot;/login&quot;).permitAll().defaultSuccessUrl(&quot;/chat&quot;, true).failureUrl(&quot;/login?failed&quot;).permitAll());</span>
+
+<span class="fc" id="L46">        return http.build();</span>
     }
 
     /*
@@ -50,8 +56,8 @@ import org.springframework.security.web.SecurityFilterChain;
     */
     @Bean
     public PasswordEncoder passwordEncoder() {
-        //return new BCryptPasswordEncoder();
-<span class="fc" id="L54">        return NoOpPasswordEncoder.getInstance();</span>
+<span class="fc" id="L59">        return new BCryptPasswordEncoder();</span>
+        //return NoOpPasswordEncoder.getInstance();
     }
     /*
     @Bean

@@ -74,13 +74,13 @@ import java.util.concurrent.ConcurrentHashMap;
 <span class="fc" id="L74">        thread.start();</span>
 
         try {
-<span class="pc bpc" id="L77" title="1 of 2 branches missed.">            if (!ONLINE_LISTENER_POOL.containsKey(chatRoomId)) {</span>
+<span class="fc bfc" id="L77" title="All 2 branches covered.">            if (!ONLINE_LISTENER_POOL.containsKey(chatRoomId)) {</span>
 
 <span class="fc" id="L79">                temp = new ConcurrentHashMap&lt;&gt;();</span>
 
             } else {
 
-<span class="nc" id="L83">                temp = ONLINE_LISTENER_POOL.get(chatRoomId);</span>
+<span class="fc" id="L83">                temp = ONLINE_LISTENER_POOL.get(chatRoomId);</span>
             }
 
 <span class="fc" id="L86">            temp.put(userId, tempListener);</span>
@@ -107,7 +107,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 <span class="fc" id="L108">            temp.remove(userId);</span>
 
-<span class="pc bpc" id="L110" title="1 of 2 branches missed.">            if (temp.isEmpty()) {</span>
+<span class="fc bfc" id="L110" title="All 2 branches covered.">            if (temp.isEmpty()) {</span>
 
 <span class="fc" id="L112">                ONLINE_LISTENER_POOL.remove(roomId);</span>
             }
@@ -138,9 +138,9 @@ import java.util.concurrent.ConcurrentHashMap;
 
 <span class="fc" id="L139">                    MessageListener listener = entry.getValue();</span>
 
-<span class="pc bpc" id="L141" title="1 of 2 branches missed.">                    if (listener.getUser().getId().equals(userId)) {</span>
+<span class="fc bfc" id="L141" title="All 2 branches covered.">                    if (listener.getUser().getId().equals(userId)) {</span>
 
-<span class="nc" id="L143">                        continue;</span>
+<span class="fc" id="L143">                        continue;</span>
                     }
 <span class="fc" id="L145">                    LOGGER.debug(&quot;Sent message to the listener of {}&quot;, listener.getUser().getUsername());</span>
 <span class="fc" id="L146">                    Thread thread = new Thread(() -&gt; listener.setMessage(message, name));</span>

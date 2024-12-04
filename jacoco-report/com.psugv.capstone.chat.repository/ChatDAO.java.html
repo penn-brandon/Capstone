@@ -356,5 +356,31 @@ import java.util.List;
 <span class="nc" id="L356">            throw new RuntimeException(&quot;fail to create Nem Message table&quot;);</span>
 <span class="fc" id="L357">        }</span>
 <span class="fc" id="L358">    }</span>
+
+    public ChatRoomToUser findChatRoomToUserByUserId(Integer chatRoomId, Integer userId){
+
+<span class="fc" id="L362">        LOGGER.trace(&quot;In ChatDAO findChatRoomToUserByUserId method&quot;);</span>
+<span class="fc" id="L363">        String sql = &quot;select * from ChatRoomToUser where chatRoomId = &quot; + chatRoomId + &quot; and user_id = &quot; + userId + &quot;;&quot;;</span>
+<span class="fc" id="L364">        LOGGER.debug(&quot;Sql: &quot; + sql);</span>
+
+<span class="fc" id="L366">        Query query = entityManager.createNativeQuery(&quot;select * from ChatRoomToUser where chat_room_id = ? and user_id = ?&quot;, ChatRoomToUser.class);</span>
+<span class="fc" id="L367">        LOGGER.trace(&quot;sql: {}&quot;, query.toString());</span>
+
+<span class="fc" id="L369">        query.setParameter(1, chatRoomId);</span>
+
+<span class="fc" id="L371">        query.setParameter(2, userId);</span>
+
+        try{
+<span class="fc" id="L374">            LOGGER.trace(&quot;Executeget&quot;);</span>
+<span class="fc" id="L375">            ChatRoomToUser result = (ChatRoomToUser) query.getSingleResult();</span>
+
+<span class="fc" id="L377">            return result;</span>
+
+<span class="fc" id="L379">        } catch(Exception e){</span>
+
+<span class="fc" id="L381">            LOGGER.error(e.getMessage(), e);</span>
+<span class="fc" id="L382">            return null;</span>
+        }
+    }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
