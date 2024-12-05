@@ -56,7 +56,7 @@
 
         function startListener() {
 
-            var socket = new SockJS('http://217.15.171.16/Capstone/capstone');
+            var socket = new SockJS('https://217.15.171.16/Capstone/capstone');
             //var socket = new SockJS('/Capstone/capstone');
 
             var stompClient = Stomp.over(socket);
