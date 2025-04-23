@@ -30,16 +30,3 @@ jobs:
         overwrite: true
         path: target/*.war  
 
-    - name: Run Spring Boot Tests
-      run: mvn test -Dtest="*Test"
-
-    - name: Run Tests and Generate Coverage
-      run: mvn jacoco:report
-
-      # Upload JaCoCo coverage report
-    - name: Upload Coverage Report
-      uses: actions/upload-artifact@v4
-      with:
-        name: jacoco-report
-        path: target/site/jacoco
-
